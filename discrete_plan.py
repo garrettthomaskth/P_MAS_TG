@@ -3,19 +3,27 @@
 from product import ProdAut_Run
 from collections import defaultdict
 from networkx import dijkstra_predecessor_and_distance
+from ts import distance, reach_waypoint
 import time 
 
 
 #===========================================
 #optimal initial synthesis
 #===========================================
-def dijkstra_plan_networkX(product, beta=10):
+def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None):
 	# requires a full construct of product automaton
+	# start_set can be used to specify other initial states
+	# 
 	start = time.time()
 	runs = {}
 	loop = {}
 	cycle = {}
 	line = {}
+	if start_set == None:
+		init_set = product.graph['initial']
+	else:
+		init_set = start_set
+	########################################
 	# minimal circles
 	for prod_target in product.graph['accept']:
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
@@ -24,11 +32,14 @@ def dijkstra_plan_networkX(product, beta=10):
 				cycle[target_pred] = product.edge[target_pred][prod_target]["weight"] + loop_dist[target_pred]
 		if cycle:
 			opti_pred = min(cycle, key = cycle.get)
-			suffix = compute_path_from_pre(loop_pre, opti_pred)
+			suffix = compute_path_from_pre(loop_pre, opti_pred) + [prod_target,]
 			loop[prod_target] = (cycle[opti_pred], suffix)
+	########################################
 	# shortest line
-	for prod_init in product.graph['initial']:
+	for prod_init in init_set:
 		line_pre, line_dist = dijkstra_predecessor_and_distance(product, prod_init)
+		if pose:
+			line_dist += distance(pose, prod_init[0][0])
 		for target in loop.iterkeys():
 			if target in line_dist:
 				line[target] = line_dist[target]+beta*loop[target][0]
@@ -37,6 +48,7 @@ def dijkstra_plan_networkX(product, beta=10):
 			prefix = compute_path_from_pre(line_pre, opti_targ)
 			precost = line_dist[opti_targ]
 			runs[(prod_init, opti_targ)] = (prefix, precost, loop[opti_targ][1], loop[opti_targ][0])
+	########################################
 	# best combination
 	if runs:
 		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
@@ -45,12 +57,14 @@ def dijkstra_plan_networkX(product, beta=10):
 		print 'dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
 		return run, time.time()-start
 		#print '\n==================\n'
-	print 'no accepting run found in optimal planning!'
+	else:
+		print 'no accepting run found in optimal planning!'
+		return None, None
 
 
-def dijkstra_plan_optimal(product, beta=10, start_set=None):
+def dijkstra_plan_optimal(product, beta=10, start_set=None, pose=None, time_limit=None):
 	start = time.time()
-	#print 'dijkstra plan started!'
+	#print 'dijkstra plan optimal started!'
 	runs = {}
 	accept_set = product.graph['accept']
 	if start_set == None:
@@ -62,54 +76,31 @@ def dijkstra_plan_optimal(product, beta=10, start_set=None):
 	loop_dict = {}
 	for init_prod_node in init_set:
 		for (prefix, precost) in dijkstra_targets(product, init_prod_node, accept_set):
-			#print 'accept node reached %s' %(str(prefix[-1]))
+			# for reachable accepting state
+			# print 'accept node reached %s' %(str(prefix[-1]))
+			if pose:
+				precost += distance(pose, init_prod_node[0][0])
 			if prefix[-1] in loop_dict:
 				suffix, sufcost = loop_dict[prefix[-1]]
 			else:
 				suffix, sufcost = dijkstra_loop(product, prefix[-1])
-				#print suffix, sufcost
+				print suffix, sufcost
 				loop_dict[prefix[-1]] = (suffix, sufcost)
 			if suffix:
 				runs[(prefix[0], prefix[-1])] = (prefix, precost, suffix, sufcost)
 				#print 'find run from %s to %s and back' %(str(init_prod_node), str(prefix[-1]))
+			if (time_limit) and (time.time()-start > time_limit):  # time limit has reached
+				break
 	if runs:
 	 	prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
 	 	run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 	 	#print '\n==================\n'
-	 	print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+	 	#print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
 	 	return run, time.time()-start
-	print 'no accepting run found in optimal planning!'
+	else:
+		print 'no accepting run found in optimal planning!'
+		return None, None
 
-
-def dijkstra_plan_bounded(product, time_limit=3, beta=10):
-	start = time.time()
-	print 'dijkstra plan started!'
-	runs = {}
-	accept_set = product.graph['accept']
-	init_set = product.graph['initial']
-	print 'number of accepting states %d' %(len(accept_set))
-	print 'number of initial states %d' %(len(init_set))
-	loop_dict = {}
-	for init_prod_node in init_set:
-		for (prefix, precost) in dijkstra_targets(product, init_prod_node, accept_set):
-			#print 'accept node reached %s' %(str(prefix[-1]))
-			if prefix[-1] in loop_dict:
-				suffix, sufcost = loop_dict[prefix[-1]]
-			else:
-				suffix, sufcost = dijkstra_loop(product, prefix[-1])
-				loop_dict[prefix[-1]] = (suffix, sufcost)
-			#print suffix, sufcost
-			if suffix:
-				runs[(prefix[0], prefix[-1])] = (prefix, precost, suffix, sufcost)
-				#print 'find run from %s to %s and back' %(str(init_prod_node), str(prefix[-1]))
-			if time.time()-start > time_limit:  # time limit has reached
-				if runs:
-				 	prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
-				 	run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
-				 	print 'optimal_dijkstra done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
-				 	return run, time.time()-start
-	print 'no accepting run found in optimal planning!'
-	
 
 def dijkstra_targets(product, prod_source, prod_targets):
 	# for product graph only, shortest path from source to a set of targets
@@ -150,7 +141,8 @@ def dijkstra_loop(product, prod_accep):
 	for (tail, cost) in dijkstra_targets(product, prod_accep, accept_pre_set):
 		if tail:
 			accep_pre = tail[-1]
-			paths[accep_pre] = tail
+			#paths[accep_pre] = tail
+			paths[accep_pre] = tail + [prod_accep,]
 			costs[accep_pre] = cost + product.edge[accep_pre][prod_accep]['weight']
 	if costs:
 		min_pre = min(costs.keys(), key=lambda p: costs[p])
@@ -180,31 +172,34 @@ def compute_path_from_pre(pre, target):
 	return path
 
 #===========================================
-#improve the current plan
+# improve the current plan, given trace history
 #===========================================
 def prod_states_given_history(product, trace):
 	if trace:
 		S1 = set([(trace[0],p) for p in product.graph['buchi'].graph['initial']])
-		for p in trace[1:-1]:
+		for p in trace[1:]:
 			S2 = set()
 			for f_node in S1:
 				for t_node in product.fly_successors_iter(f_node):
 					if t_node[0]==p:
 						S2.add(t_node)
 			S1 = S2.copy()
-		return S1
+		S2 = set([t_node for t_node in product.fly_successors_iter(f_node) for f_node in S1])
+		return S2
 	else:
 		return set()
+		
 
-
-def improve_plan_given_history(product, trace):
+def improve_plan_given_history(product, trace, pose=None):
 	new_initial_set = prod_states_given_history(product, trace)
 	if new_initial_set:
-		new_run, time=dijkstra_plan_optimal(product, 10, new_initial_set)
+		#new_run, time=dijkstra_plan_optimal(product, 10, new_initial_set)
+		new_run, time = dijkstra_plan_networkX(product, 10, new_initial_set, pose)
+		print 'Find better plans'
 		return new_run
 	else:
+		print 'No better plans'
 		return None
-
 
 #===========================================
 #local revision, in case of system update

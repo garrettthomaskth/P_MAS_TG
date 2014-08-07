@@ -100,28 +100,24 @@ class ProdAut_Run(object):
 		self.totalcost = totalcost
 		#self.prod_run_to_prod_edges(product)
 		self.plan_output(product)
-		#self.plan = chain(self.line, cycle(self.loop))
-		#self.plan = chain(self.loop)
 
 	def prod_run_to_prod_edges(self, product):
-		self.pre_prod_edges = zip(self.prefix[0:-2], self.prefix[1:-1])
-		self.suf_prod_edges = zip(self.suffix[0:-2], self.suffix[1:-1])
+		self.pre_prod_edges = zip(self.prefix[0:-1], self.prefix[1:])
+		self.suf_prod_edges = zip(self.suffix[0:-1], self.suffix[1:])
 
 	def plan_output(self, product):
 		self.line = [product.node[node]['ts'] for node in self.prefix]
 		self.loop = [product.node[node]['ts'] for node in self.suffix]
-		self.pre_ts_edges = zip(self.line[0:-2], self.line[1:-1])
-		self.suf_ts_edges = zip(self.loop[0:-2], self.loop[1:-1])
-		# output plan
-		self.pre_plan = []
-		self.pre_plan.append(self.line[0][0]) 
+		self.pre_ts_edges = zip(self.line[0:-1], self.line[1:])
+		self.suf_ts_edges = zip(self.loop[0:-1], self.loop[1:])
+		# output plan --- for execution
+		self.pre_plan = list()
 		for ts_edge in self.pre_ts_edges:
 			if product.graph['ts'][ts_edge[0]][ts_edge[1]]['label'] == 'goto':
 				self.pre_plan.append(ts_edge[1][0]) # motion 
 			else:
 				self.pre_plan.append(ts_edge[1][1]) # action
-		self.suf_plan = []
-		self.suf_plan.append(self.loop[0][0]) 
+		self.suf_plan = list()
 		for ts_edge in self.suf_ts_edges:
 			if product.graph['ts'][ts_edge[0]][ts_edge[1]]['label'] == 'goto':
 				self.suf_plan.append(ts_edge[1][0]) # motion 

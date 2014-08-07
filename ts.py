@@ -33,7 +33,10 @@ class MotionFts(DiGraph):
             for t_node in self.nodes_iter():
                 dist = distance(f_node, t_node)
                 if (f_node, t_node) not in self.edges():
-                    self.add_edge(f_node, t_node, weight=dist*unit_cost)
+                    if f_node == t_node:
+                        self.add_edge(f_node, t_node, weight= unit_cost)    
+                    else:
+                        self.add_edge(f_node, t_node, weight=dist*unit_cost)
 
     def set_initial(self, pose):
         init_node = self.closest_node(pose)
@@ -127,13 +130,14 @@ class MotActModel(DiGraph):
                 # actions 
                 label = self.graph['region'].node[reg]['label']
                 for act_to in self.graph['action'].allowed_actions(label):
-                    prod_node_to = self.composition(reg, act_to)
-                    self.add_edge(prod_node, prod_node_to, weight=self.graph['action'].action[act_to][0], label= act_to, marker= 'visited')
+                    if act_to != 'None':
+                        prod_node_to = self.composition(reg, act_to)
+                        self.add_edge(prod_node, prod_node_to, weight=self.graph['action'].action[act_to][0], label= act_to, marker= 'visited')
                 # motions
                 for reg_to in self.graph['region'].successors_iter(reg):
-                    if reg_to != reg:
-                        prod_node_to = self.composition(reg_to, 'None')
-                        self.add_edge(prod_node, prod_node_to, weight=self.graph['region'][reg][reg_to]['weight'], label= 'goto', marker= 'visited')
+                    prod_node_to = self.composition(reg_to, 'None')
+                    self.add_edge(prod_node, prod_node_to, weight=self.graph['region'][reg][reg_to]['weight'], label= 'goto', marker= 'visited')
+                # note that self-transition in TS is a motion.    
     
     def fly_successors_iter(self, prod_node): 
         reg, act = self.projection(prod_node)
@@ -147,17 +151,17 @@ class MotActModel(DiGraph):
             # actions 
             label = self.graph['region'].node[reg]['label']
             for act_to in self.graph['action'].allowed_actions(label):
-                prod_node_to = self.composition(reg, act_to)
-                cost = self.graph['action'].action[act_to][0]
-                self.add_edge(prod_node, prod_node_to, weight=cost, label= act_to)
-                yield prod_node_to, cost
+                if act_to != 'None':
+                    prod_node_to = self.composition(reg, act_to)
+                    cost = self.graph['action'].action[act_to][0]
+                    self.add_edge(prod_node, prod_node_to, weight=cost, label= act_to)
+                    yield prod_node_to, cost
             # motions
             for reg_to in self.graph['region'].successors_iter(reg):
-                if reg_to != reg:
-                    prod_node_to = self.composition(reg_to, 'None')
-                    cost = self.graph['region'][reg][reg_to]['weight']
-                    self.add_edge(prod_node, prod_node_to, weight=cost, label= 'goto')         
-                    yield prod_node_to, cost
+                prod_node_to = self.composition(reg_to, 'None')
+                cost = self.graph['region'][reg][reg_to]['weight']
+                self.add_edge(prod_node, prod_node_to, weight=cost, label= 'goto')         
+                yield prod_node_to, cost
             self.graph['region'].node[self.node[prod_node]['region']]['status'] = 'confirmed'
             self.node[prod_node]['marker'] = 'visited'
 
@@ -165,7 +169,7 @@ class MotActModel(DiGraph):
         reg, act = self.projection(prod_node)
         # actions
         label = self.graph['region'].node[reg]['label']
-        if act in self.graph['action'].allowed_actions(label):    
+        if (act in self.graph['action'].allowed_actions(label)) and (act != 'None'):    
             for f_act in self.graph['action'].action.iterkeys():
                 f_prod_node = self.composition(reg, f_act)
                 cost = self.graph['action'].action[act][0]
