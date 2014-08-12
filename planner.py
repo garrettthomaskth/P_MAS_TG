@@ -16,7 +16,7 @@ class ltl_planner(object):
 		self.opt_log = [] 
 		self.com_log = []
 
-	def optimal(self, beta=10, style='static'):
+	def optimal(self, beta=1, style='static'):
 		self.beta = beta
 		if style == 'static':
 			# full graph construction
@@ -33,8 +33,8 @@ class ltl_planner(object):
 		print [n for n in self.run.pre_plan]
 		print 'the plan suffix:\n'
 		print [n for n in self.run.suf_plan]
-		self.opt_log.append((self.Time, self.run.pre_plan, self.run.suf_plan, self.run.precost, self.run.sufcost, self.run.totalcost))
-		self.last_time = self.Time
+		self.opt_log.append((self.time, self.run.pre_plan, self.run.suf_plan, self.run.precost, self.run.sufcost, self.run.totalcost))
+		self.last_time = self.time
 		self.acc_change = 0
 		self.index = 0
 		self.segment = 'line'

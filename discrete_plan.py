@@ -18,7 +18,6 @@ def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None):
 	runs = {}
 	loop = {}
 	cycle = {}
-	line = {}
 	if start_set == None:
 		init_set = product.graph['initial']
 	else:
@@ -37,11 +36,12 @@ def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None):
 	########################################
 	# shortest line
 	for prod_init in init_set:
+		line = {}
 		line_pre, line_dist = dijkstra_predecessor_and_distance(product, prod_init)
-		if pose:
-			line_dist += distance(pose, prod_init[0][0])
 		for target in loop.iterkeys():
 			if target in line_dist:
+				if pose:
+					line_dist[target] += distance(pose, prod_init[0][0])
 				line[target] = line_dist[target]+beta*loop[target][0]
 		if line:
 			opti_targ = min(line, key = line.get)
@@ -180,11 +180,13 @@ def prod_states_given_history(product, trace):
 		for p in trace[1:]:
 			S2 = set()
 			for f_node in S1:
-				for t_node in product.fly_successors_iter(f_node):
+				for t_node in product.successors_iter(f_node):
 					if t_node[0]==p:
 						S2.add(t_node)
 			S1 = S2.copy()
-		S2 = set([t_node for t_node in product.fly_successors_iter(f_node) for f_node in S1])
+		S2 = set()
+		for f_node in S1:
+			S2 = S2.union(set([t_node for t_node in product.successors_iter(f_node)]))
 		return S2
 	else:
 		return set()
