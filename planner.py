@@ -36,24 +36,24 @@ class ltl_planner(object):
 		self.opt_log.append((self.time, self.run.pre_plan, self.run.suf_plan, self.run.precost, self.run.sufcost, self.run.totalcost))
 		self.last_time = self.time
 		self.acc_change = 0
-		self.index = 0
+		self.index = 1
 		self.segment = 'line'
 		self.next_move = self.run.pre_plan[self.index]
 		return plantime
 
 	def find_next_move(self):
 		if self.segment == 'line' and self.index < len(self.run.pre_plan)-1:
-			self.index += 1
 			self.trace.append(self.run.line[self.index])
+			self.index += 1
 			self.next_move = self.run.pre_plan[self.index]
 		elif self.segment == 'line' and self.index == len(self.run.pre_plan)-1:
-			self.trace.append(self.run.line[self.index+1])
+			self.trace.append(self.run.line[self.index])
 			self.index = 0
 			self.segment = 'loop'
 			self.next_move = self.run.suf_plan[self.index]
 		elif self.segment == 'loop' and self.index < len(self.run.suf_plan)-1:
+			self.trace.append(self.run.loop[self.index+1])
 			self.index += 1
-			self.trace.append(self.run.loop[self.index])
 			self.next_move = self.run.suf_plan[self.index]
 		elif self.segment == 'loop' and self.index == len(self.run.suf_plan)-1:
 			self.trace.append(self.run.loop[self.index+1])
@@ -72,15 +72,28 @@ class ltl_planner(object):
 			return True
 
 	def replan(self):
-		new_run = improve_plan_given_history(self.product, self.trace, self.pose)
-		if (new_run) and (new_run.pre_plan !=self.run.pre_plan[self.index:]):
-			self.run = new_run
-			self.index = 0
-			self.segment = 'line'
-			self.next_move = self.run.pre_plan[self.index]
-			print 'Plan adapted!'
+		if (self.segment =='line') and (self.index > len(self.run.pre_plan)-3):
+			print 'No need to change plan!'
 		else:
-			print 'Plan unchanged!'
+			new_run = improve_plan_given_history(self.product, self.trace, self.pose)
+			if new_run:
+				print new_run.pre_plan
+			if (new_run) and (new_run.pre_plan !=self.run.pre_plan[(self.index):]):
+				self.run = new_run
+				if self.run.pre_plan:
+					self.index = 0
+					self.segment = 'line'
+					self.next_move = self.run.pre_plan[self.index]
+					print '************************'
+					print 'Plan adapted!'
+					print '************************'
+				else:
+					self.index = 0
+					self.segment = 'loop'
+					self.next_move = self.run.suf_plan[self.index]
+					print 'Start plan suffix!'
+			else:
+				print 'Plan unchanged!'
 
 
 

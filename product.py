@@ -104,6 +104,12 @@ class ProdAut_Run(object):
 	def prod_run_to_prod_edges(self, product):
 		self.pre_prod_edges = zip(self.prefix[0:-1], self.prefix[1:])
 		self.suf_prod_edges = zip(self.suffix[0:-1], self.suffix[1:])
+		#########
+		# line: a, b ,c , d, e, g 
+		# pre_plan: act_a, act_b, act_c, act_d, act_e, act_g
+		# loop: g, b, c, d, e, f, g
+		# suf_plan: act_b, act_c, act_d.., act_g
+		
 
 	def plan_output(self, product):
 		self.line = [product.node[node]['ts'] for node in self.prefix]
@@ -111,7 +117,7 @@ class ProdAut_Run(object):
 		self.pre_ts_edges = zip(self.line[0:-1], self.line[1:])
 		self.suf_ts_edges = zip(self.loop[0:-1], self.loop[1:])
 		# output plan --- for execution
-		self.pre_plan = list()
+		self.pre_plan = [self.line[0][0],]
 		for ts_edge in self.pre_ts_edges:
 			if product.graph['ts'][ts_edge[0]][ts_edge[1]]['label'] == 'goto':
 				self.pre_plan.append(ts_edge[1][0]) # motion 

@@ -41,7 +41,7 @@ def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None):
 		for target in loop.iterkeys():
 			if target in line_dist:
 				if pose:
-					line_dist[target] += distance(pose, prod_init[0][0])
+					line_dist[target] += 0.1*distance(pose, prod_init[0][0])
 				line[target] = line_dist[target]+beta*loop[target][0]
 		if line:
 			opti_targ = min(line, key = line.get)
@@ -189,14 +189,15 @@ def prod_states_given_history(product, trace):
 			S2 = S2.union(set([t_node for t_node in product.successors_iter(f_node)]))
 		return S2
 	else:
-		return set()
+		return set([(p,q) for p in product.graph['ts'].nodes_iter() for q in product.graph['buchi'].graph['initial']])
+	
 		
 
 def improve_plan_given_history(product, trace, pose=None):
 	new_initial_set = prod_states_given_history(product, trace)
 	if new_initial_set:
 		#new_run, time=dijkstra_plan_optimal(product, 10, new_initial_set)
-		new_run, time = dijkstra_plan_networkX(product, 10, new_initial_set, pose)
+		new_run, time = dijkstra_plan_networkX(product, 0.1, new_initial_set, pose)
 		print 'Find better plans'
 		return new_run
 	else:
