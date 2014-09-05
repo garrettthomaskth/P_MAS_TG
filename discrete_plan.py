@@ -7,10 +7,13 @@ from ts import distance, reach_waypoint
 import time 
 
 
+from gurobipy import *
+
+
 #===========================================
 #optimal initial synthesis
 #===========================================
-def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None):
+def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None,segment='lasso'):
 	# requires a full construct of product automaton
 	# start_set can be used to specify other initial states
 	# 
@@ -51,18 +54,26 @@ def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None):
 	########################################
 	# best combination
 	if runs:
-		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
-		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
-		#print '\n==================\n'
-		print 'dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
-		return run, time.time()-start
-		#print '\n==================\n'
+		if segment == 'lasso':
+			prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
+			run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
+			#print '\n==================\n'
+			print 'dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+			return run, time.time()-start
+			#print '\n==================\n'
+		elif segment == 'prefix':
+			prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1])
+			run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
+			#print '\n==================\n'
+			print 'dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+			return run, time.time()-start
+			#print '\n==================\n'			
 	else:
 		print 'no accepting run found in optimal planning!'
 		return None, None
 
 
-def dijkstra_plan_optimal(product, beta=10, start_set=None, pose=None, time_limit=None):
+def dijkstra_plan_optimal(product, beta=10, start_set=None, pose=None, time_limit=None, segment='lasso'):
 	start = time.time()
 	#print 'dijkstra plan optimal started!'
 	runs = {}
@@ -92,10 +103,17 @@ def dijkstra_plan_optimal(product, beta=10, start_set=None, pose=None, time_limi
 			if (time_limit) and (time.time()-start > time_limit):  # time limit has reached
 				break
 	if runs:
-	 	prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
+		if segment == 'lasso':
+			prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
+			run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
+			#print '\n==================\n'
+			print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+			return run, time.time()-start
+		elif segment == 'prefix':
+	 	prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1])
 	 	run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 	 	#print '\n==================\n'
-	 	#print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+	 	print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
 	 	return run, time.time()-start
 	else:
 		print 'no accepting run found in optimal planning!'
@@ -193,11 +211,11 @@ def prod_states_given_history(product, trace):
 	
 		
 
-def improve_plan_given_history(product, trace, pose=None):
+def improve_plan_given_history(product, trace, pose=None, segment='lasso'):
 	new_initial_set = prod_states_given_history(product, trace)
 	if new_initial_set:
 		#new_run, time=dijkstra_plan_optimal(product, 10, new_initial_set)
-		new_run, time = dijkstra_plan_networkX(product, 0.1, new_initial_set, pose)
+		new_run, time = dijkstra_plan_networkX(product, 0.1, new_initial_set, pose, segment)
 		print 'Find better plans'
 		return new_run
 	else:
@@ -261,3 +279,82 @@ def dijkstra_revise_once(product, run_segment, broken_edge_index):
 	for (bridge, cost) in dijkstra_targets(product, run_segment[broken_edge_index-1], set([run_segment[-1]])):
 		new_run_segment = run_segment[0:(broken_edge_index-1)] + bridge
 		return new_run_segment
+
+#===========================================
+# shortest path in ts
+#===========================================
+
+def shortest_path_ts(ts, f_ts_node, t_ts_node):
+	if (f_ts_node not in ts) or (t_ts_node not in ts):
+		print 'either nodes not in ts'
+		break
+	else:
+		path_pre, path_dist = dijkstra_predecessor_and_distance(ts, f_ts_node)
+		if t_ts_node not in path_dist:
+			print 'destination not reached'
+		else:
+			path = compute_path_from_pre(path_pre, t_ts_node)
+			cost = path_dist(t_ts_node)
+		return (path, cost)
+
+def Mip(request, Reply):
+	# show the layout
+	action_list = list(request.keys())
+	agent_list = list(Reply.keys())
+	print '************************'
+	print 'action_d', str(action_list)
+	for agent in agent_list:
+		reply = Reply[agent]
+		print  'agent %s:' %agent, [reply[key] for key in action_list]
+		print '\n'
+	print '************************'
+	try:
+		# use gurobipy solver for mip
+		# check http://www.gurobi.com/documentation/5.6/quick-start-guide/py_example_mip1_py
+		M = len(Reply.keys())   #agents
+		N = len(request.keys()) #action_d
+		bin = defaultdict(lambda: [0,]*N)
+		m = Model("assignment")
+		# create variables
+		for i in xrange(0,M):
+			for j in xrange(0,N):
+				bin[i][j] = m.addVar(vtype=GRB.BINARY, 
+					name="b[%s][%s]"%(str(i),str(j)))
+		m.update()
+		# set objective
+		obj = 0
+		for i in xrange(0,M):
+			for j in xrange(0,N):
+				obj += (bin[i][j]*Reply[agent_list[i]][action_list[j]][0]*
+						abs(Reply[agent_list[i]][action_list[j]][1]-request[action_list[j]]))
+		m.setObjective(obj, GRB.MINIMIZE)
+		# add constraints
+		for i in xrange(0,M):
+			constr = 0
+			for j in xrange(0,N):
+				constr += bin[i][j]*Reply[agent_list[i]][action_list[j]][0]
+			m.addConstr(constr<=1,'row%s' %str(i))
+		for j in xrange(0,N):
+			constr = 0
+			for i in xrange(0,M):
+				constr += bin[i][j]*Reply[agent_list[i]][action_list[j]][0]
+			m.addConstr(constr==1,'col%s' %str(j))
+		# solve 
+		m.optimize()
+		for v in m.getVars():
+			print v.varName, v.x
+		print 'Obj:', m.objVal
+		# send confirmation
+		Confirm = dict()
+		for i in xrange(0,M):
+			confirm = dict()
+			for j in xrange(0,N):
+				confirm[action_list[j]]=bin[i][j].x
+			Confirm[agent_list[i]]=confirm
+		return Confirm
+	except GurobiError:
+		print 'Error reported'	
+		return False
+
+
+

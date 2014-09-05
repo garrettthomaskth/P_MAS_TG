@@ -101,7 +101,7 @@ class ProdAut_Run(object):
 		#self.prod_run_to_prod_edges(product)
 		self.plan_output(product)
 
-	def prod_run_to_prod_edges(self, product):
+	def prod_run_to_prod_edges(self):
 		self.pre_prod_edges = zip(self.prefix[0:-1], self.prefix[1:])
 		self.suf_prod_edges = zip(self.suffix[0:-1], self.suffix[1:])
 		#########
@@ -118,17 +118,21 @@ class ProdAut_Run(object):
 		self.suf_ts_edges = zip(self.loop[0:-1], self.loop[1:])
 		# output plan --- for execution
 		self.pre_plan = [self.line[0][0],]
+		self.pre_plan_cost = [0,]
 		for ts_edge in self.pre_ts_edges:
 			if product.graph['ts'][ts_edge[0]][ts_edge[1]]['label'] == 'goto':
 				self.pre_plan.append(ts_edge[1][0]) # motion 
 			else:
 				self.pre_plan.append(ts_edge[1][1]) # action
+			self.pre_plan_cost.append(product.graph['ts'][ts_edge[0]][ts_edge[1]]['weight']) # cost 
 		self.suf_plan = list()
+		self.suf_plan_cost = [0,]
 		for ts_edge in self.suf_ts_edges:
 			if product.graph['ts'][ts_edge[0]][ts_edge[1]]['label'] == 'goto':
 				self.suf_plan.append(ts_edge[1][0]) # motion 
 			else:
 				self.suf_plan.append(ts_edge[1][1]) # action
+			self.suf_plan_cost.append(product.graph['ts'][ts_edge[0]][ts_edge[1]]['weight']) # cost
 
 
 
