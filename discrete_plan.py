@@ -52,7 +52,7 @@ def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None,segment='la
 			precost = line_dist[opti_targ]
 			runs[(prod_init, opti_targ)] = (prefix, precost, loop[opti_targ][1], loop[opti_targ][0])
 	########################################
-	# best combination
+	# best comassignation
 	if runs:
 		if segment == 'lasso':
 			prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
@@ -313,31 +313,31 @@ def Mip(request, Reply):
 		# check http://www.gurobi.com/documentation/5.6/quick-start-guide/py_example_mip1_py
 		M = len(Reply.keys())   #agents
 		N = len(request.keys()) #action_d
-		bin = defaultdict(lambda: [0,]*N)
+		assign = defaultdict(lambda: [0,]*N)
 		m = Model("assignment")
 		# create variables
 		for i in xrange(0,M):
 			for j in xrange(0,N):
-				bin[i][j] = m.addVar(vtype=GRB.BINARY, 
+				assign[i][j] = m.addVar(vtype=GRB.assignARY, 
 					name="b[%s][%s]"%(str(i),str(j)))
 		m.update()
 		# set objective
 		obj = 0
 		for i in xrange(0,M):
 			for j in xrange(0,N):
-				obj += (bin[i][j]*Reply[agent_list[i]][action_list[j]][0]*
+				obj += (assign[i][j]*Reply[agent_list[i]][action_list[j]][0]*
 						abs(Reply[agent_list[i]][action_list[j]][1]-request[action_list[j]]))
 		m.setObjective(obj, GRB.MINIMIZE)
 		# add constraints
 		for i in xrange(0,M):
 			constr = 0
 			for j in xrange(0,N):
-				constr += bin[i][j]*Reply[agent_list[i]][action_list[j]][0]
+				constr += assign[i][j]*Reply[agent_list[i]][action_list[j]][0]
 			m.addConstr(constr<=1,'row%s' %str(i))
 		for j in xrange(0,N):
 			constr = 0
 			for i in xrange(0,M):
-				constr += bin[i][j]*Reply[agent_list[i]][action_list[j]][0]
+				constr += assign[i][j]*Reply[agent_list[i]][action_list[j]][0]
 			m.addConstr(constr==1,'col%s' %str(j))
 		# solve 
 		m.optimize()
@@ -345,16 +345,34 @@ def Mip(request, Reply):
 			print v.varName, v.x
 		print 'Obj:', m.objVal
 		# send confirmation
+		time = m.objVal-request[action_list[0]]
 		Confirm = dict()
 		for i in xrange(0,M):
 			confirm = dict()
 			for j in xrange(0,N):
-				confirm[action_list[j]]=bin[i][j].x
+				if assign[i][j].x:
+					confirm[action_list[j]]= (assign[i][j].x, time)
+				else:
+					confirm[action_list[j]]= (assign[i][j].x, 0)
 			Confirm[agent_list[i]]=confirm
-		return Confirm
+		return Confirm, time 
 	except GurobiError:
 		print 'Error reported'	
-		return False
+		return None, None
 
-
-
+def EnumerateAll(request, Reply):
+	# show the layout
+	action_list = list(request.keys())
+	agent_list = list(Reply.keys())
+	print '************************'
+	print 'action_d', str(action_list)
+	for agent in agent_list:
+		reply = Reply[agent]
+		print  'agent %s:' %agent, [reply[key] for key in action_list]
+		print '\n'
+	print '************************'
+	M = len(Reply.keys())   #agents
+	N = len(request.keys()) #action_d
+	Enum = dict()
+	
+		

@@ -17,12 +17,12 @@ class ltl_self(object):
 		self.traj = [] # log the full trajectory
 		self.opt_log = [] 
 		self.com_log = []
-		self.commit = False
 		self.detour = None
 		self.dindex = 0
 		self.old_move = None
 		self.first = None
 		self.path = None
+		self.contract_time = None
 
 	def optimal(self, beta=1, style='static', segment='lasso'):
 		self.beta = beta
@@ -50,7 +50,7 @@ class ltl_self(object):
 		return plantime
 
 	def find_next_move(self):
-		if not self.commit:
+		if not self.contract_time:
 			if self.segment == 'line' and self.index < len(self.run.pre_plan)-1:
 				self.trace.append(self.run.line[self.index])
 				self.index += 1
@@ -69,13 +69,15 @@ class ltl_self(object):
 				self.index = 0
 				self.next_move = self.run.suf_plan[self.index]
 		else:
+			self.segment = 'detour'
 			if self.dindex < len(self.detour)-1:
 				self.trace.append(self.detour[self.dindex])
 				self.dindex += 1
 				self.next_move = self.detour[self.dindex][0]
 			else:
-				self.commit = False
+				self.contract_time = 0
 				self.next_move = self.old_move
+				self.segment = 'line'
 		return self.next_move
 
 
@@ -112,17 +114,20 @@ class ltl_self(object):
 			else:
 				print 'Plan unchanged!'
 	
+	#========================
+	# cooperative actions
 	def cooperative_action_in_horizon(self, dep, horizon):
 		k = 0
 		j = self.index
-		while k<horizon:
-			k += self.run.pre_plan_cost[j]
-			if self.run.pre_plan[j] in dep:
-				self.first = j
-				request = dict()
-				for a_d in dep[self.run.pre_plan[j]]:
-					request[(self.run.line[j][0],a_d)] = k
-			j += 1
+		if not self.contract_time:
+			while k<horizon:
+				k += self.run.pre_plan_cost[j]
+				if self.run.pre_plan[j] in dep:
+					self.first = j
+					request = dict()
+					for a_d in dep[self.run.pre_plan[j]]:
+						request[(self.run.line[j][0],a_d)] = k
+				j += 1
 		request = dict()
 		return request
 	
@@ -131,37 +136,47 @@ class ltl_self(object):
 		path = dict()
 		for t_ts_node, time in request.iteritems():
 			ts = self.product.graph['ts']
-			if (self.commit) or (t_ts_node not in ts):
+			if (self.contract_time) or (t_ts_node not in ts):
 				reply[t_ts_node] = (False, 0)
 				break
 			else:
 				f_ts_node = self.run.line[self.index] 
 				path[t_ts_node], cost = shortest_path_ts(ts, f_ts_node, t_ts_node)
-				self.path = path
 				reply[t_ts_node] = (True, cost + alpha*abs(cost-time))
+		self.path = path.copy()
 		return reply
 
 	def confirmation(self, request, Reply):
 		# show the layout
-		Confirm = mip(request, Reply)
+		Confirm, time = mip(request, Reply)
+		if time:
+			self.contract_time = time 
 		return Confirm
 
 	def adapt_plan(self, confirm):
-		if all(item==False for item in confirm.values()):
+		if all(item[0]==False for item in confirm.itervalues()):
 			pass
 		else:
 			for t_ts_node, b in confirm.iteritems():
-				if b and (t_ts_node in self.path):
+				if b[0] and (t_ts_node in self.path):
 					p = self.path[t_ts_node]
 					self.detour = p
-					self.commit = True
 					self.old_move = self.next_move.copy()
 					self.next_move = p[0][0]
 					self.dindex = 0
+					self.contract_time = b[1]
 					return True
 
-	def dealy_cooperation(self):
-		pass
+	def dealy_cooperation(self, delay, speed):
+		f_ts_node = self.line[self.first]
+		new_ts_node = (f_ts_node[0], 'None')
+		p = [new_ts_node,]*int(round(dealy*speed))
+		self.detour = p
+		self.old_move = self.next_move.copy()
+		self.next_move = p[0][0]
+		self.dindex = 0
+		self.contract_time = delay
+
 
 
 
