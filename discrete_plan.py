@@ -52,7 +52,7 @@ def dijkstra_plan_networkX(product, beta=10,start_set=None,pose=None,segment='la
 			precost = line_dist[opti_targ]
 			runs[(prod_init, opti_targ)] = (prefix, precost, loop[opti_targ][1], loop[opti_targ][0])
 	########################################
-	# best comassignation
+	# best combination
 	if runs:
 		if segment == 'lasso':
 			prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
@@ -110,11 +110,11 @@ def dijkstra_plan_optimal(product, beta=10, start_set=None, pose=None, time_limi
 			print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
 			return run, time.time()-start
 		elif segment == 'prefix':
-	 	prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1])
-	 	run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
-	 	#print '\n==================\n'
-	 	print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
-	 	return run, time.time()-start
+			prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1])
+			run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
+			#print '\n==================\n'
+			print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+			return run, time.time()-start
 	else:
 		print 'no accepting run found in optimal planning!'
 		return None, None
@@ -287,7 +287,7 @@ def dijkstra_revise_once(product, run_segment, broken_edge_index):
 def shortest_path_ts(ts, f_ts_node, t_ts_node):
 	if (f_ts_node not in ts) or (t_ts_node not in ts):
 		print 'either nodes not in ts'
-		break
+		return None, None
 	else:
 		path_pre, path_dist = dijkstra_predecessor_and_distance(ts, f_ts_node)
 		if t_ts_node not in path_dist:
@@ -297,7 +297,7 @@ def shortest_path_ts(ts, f_ts_node, t_ts_node):
 			cost = path_dist(t_ts_node)
 		return (path, cost)
 
-def Mip(request, Reply):
+def mip(request, Reply):
 	# show the layout
 	action_list = list(request.keys())
 	agent_list = list(Reply.keys())
@@ -362,6 +362,7 @@ def Mip(request, Reply):
 
 def EnumerateAll(request, Reply):
 	# show the layout
+	# in case gurobi does not work
 	action_list = list(request.keys())
 	agent_list = list(Reply.keys())
 	print '************************'
@@ -373,6 +374,115 @@ def EnumerateAll(request, Reply):
 	print '************************'
 	M = len(Reply.keys())   #agents
 	N = len(request.keys()) #action_d
-	Enum = dict()
+	Confirm = dict()
+	confrim = dict()
+	if N == 0:
+		print 'None action required!'
+		return None, None
+	elif N ==1:
+		action = action_list[0]
+		time = request[action]
+		feasilbe_agent = [a for a in agent_list if Reply[a][action][0]]
+		choosen_agent = min(feasilbe_agent, 
+			key=lambda a: abs(Reply[a][action][1]-time) )
+		appro_time = max(Reply[choosen_agent][action][1], time)
+		confirm[action_list[0]] = (True, appro_time)
+		Confirm[choosen_agent] = confirm
+		# confirm
+		confirm.clear()
+		confirm[action] = (False, 0)
+		for agent in agent_list:
+			if agent != choosen_agent:
+				Confirm[agent] = confirm.copy()
+		return Confirm, appro_time
+	elif N ==2:
+		# action one 
+		action_one = action_list[0]
+		time_one = request[action_one]
+		feasilbe_agent_one = [a for a in agent_list if Reply[a][action_one][0]]
+		choosen_agent_one = min(feasilbe_agent_one, 
+			key=lambda a: abs(Reply[a][action_one][1]-time_one))
+		# action two 
+		action_two = action_list[1]
+		time_two = request[action_two]
+		feasilbe_agent_two = [a for a in agent_list 
+				if Reply[a][action_one][0] and (a != choosen_agent_one)]
+		choosen_agent_two = min(feasilbe_agent_two, 
+			key=lambda a: abs(Reply[a][action_two][1]-time_two))
+		appro_time = max([Reply[choosen_agent_one][action_one][1],
+				Reply[choosen_agent_two][action_two][1], time_one, time_two])
+		for agent in agent_list:
+			confirm.clear()
+			if agent == choosen_agent_one:
+				confirm[action_one] = (True, appro_time)
+				confirm[action_two] = (False, 0)
+			elif agent == choosen_agent_two:
+				confirm[action_one] = (False, 0)
+				confirm[action_two] = (True, appro_time)
+			else:
+				confirm[action_one] = (False, 0)
+				confirm[action_two] = (False, 0)
+			Confirm[agent] = confirm
+		return Confirm, appro_time
+	elif N ==3:
+		# action one 
+		action_one = action_list[0]
+		time_one = request[action_one]
+		feasilbe_agent_one = [a for a in agent_list if Reply[a][action_one][0]]
+		choosen_agent_one = min(feasilbe_agent_one, 
+			key=lambda a: abs(Reply[a][action_one][1]-time_one))
+		# action two 
+		action_two = action_list[1]
+		time_two = request[action_two]
+		feasilbe_agent_two = [a for a in agent_list 
+				if Reply[a][action_two][0] and (a != choosen_agent_one)]
+		choosen_agent_two = min(feasilbe_agent_two, 
+			key=lambda a: abs(Reply[a][action_two][1]-time_two))
+		# action three
+		action_three = action_list[2]
+		time_three = request[action_three]
+		feasilbe_agent_three = [a for a in agent_list 
+				if Reply[a][action_three][0] and 
+				(a not in [choosen_agent_one, choosen_agent_two])]
+		choosen_agent_three = min(feasilbe_agent_three, 
+			key=lambda a: abs(Reply[a][action_three][1]-time_three))
+		appro_time = max([Reply[choosen_agent_one][action_one][1],
+				Reply[choosen_agent_two][action_two][1], 
+				Reply[choosen_agent_three][action_three][1], 
+				time_one, time_two, time_three])
+		for agent in agent_list:
+			confirm.clear()
+			if agent == choosen_agent_one:
+				confirm[action_one] = (True, appro_time)
+				confirm[action_two] = (False, 0)
+				confirm[action_three] =(False, 0)
+			elif agent == choosen_agent_two:
+				confirm[action_one] = (False, 0)
+				confirm[action_two] = (True, appro_time)
+				confirm[action_three] =(False, 0)
+			elif agent == choosen_agent_three:
+				confirm[action_one] = (False, 0)
+				confirm[action_two] = (False, 0)
+				confirm[action_three] = (True, appro_time)
+			else:
+				confirm[action_one] = (False, 0)
+				confirm[action_two] = (False, 0)
+				confirm[action_three] =(False, 0)
+			Confirm[agent] = confirm
+		return Confirm, appro_time
+	elif N>=4:
+		print 'we can not handle so many...'
+		return None, None
+
+
+
+
+
+
+
+
+
+
+
 	
 		

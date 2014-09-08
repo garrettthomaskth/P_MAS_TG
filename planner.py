@@ -2,12 +2,14 @@
 from buchi import mission_to_buchi
 from product import ProdAut
 from ts import distance, reach_waypoint
-from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal, improve_plan_given_history, mip
 from collections import defaultdict
 
+
+from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal
+from discrete_plan import improve_plan_given_history, mip
 from discrete_plan import shortest_path_ts
 
-class ltl_self(object):
+class ltl_planner(object):
 	def __init__(self, ts, hard_spec, soft_spec):
 		buchi = mission_to_buchi(hard_spec, soft_spec)
 		self.product = ProdAut(ts, buchi)
@@ -30,12 +32,12 @@ class ltl_self(object):
 			# full graph construction
 			self.product.graph['ts'].build_full()
 			self.product.build_full()
-			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta, segment)
+			self.run, plantime = dijkstra_plan_networkX(self.product, beta=self.beta, segment=segment)
 		elif style == 'on-the-fly':
 			# on-the-fly construction
 			self.product.build_initial()
 			self.product.build_accept()
-			self.run, plantime = dijkstra_plan_optimal(self.product, self.beta, segment)
+			self.run, plantime = dijkstra_plan_optimal(self.product, beta=self.beta, segment=segment)
 		### show the results
 		print 'the plan prefix:\n'
 		print [n for n in self.run.pre_plan]
@@ -94,7 +96,7 @@ class ltl_self(object):
 		if (self.segment =='line') and (self.index > len(self.run.pre_plan)-3):
 			print 'No need to change plan!'
 		else:
-			new_run = improve_plan_given_history(self.product, self.trace, self.pose, segment)
+			new_run = improve_plan_given_history(self.product, self.trace, pose=self.pose, segment=segment)
 			if new_run:
 				print new_run.pre_plan
 			if (new_run) and (new_run.pre_plan !=self.run.pre_plan[(self.index):]):
