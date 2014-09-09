@@ -294,7 +294,7 @@ def shortest_path_ts(ts, f_ts_node, t_ts_node):
 			print 'destination not reached'
 		else:
 			path = compute_path_from_pre(path_pre, t_ts_node)
-			cost = path_dist(t_ts_node)
+			cost = path_dist[t_ts_node]
 		return (path, cost)
 
 def mip(request, Reply):
@@ -305,9 +305,12 @@ def mip(request, Reply):
 	print 'action_d', str(action_list)
 	for agent in agent_list:
 		reply = Reply[agent]
-		print  'agent %s:' %agent, [reply[key] for key in action_list]
-		print '\n'
+		print  'agent %s: reply' %agent, reply
 	print '************************'
+	for action in action_list:
+		if all(Reply[a][action][0]==False for a in agent_list):
+			return None, None
+			break
 	try:
 		# use gurobipy solver for mip
 		# check http://www.gurobi.com/documentation/5.6/quick-start-guide/py_example_mip1_py
@@ -318,7 +321,7 @@ def mip(request, Reply):
 		# create variables
 		for i in xrange(0,M):
 			for j in xrange(0,N):
-				assign[i][j] = m.addVar(vtype=GRB.assignARY, 
+				assign[i][j] = m.addVar(vtype=GRB.BINARY, 
 					name="b[%s][%s]"%(str(i),str(j)))
 		m.update()
 		# set objective
@@ -345,7 +348,7 @@ def mip(request, Reply):
 			print v.varName, v.x
 		print 'Obj:', m.objVal
 		# send confirmation
-		time = m.objVal-request[action_list[0]]
+		time = request[action_list[0]]-m.objVal
 		Confirm = dict()
 		for i in xrange(0,M):
 			confirm = dict()

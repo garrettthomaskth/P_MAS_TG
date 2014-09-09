@@ -22,7 +22,6 @@ class ltl_planner(object):
 		self.detour = None
 		self.dindex = 0
 		self.old_move = None
-		self.first = None
 		self.path = None
 		self.contract_time = None
 
@@ -52,7 +51,7 @@ class ltl_planner(object):
 		return plantime
 
 	def find_next_move(self):
-		if not self.contract_time:
+		if not self.detour:
 			if self.segment == 'line' and self.index < len(self.run.pre_plan)-1:
 				self.trace.append(self.run.line[self.index])
 				self.index += 1
@@ -71,15 +70,22 @@ class ltl_planner(object):
 				self.index = 0
 				self.next_move = self.run.suf_plan[self.index]
 		else:
-			self.segment = 'detour'
 			if self.dindex < len(self.detour)-1:
 				self.trace.append(self.detour[self.dindex])
 				self.dindex += 1
 				self.next_move = self.detour[self.dindex][0]
+			elif self.dindex == len(self.detour)-1:
+				self.trace.append(self.detour[self.dindex])
+				#print self.detour[self.dindex]
+				self.next_move = self.detour[self.dindex][1]
+				self.dindex += 1
 			else:
 				self.contract_time = 0
-				self.next_move = self.old_move
-				self.segment = 'line'
+				self.detour = []
+				if self.segment == 'line':
+					self.next_move = self.run.pre_plan[self.index][:]
+				else:
+					self.next_move = self.run.suf_plan[self.index][:]
 		return self.next_move
 
 
@@ -121,16 +127,15 @@ class ltl_planner(object):
 	def cooperative_action_in_horizon(self, dep, horizon):
 		k = 0
 		j = self.index
-		if not self.contract_time:
-			while k<horizon:
-				k += self.run.pre_plan_cost[j]
-				if self.run.pre_plan[j] in dep:
-					self.first = j
-					request = dict()
-					for a_d in dep[self.run.pre_plan[j]]:
-						request[(self.run.line[j][0],a_d)] = k
-				j += 1
 		request = dict()
+		if (self.contract_time<=0) and (self.segment == 'line'):
+			while (k<horizon) and (j<len(self.run.pre_plan_cost)-1):
+					k += self.run.pre_plan_cost[j]
+					if self.run.pre_plan[j] in dep:
+						for a_d in dep[self.run.pre_plan[j]]:
+							request[(self.run.line[j][0],a_d)] = k
+						return request
+					j += 1
 		return request
 	
 	def evaluate_request(self, request, alpha=1):
@@ -138,13 +143,15 @@ class ltl_planner(object):
 		path = dict()
 		for t_ts_node, time in request.iteritems():
 			ts = self.product.graph['ts']
-			if (self.contract_time) or (t_ts_node not in ts):
+			if (self.contract_time)>0 or (t_ts_node not in ts):
 				reply[t_ts_node] = (False, 0)
-				break
 			else:
 				f_ts_node = self.run.line[self.index] 
 				path[t_ts_node], cost = shortest_path_ts(ts, f_ts_node, t_ts_node)
-				reply[t_ts_node] = (True, cost + alpha*abs(cost-time))
+				if path[t_ts_node] and (cost>0):
+					reply[t_ts_node] = (True, cost + alpha*abs(cost-time))
+				else:
+					reply[t_ts_node] = (False, 0)
 		self.path = path.copy()
 		return reply
 
@@ -163,21 +170,20 @@ class ltl_planner(object):
 				if b[0] and (t_ts_node in self.path):
 					p = self.path[t_ts_node]
 					self.detour = p
-					self.old_move = self.next_move.copy()
 					self.next_move = p[0][0]
 					self.dindex = 0
 					self.contract_time = b[1]
 					return True
 
-	def dealy_cooperation(self, delay, speed):
-		f_ts_node = self.line[self.first]
+	def delay_cooperation(self, delay, speed):
+		f_ts_node = self.run.line[self.index]
 		new_ts_node = (f_ts_node[0], 'None')
-		p = [new_ts_node,]*int(round(dealy*speed))
+		p = [new_ts_node,]*int(round(delay*speed))
 		self.detour = p
-		self.old_move = self.next_move.copy()
 		self.next_move = p[0][0]
 		self.dindex = 0
-		self.contract_time = delay
+		#self.contract_time = delay
+		self.contract_time = -delay
 
 
 
