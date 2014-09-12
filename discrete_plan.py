@@ -305,7 +305,7 @@ def mip(request, Reply):
 	print 'action_d', str(action_list)
 	for agent in agent_list:
 		reply = Reply[agent]
-		print  'agent %s: reply' %agent, reply
+		print  'agent %s: reply' %str(agent+1), reply
 	print '************************'
 	for action in action_list:
 		if all(Reply[a][action][0]==False for a in agent_list):
@@ -348,7 +348,11 @@ def mip(request, Reply):
 			print v.varName, v.x
 		print 'Obj:', m.objVal
 		# send confirmation
-		time = request[action_list[0]]-m.objVal
+		time_list1 =[assign[i][j].x*Reply[agent_list[i]][action_list[j]][0]*Reply[agent_list[i]][action_list[j]][1] 
+					for i in xrange(0,M) for j in xrange(0,N)]
+		time_list2 =[request[action_list[j]] for j in xrange(0,N)]
+		time = max(time_list1+time_list2)
+		#time = request[action_list[0]]-m.objVal
 		Confirm = dict()
 		for i in xrange(0,M):
 			confirm = dict()

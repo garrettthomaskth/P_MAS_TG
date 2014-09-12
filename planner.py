@@ -23,7 +23,7 @@ class ltl_planner(object):
 		self.dindex = 0
 		self.old_move = None
 		self.path = None
-		self.contract_time = None
+		self.contract_time = 0
 
 	def optimal(self, beta=1, style='static', segment='lasso'):
 		self.beta = beta
@@ -80,13 +80,11 @@ class ltl_planner(object):
 				self.next_move = self.detour[self.dindex][1]
 				self.dindex += 1
 			else:
-				self.contract_time = 0
 				self.detour = []
 				if self.segment == 'line':
 					self.next_move = self.run.pre_plan[self.index][:]
-				else:
+				elif self.segment == 'loop':
 					self.next_move = self.run.suf_plan[self.index][:]
-		return self.next_move
 
 
 	def update(self,object_name):
@@ -160,7 +158,7 @@ class ltl_planner(object):
 		Confirm, time = mip(request, Reply)
 		if time:
 			self.contract_time = time 
-		return Confirm
+		return Confirm, time
 
 	def adapt_plan(self, confirm):
 		if all(item[0]==False for item in confirm.itervalues()):
