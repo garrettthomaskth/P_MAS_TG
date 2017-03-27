@@ -1,9 +1,12 @@
 from P_MAS_TG.ts import MotionFts, ActionModel, MotActModel
 from P_MAS_TG.planner import ltl_planner
-
+from P_MAS_TG.buchi import mission_to_buchi
+from P_MAS_TG.product import ProdAut
+from networkx_viewer import Viewer
 # export PYTHONPATH=$PYTHONPATH:/to/your/P_MAS_TG
 
-
+import matplotlib.pyplot as plt
+import networkx as nx
 import time
 
 
@@ -40,11 +43,11 @@ robot_motion.add_un_edges(edges, unit_cost = 0.1)
 ##############################
 # action FTS
 ############# no action model
-#action = dict()
+action = dict()
 ############# with action
-action = { 'pick': (100, 'r', set(['pick'])),
-           'drop': (50, 'b', set(['drop']))
-}
+#action = { 'pick': (100, 'r', set(['pick'])),
+#           'drop': (50, 'b', set(['drop']))
+#}
 
 
 robot_action = ActionModel(action)
@@ -65,15 +68,44 @@ robot_model = MotActModel(robot_motion, robot_action)
 
 
 ########## soft and hard
-hard_task = '(([]<> r3) && ([]<> r4))'
-soft_task = '([]! b)'
+hard_task = '([](<> r3) &&  []<> r2 && []<> r4)'
+soft_task = None#'([]! b)'
 
 
 
 ##############################
 # set planner
 robot_planner = ltl_planner(robot_model, hard_task, soft_task)
+robot_planner.product.graph['ts'].build_full()
+robot_planner.product.build_full()
+#buchi = mission_to_buchi(hard_task, soft_task)
+#networkx.draw(ProdAut(robot_model, buchi))
 
+col = [] 
+
+i = 0
+
+labels = {}
+print(robot_planner.product.node)
+for node in robot_planner.product.node:
+  col.append(robot_planner.product.node[node]['color'])
+
+  labels[node] = robot_planner.product.node[node]['color']
+  
+  #if node['color'] == 'r':
+   # r.append(i)
+  #if node['color'] == 'g':
+  #  g.append(i)
+  #if node['color'] == 'y':
+  #  y.append(i)
+print(labels)
+nx.draw_networkx(robot_planner.product,node_color=col,labels=labels)
+plt.show()
+
+nx.draw_networkx(robot_planner.product.graph['buchi'])
+plt.show()
+#app = Viewer(robot_planner.product)
+#app.mainloop()
 # synthesis
 start = time.time()
 robot_planner.optimal(10,'static')
