@@ -10,7 +10,6 @@ class ProdAut(DiGraph):
 		DiGraph.__init__(self, ts=ts, buchi=buchi, alpha=alpha, initial=set(), accept=set(), type='ProdAut')
 
 	def build_full(self):
-		print('hi')
 		for f_ts_node in self.graph['ts'].nodes_iter():
 			for f_buchi_node in self.graph['buchi'].nodes_iter():
 				f_prod_node = self.composition(f_ts_node, f_buchi_node)
@@ -33,12 +32,12 @@ class ProdAut(DiGraph):
 		if not self.has_node(prod_node):
 			if ((ts_node in self.graph['ts'].graph['initial']) and (buchi_node in self.graph['buchi'].graph['initial'])):
 				self.graph['initial'].add(prod_node)
-				self.add_node(prod_node, ts=ts_node, buchi=buchi_node, marker='unvisited',color='b')
+				self.add_node(prod_node, ts=ts_node, buchi=buchi_node, marker='unvisited',color='b', dist=self.graph['buchi'].node[buchi_node]['dist'])
 			elif (buchi_node in self.graph['buchi'].graph['accept']):
 				self.graph['accept'].add(prod_node)
-				self.add_node(prod_node, ts=ts_node, buchi=buchi_node, marker='unvisited',color='r')
+				self.add_node(prod_node, ts=ts_node, buchi=buchi_node, marker='unvisited',color='r', dist=self.graph['buchi'].node[buchi_node]['dist'])
 			else:
-				self.add_node(prod_node, ts=ts_node, buchi=buchi_node, marker='unvisited',color='w')
+				self.add_node(prod_node, ts=ts_node, buchi=buchi_node, marker='unvisited',color='w', dist=self.graph['buchi'].node[buchi_node]['dist'])
 		return prod_node
 
 	def projection(self, prod_node):

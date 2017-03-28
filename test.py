@@ -68,7 +68,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 
 
 ########## soft and hard
-hard_task = '([](<> r3) &&  []<> r2 && []<> r4)'
+hard_task = '([]<> r3 && []<> r2 && []<> r4 && !r5)'
 soft_task = None#'([]! b)'
 
 
@@ -81,28 +81,43 @@ robot_planner.product.build_full()
 #buchi = mission_to_buchi(hard_task, soft_task)
 #networkx.draw(ProdAut(robot_model, buchi))
 
-col = [] 
+colP = [] 
 
 i = 0
 
 labels = {}
-print(robot_planner.product.node)
-for node in robot_planner.product.node:
-  col.append(robot_planner.product.node[node]['color'])
 
-  labels[node] = robot_planner.product.node[node]['color']
+for node in robot_planner.product.node:
+  colP.append(robot_planner.product.node[node]['color'])
+  labels[node] = robot_planner.product.node[node]['dist']
+  print robot_planner.product.node[node]
+#print robot_planner.product.node
+#for node in robot_planner.product.node:
+ # print node
+  #print robot_planner.product.edge[node]
+
+#for node in robot_planner.product.graph['buchi']:
+  #print node
+  #print robot_planner.product.graph['buchi'].edge[node]
+  #a = robot_planner.product.graph['buchi'].edge[node].keys()[1]
+  #print type(robot_planner.product.graph['buchi'].edge[node][a]['guard'])
+
+colB = []
+l = {}
+for node in robot_planner.product.graph['buchi'].node:
+  l[node] = robot_planner.product.graph['buchi'].node[node]['dist']
+  if node in robot_planner.product.graph['buchi'].graph['accept']:
+    colB.append('r')
+  elif node in robot_planner.product.graph['buchi'].graph['initial']:
+    colB.append('b')
+  else:
+    colB.append('w')
   
-  #if node['color'] == 'r':
-   # r.append(i)
-  #if node['color'] == 'g':
-  #  g.append(i)
-  #if node['color'] == 'y':
-  #  y.append(i)
-print(labels)
-nx.draw_networkx(robot_planner.product,node_color=col,labels=labels)
+
+nx.draw_networkx(robot_planner.product,node_color=colP,labels=labels)
 plt.show()
 
-nx.draw_networkx(robot_planner.product.graph['buchi'])
+nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
 plt.show()
 #app = Viewer(robot_planner.product)
 #app.mainloop()

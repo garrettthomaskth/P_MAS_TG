@@ -40,6 +40,10 @@ class SymbolExpression(Expression):
         else:
             return 1
 
+    #Garrett       
+    def symCheck(self):
+        return 1
+
 class NotSymbolExpression(Expression):
     def __init__(self, name):
         self.name = "!%s" % name
@@ -63,6 +67,10 @@ class NotSymbolExpression(Expression):
             return 0
         else:
             return 1
+    
+    #Garrett       
+    def symCheck(self):
+        return 0
 
 class TrueExpression(Expression):
     name = "TRUE"
@@ -83,6 +91,10 @@ class TrueExpression(Expression):
         return True
 
     def distance(self, label):
+        return 0
+
+    #Garrett       
+    def symCheck(self):
         return 0
 
 class NotExpression(Expression):
@@ -119,6 +131,11 @@ class NotExpression(Expression):
             return s
         raise Exception("Unexpected child of NotExpression")
 
+    #Garrett       
+    def symCheck(self):
+        #may have to change to check double negative symbolic
+        return 0
+
 class BinExpression(Expression):
     def __init__(self, left, right):
         self.left = left
@@ -149,6 +166,10 @@ class ORExpression(BinExpression):
         rdist = self.right.distance(label)
         return min([ldist, rdist])
 
+    #Garrett       
+    def symCheck(self):
+        return self.left.symCheck() + self.right.symCheck()
+
 class ANDExpression(BinExpression):
     name = "AND"
     def __repr__(self):
@@ -159,6 +180,10 @@ class ANDExpression(BinExpression):
 
     def distance(self, label):
         return self.left.distance(label) + self.right.distance(label)
+    
+    #Garrett
+    def symCheck(self):
+        return self.left.symCheck() + self.right.symCheck()
 
 class Parser(object):
     def __init__(self, formula):

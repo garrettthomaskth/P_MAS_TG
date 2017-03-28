@@ -11,6 +11,7 @@ import time
 #===========================================
 def dijkstra_plan_networkX(product, beta=10):
 	# requires a full construct of product automaton
+	# used for 'stadic' and 'ready'
 	start = time.time()
 	runs = {}
 	loop = {}
@@ -57,6 +58,7 @@ def dijkstra_plan_networkX(product, beta=10):
 
 
 def dijkstra_plan_optimal(product, beta=10, start_set=None):
+	#used for 'on the fly'
 	start = time.time()
 	#print 'dijkstra plan started!'
 	runs = {}
@@ -170,6 +172,10 @@ def dijkstra_loop(product, prod_accep):
 
 def compute_path_from_pre(pre, target):
 	#print 'pre: %s with size %i' %(pre, len(pre))
+	#print 'pre'
+	##print pre
+	#print 'target'
+	#print target
 	n = target
 	path = [n]
 	while n in pre:
@@ -185,6 +191,8 @@ def compute_path_from_pre(pre, target):
 		#print 'path: %s' %path
 		n = pn
 	path.reverse()
+	print 'path'
+	print path
 	return path
 
 #===========================================

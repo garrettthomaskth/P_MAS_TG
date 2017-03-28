@@ -14,11 +14,40 @@ def buchi_from_ltl(formula,Type):
     (states, initials, accepts) = find_states(edges)
     buchi = DiGraph(type=Type, initial=initials, accept=accepts, symbols=symbols)
     for state in states:
-        buchi.add_node(state)
+        if state in accepts:
+            buchi.add_node(state, dist = 0)
+        else:
+            buchi.add_node(state, dist = 10e99)
+
     for (ef,et) in edges.keys():
         guard_formula = edges[(ef,et)]
+
         guard_expr = parse_guard(guard_formula)
-        buchi.add_edge(ef, et, guard=guard_expr, guard_formula=guard_formula)
+
+        if guard_expr.symCheck() < 2:
+            buchi.add_edge(ef, et, guard=guard_expr, guard_formula=guard_formula)
+
+    states = accepts
+
+    go = True
+    while go:
+
+        go = False
+        newStates = []
+        print states
+        for state in states:
+
+            neigh = buchi.predecessors(state)
+
+
+            newStates.extend(neigh)
+            for nei in neigh:
+
+                if buchi.node[nei]['dist'] > (buchi.node[state]['dist']+1):
+                    buchi.node[nei]['dist'] = buchi.node[state]['dist']+1
+                    go = True
+        states = newStates
+
     return buchi
 
 def mission_to_buchi(hard_spec, soft_spec):
