@@ -17,7 +17,10 @@ def dijkstra_plan_networkX(product, beta=10):
 	loop = {}
 	cycle = {}
 	line = {}
-	# minimal circles
+	# 
+	# For each accepting state, find shortest path
+	# back to itself
+	#
 	for prod_target in product.graph['accept']:
                 #print 'prod_target', prod_target
                 # accepting state in self-loop
@@ -25,15 +28,35 @@ def dijkstra_plan_networkX(product, beta=10):
                         loop[prod_target] = (product.edge[prod_target][prod_target]["weight"], [prod_target, prod_target])
                         continue
                 # else
+        # dijkstra_predecessor_and_distance gives distances to all nodes **prod_target** is a predecessor or! like all
+        # states prod_target can get to
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
+		print 'THIS ONE!'
+		print prod_target
+		# for blah in loop_pre:
+		# 	print 'blah'
+		# 	print blah
+		#print 'prod_target'
+		#print prod_target
+		#print 'loop_pre'
+		#print loop_pre
+		#print 'loop_dist'
+		#print loop_dist
 		for target_pred in product.predecessors_iter(prod_target):
+
 			if target_pred in loop_dist:
 				cycle[target_pred] = product.edge[target_pred][prod_target]["weight"] + loop_dist[target_pred]
+				####################  distance from predecessor to prod_target + distance prod_target to predecessor
+		#print 'cycle'
+		#print cycle
 		if cycle:
 			opti_pred = min(cycle, key = cycle.get)
 			suffix = compute_path_from_pre(loop_pre, opti_pred)
 			loop[prod_target] = (cycle[opti_pred], suffix)
-	# shortest line
+	# 
+	# Find the shortest path
+	# to each accepting state
+	#
 	for prod_init in product.graph['initial']:
 		line_pre, line_dist = dijkstra_predecessor_and_distance(product, prod_init)
 		for target in loop.iterkeys():
@@ -154,6 +177,7 @@ def dijkstra_targets(product, prod_source, prod_targets):
 
 def dijkstra_loop(product, prod_accep):
 	#print 'accept node check %s' %(str(prod_accep))
+	#called by dijkstra_plan_optimal and dijkstra_plan_bounded
 	paths = {}
 	costs = {}
 	accept_pre_set = product.accept_predecessors(prod_accep)
@@ -191,8 +215,8 @@ def compute_path_from_pre(pre, target):
 		#print 'path: %s' %path
 		n = pn
 	path.reverse()
-	print 'path'
-	print path
+	#print 'path'
+	#print path
 	return path
 
 #===========================================

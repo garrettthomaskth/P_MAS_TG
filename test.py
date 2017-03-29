@@ -66,9 +66,14 @@ robot_model = MotActModel(robot_motion, robot_action)
 #hard_task = '(<>(pick && <> drop)) && ([]<> r3) && ([]<> r6)'
 #soft_task = None
 
+# +-----+-----+-----+
+# | r4,r| r5,b| r6,b|
+# +-----+-----+-----+
+# | r1,r| r2,b| r3,r|
+# +-----+-----+-----+
 
 ########## soft and hard
-hard_task = '([]<> r3 && []<> r2 && []<> r4 && !r5)'
+hard_task = '(<> r6 && <> r2 ) '
 soft_task = None#'([]! b)'
 
 
@@ -90,7 +95,7 @@ labels = {}
 for node in robot_planner.product.node:
   colP.append(robot_planner.product.node[node]['color'])
   labels[node] = robot_planner.product.node[node]['dist']
-  print robot_planner.product.node[node]
+  #print robot_planner.product.node[node]
 #print robot_planner.product.node
 #for node in robot_planner.product.node:
  # print node
