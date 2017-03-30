@@ -28,7 +28,6 @@ def buchi_from_ltl(formula,Type):
         if guard_expr.symCheck() < 2 and garrett_no_double:
             buchi.add_edge(ef, et, guard=guard_expr, guard_formula=guard_formula)
         elif not garrett_no_double:
-            print 'hi'
             buchi.add_edge(ef, et, guard=guard_expr, guard_formula=guard_formula)
 
     states = accepts
@@ -46,10 +45,10 @@ def buchi_from_ltl(formula,Type):
 
             newStates.extend(neigh)
             for nei in neigh:
-
                 if buchi.node[nei]['dist'] > (buchi.node[state]['dist']+1):
                     buchi.node[nei]['dist'] = buchi.node[state]['dist']+1
                     go = True
+
         states = newStates
 
     return buchi

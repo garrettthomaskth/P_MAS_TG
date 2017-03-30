@@ -12,33 +12,57 @@ import time
 
 ##############################
 # motion FTS
-ap = {'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r', 'b'}
+aap = {'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r', 'b'}
 # +-----+-----+-----+
 # | r4,r| r5,b| r6,b|
 # +-----+-----+-----+
 # | r1,r| r2,b| r3,r|
 # +-----+-----+-----+
-regions = {   (0, 0, 1): set(['r1', 'r']),
+aregions = {   (0, 0, 1): set(['r1', 'r']),
               (1, 0, 1): set(['r2', 'b']),
               (2, 0, 1): set(['r3', 'r']),
               (0, 1, 1): set(['r4', 'r']),
               (1, 1, 1): set(['r5', 'b']),
-              (2, 1, 1): set(['r6', 'b']),
+              (2, 1, 1): set(['r6', 'b'])
 }
 
-edges = [((0, 0, 1), (1, 0, 1)),
+aedges = [((0, 0, 1), (1, 0, 1)),
          ((1, 0, 1), (2, 0, 1)), 
          ((0, 1, 1), (1, 1, 1)),          
          ((1, 1, 1), (2, 1, 1)),
          ((0, 0, 1), (0, 1, 1)),
          ((1, 0, 1), (1, 1, 1)),
-         ((2, 0, 1), (2, 1, 1)),          
+         ((2, 0, 1), (2, 1, 1))          
 ]
 
-robot_motion = MotionFts(regions, ap, 'office' )
+ap = {'r'}
+regions = {}
+edges = []
+N = 50
+k = 1
+for i in range(0,N):
+  for j in range(0,N):
+    regions[(i,j,1)] = set(['r'+str(k)])
+    ap.add('r'+str(k))
+    if i>0 and ((i-1,j,1),(i,j,1)) not in edges and ((i,j,1),(i-1,j,1)) not in edges:
+      edges.append(((i-1,j,1),(i,j,1)))
+    if i<N-1 and ((i+1,j,1),(i,j,1)) not in edges and ((i,j,1),(i+1,j,1)) not in edges:
+      edges.append(((i+1,j,1),(i,j,1)))
+    if j>0 and ((i,j-1,1),(i,j,1)) not in edges and ((i,j,1),(i,j-1,1)) not in edges:
+      edges.append(((i,j-1,1),(i,j,1)))
+    if j<N-1 and ((i,j+1,1),(i,j,1)) not in edges and ((i,j,1),(i,j+1,1)) not in edges:
+      edges.append(((i,j+1,1),(i,j,1)))
+    k=k+1
+
+
+#robot_motion = MotionFts(aregions, aap, 'office' )
+#robot_motion.set_initial((0, 0, 1))
+#robot_motion.add_un_edges(aedges, unit_cost = 0.1)
+
+
+robot_motion = MotionFts(regions, ap, 'asdf' )
 robot_motion.set_initial((0, 0, 1))
 robot_motion.add_un_edges(edges, unit_cost = 0.1)
-
 
 ##############################
 # action FTS
@@ -73,7 +97,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
-hard_task = '(<> r6 && <> r2 ) '
+hard_task = '(<> r60 && <> r20 && <> r2000 ) '
 soft_task = None#'([]! b)'
 
 
@@ -119,11 +143,11 @@ for node in robot_planner.product.graph['buchi'].node:
     colB.append('w')
   
 
-nx.draw_networkx(robot_planner.product,node_color=colP,labels=labels)
-plt.show()
+#nx.draw_networkx(robot_planner.product,node_color=colP,labels=labels)
+#plt.show()
 
-nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
-plt.show()
+#nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
+#plt.show()
 #app = Viewer(robot_planner.product)
 #app.mainloop()
 # synthesis

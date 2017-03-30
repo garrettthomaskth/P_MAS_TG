@@ -2,8 +2,8 @@
 from buchi import mission_to_buchi
 from product import ProdAut
 from ts import distance, reach_waypoint
-from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal, improve_plan_given_history
-
+from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal, improve_plan_given_history, Garrett_dijkstra_plan_networkX
+from adapted_dijkstra_multisource import adapted_dijkstra_multisource
 
 class ltl_planner(object):
 	def __init__(self, ts, hard_spec, soft_spec):
@@ -25,6 +25,8 @@ class ltl_planner(object):
 			self.product.graph['ts'].build_full()
 			self.product.build_full()
 			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
+			# Garrett
+			self.run, plantime = Garrett_dijkstra_plan_networkX(self.product, self.beta)
 		elif style == 'ready':
 			self.product.build_full()
 			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
