@@ -110,7 +110,7 @@ class MotActModel(DiGraph):
     def composition(self, reg, act):
         prod_node = (reg, act)
         if not self.has_node(prod_node):
-            print self.graph['region']
+            #print self.graph['region']
             new_label = self.graph['region'].node[reg]['label'].union(self.graph['action'].action[act][2])
             self.add_node(prod_node, label=new_label, region=reg, action=act, marker='unvisited')
             if ((reg in self.graph['region'].graph['initial']) and (act == 'None')):

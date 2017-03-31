@@ -35,14 +35,16 @@ aedges = [((0, 0, 1), (1, 0, 1)),
          ((2, 0, 1), (2, 1, 1))          
 ]
 
-ap = {'r'}
+ap = {'r','b'}
 regions = {}
 edges = []
+
 N = 50
 k = 1
+asdf = ['r','b']
 for i in range(0,N):
   for j in range(0,N):
-    regions[(i,j,1)] = set(['r'+str(k)])
+    regions[(i,j,1)] = set(['r'+str(k),asdf[j%2]])
     ap.add('r'+str(k))
     if i>0 and ((i-1,j,1),(i,j,1)) not in edges and ((i,j,1),(i-1,j,1)) not in edges:
       edges.append(((i-1,j,1),(i,j,1)))
@@ -69,9 +71,9 @@ robot_motion.add_un_edges(edges, unit_cost = 0.1)
 ############# no action model
 action = dict()
 ############# with action
-#action = { 'pick': (100, 'r', set(['pick'])),
-#           'drop': (50, 'b', set(['drop']))
-#}
+action = { 'pick': (100, 'r', set(['pick'])),
+           'drop': (50, 'b', set(['drop']))
+}
 
 
 robot_action = ActionModel(action)
@@ -97,7 +99,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
-hard_task = '(<> r60 && <> r20 && <> r2000 ) '
+hard_task = '(<> r51 && <> r3 && <>r4 && <>r9 && <>r15 && <>r20 && <>r30 && <>r40 ) '
 soft_task = None#'([]! b)'
 
 

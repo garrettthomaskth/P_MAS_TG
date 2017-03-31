@@ -42,7 +42,10 @@ class SymbolExpression(Expression):
 
     #Garrett       
     def symCheck(self):
-        return 1
+        if self.symbol[0] == 'r':
+            return 1
+        else:
+            return 0
 
 class NotSymbolExpression(Expression):
     def __init__(self, name):
@@ -168,7 +171,7 @@ class ORExpression(BinExpression):
 
     #Garrett       
     def symCheck(self):
-        return self.left.symCheck() + self.right.symCheck()
+        return max(self.left.symCheck(), self.right.symCheck())
 
 class ANDExpression(BinExpression):
     name = "AND"

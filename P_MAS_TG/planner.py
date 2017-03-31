@@ -4,7 +4,7 @@ from product import ProdAut
 from ts import distance, reach_waypoint
 from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal, improve_plan_given_history, Garrett_dijkstra_plan_networkX
 from adapted_dijkstra_multisource import adapted_dijkstra_multisource
-
+import time
 class ltl_planner(object):
 	def __init__(self, ts, hard_spec, soft_spec):
 		buchi = mission_to_buchi(hard_spec, soft_spec)
@@ -22,9 +22,12 @@ class ltl_planner(object):
 		self.beta = beta
 		if style == 'static':
 			# full graph construction
+			graph_construction_time = time.time()
 			self.product.graph['ts'].build_full()
 			self.product.build_full()
-			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
+			print 'graph_construction_time'
+			print time.time() - graph_construction_time
+			#self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
 			# Garrett
 			self.run, plantime = Garrett_dijkstra_plan_networkX(self.product, self.beta)
 		elif style == 'ready':
