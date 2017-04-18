@@ -1,0 +1,104 @@
+% Encoding: UTF-8
+
+@Book{clarke99,
+  title     = {Model checking},
+  publisher = {MIT press},
+  year      = {1999},
+  author    = {Clarke, Edmund M and Grumberg, Orna and Peled, Doron},
+}
+
+@InProceedings{fainekos05,
+  author       = {Fainekos, Georgios E and Kress-Gazit, Hadas and Pappas, George J},
+  title        = {Temporal logic motion planning for mobile robots},
+  booktitle    = {Robotics and Automation, 2005. ICRA 2005. Proceedings of the 2005 IEEE International Conference on},
+  year         = {2005},
+  pages        = {2020--2025},
+  organization = {IEEE},
+}
+
+@Article{fainekos09,
+  author    = {Fainekos, Georgios E and Girard, Antoine and Kress-Gazit, Hadas and Pappas, George J},
+  title     = {Temporal logic motion planning for dynamic robots},
+  journal   = {Automatica},
+  year      = {2009},
+  volume    = {45},
+  number    = {2},
+  pages     = {343--352},
+  publisher = {Elsevier},
+}
+
+@Book{goebel12,
+  title     = {Hybrid Dynamical Systems: modeling, stability, and robustness},
+  publisher = {Princeton University Press},
+  year      = {2012},
+  author    = {Goebel, Rafal and Sanfelice, Ricardo G and Teel, Andrew R},
+}
+
+@InProceedings{kress07,
+  author       = {Kress-Gazit, Hadas and Fainekos, Georgios E and Pappas, George J},
+  title        = {From structured english to robot motion},
+  booktitle    = {Intelligent Robots and Systems, 2007. IROS 2007. IEEE/RSJ International Conference on},
+  year         = {2007},
+  pages        = {2717--2722},
+  organization = {IEEE},
+}
+
+@PhdThesis{guo15,
+  author = {Guo, Meng},
+  title  = {Hybrid control of multi-robot systems under complex temporal tasks},
+  school = {KTH Royal Institute of Technology},
+  year   = {2015},
+}
+
+@Article{belta07,
+  author    = {Belta, Calin and Bicchi, Antonio and Egerstedt, Magnus and Frazzoli, Emilio and Klavins, Eric and Pappas, George J},
+  title     = {Symbolic planning and control of robot motion [grand challenges of robotics]},
+  journal   = {IEEE Robotics \& Automation Magazine},
+  year      = {2007},
+  volume    = {14},
+  number    = {1},
+  pages     = {61--70},
+  publisher = {IEEE},
+}
+
+@InProceedings{conner03,
+  author       = {Conner, David C and Rizzi, Alfred A and Choset, Howie},
+  title        = {Composition of local potential functions for global robot control and navigation},
+  booktitle    = {Intelligent Robots and Systems, 2003.(IROS 2003). Proceedings. 2003 IEEE/RSJ International Conference on},
+  year         = {2003},
+  volume       = {4},
+  pages        = {3546--3551},
+  organization = {IEEE},
+}
+
+@InProceedings{belta04,
+  author       = {Belta, Calin and Habets, LCGJM},
+  title        = {Constructing decidable hybrid systems with velocity bounds},
+  booktitle    = {Decision and Control, 2004. CDC. 43rd IEEE Conference on},
+  year         = {2004},
+  volume       = {1},
+  pages        = {467--472},
+  organization = {IEEE},
+}
+
+@InProceedings{schuppan05,
+  author       = {Schuppan, Viktor and Biere, Armin},
+  title        = {Shortest counterexamples for symbolic model checking of LTL with past},
+  booktitle    = {International Conference on Tools and Algorithms for the Construction and Analysis of Systems},
+  year         = {2005},
+  pages        = {493--509},
+  organization = {Springer},
+}
+
+@Article{dijkstra1959note,
+  author    = {Dijkstra, Edsger W},
+  title     = {A note on two problems in connexion with graphs},
+  journal   = {Numerische mathematik},
+  year      = {1959},
+  volume    = {1},
+  number    = {1},
+  pages     = {269--271},
+  publisher = {Springer},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}

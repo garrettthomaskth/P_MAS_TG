@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{clarke99}
+Edmund~M Clarke, Orna Grumberg, and Doron Peled.
+\newblock {\em Model checking}.
+\newblock MIT press, 1999.
+
+\bibitem{fainekos09}
+Georgios~E Fainekos, Antoine Girard, Hadas Kress-Gazit, and George~J Pappas.
+\newblock Temporal logic motion planning for dynamic robots.
+\newblock {\em Automatica}, 45(2):343--352, 2009.
+
+\bibitem{fainekos05}
+Georgios~E Fainekos, Hadas Kress-Gazit, and George~J Pappas.
+\newblock Temporal logic motion planning for mobile robots.
+\newblock In {\em Robotics and Automation, 2005. ICRA 2005. Proceedings of the
+  2005 IEEE International Conference on}, pages 2020--2025. IEEE, 2005.
+
+\end{thebibliography}

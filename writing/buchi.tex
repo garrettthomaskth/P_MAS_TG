@@ -1,0 +1,88 @@
+\section{B\"{u}chi Automata}
+Given an LTL formula $\varphi$ over $AP$, there exists a Nondeterministic B\"{u}chi automaton (NBA) over $2^{AP}$ corresponding to $\varphi$, denoted $A_\varphi$ according to [1, Theorem 5.37] lars' paper
+\begin{definition}
+\label{defLF}
+An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
+\begin{align*}
+\mathcal{A}_\varphi = (\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F})
+\end{align*}
+where $\Q$ is a finite set of states, $\Q_0 \subseteq \Q$ is the set of initial states, $2^{AP}$ is the alphabet, $\delta: \Q \times 2^{AP} \rightarrow 2^\Q$ is a transition relation, and $\mathcal{F} \subseteq \Q$ is the set of accepting states
+\end{definition} 
+An infinite run of an NBA is an infinite sequence of states that starts from an initial state and follows the transition relation i.e.\ $r=q_0 q_1\dots$ where $q_0 \in \Q_0$ and $q_{k+1} \in \delta(q_k,S)$ for some $S \in 2^{AP}$, $k=0,1,\dots$. An infinite run $r$ is accepting if $\Inf (r) \cap \mathcal{F} \neq \emptyset$, where $\Inf (r)$ is the set of states that appear infinitely often in $r$. from meng As with the FTS, we denote the predecessors of $q_m \in Q$ $\Pre (q_m)$ and the successors $\Post(q_m)$ 
+
+\begin{definition}
+\label{defRR}
+Given an infinite word $\sigma = S_0 S_1 S_2 \dots$ over $2^{AP}$, its resulting run in $\mathcal{A}_\sigma$ is denoted by$ r_\sigma = q_0 q_1 q_2 \dots$, which satisfies: (i) $q_0 \in Q_0$; (ii) $q_{i+1} \in \delta (q_i, S_i)$, $\forall i = 1,2, \dots$. Similar statement holds for a finite word $\bar{\sigma} = S_0 S_1 S_2 \dots S_{N+1}$.  
+\end{definition}
+
+\section{Product Automata}
+These two structures are then combined to create the product automation. The product automata is also a B\"{u}chi automata and is defined as follows:
+\begin{definition}
+The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta;: Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \pi Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$ meng
+\end{definition} 
+
+Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' a_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$. meng
+
+Given that $\A_p$ is a B\"{u}chi automation, the requirements of an accepting run is the same as before i.e.\ $\Inf \A_p \cap \F \neq \emptyset$
+
+\begin{lemma}
+If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
+\end{lemma}
+Proof. see the proof of Theorem from [11] meng
+
+\begin{lemma}
+\label{lemma1}
+If $R$ is an accepting run of $\A_p$, then $R|_\Pi \models \varphi$ 
+\end{lemma}
+Proof. see proof in meng
+
+Given \ref{lemma1}, our problem is now to find an accepting run of $\A_p$. Given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities, the process of finding one, nonetheless finding one that has measure of optimality is non-trivial, both theoretically and practically meng "both in theory and software implementation". Therefore we restrict our view of accepting runs to runs that satisfy the prefix-suffix structure i.e.\
+\begin{align*}
+\tau = \langle \tau_{pre}, \tau_{suf} \rangle = \tau_{pre} [tau_{suf}]^\omega
+\end{align*}
+The prefix $\tau_{pre}$ is traversed only once and the suffix $\tau_{suf}$ is repeated infinitely often meng (which is the meaning of the $\omega$ superscript). Plans of this form are much easier to deal with because, while they are still infinite plans, they have a finite representation that we can exploit.
+
+\section{Cost of a Run}
+We are focusing on the accepting runs of $\A_p$ with the prefix-suffix structure
+\begin{align*}
+R &= \langle R_{pre}, R_{suf} \rangle = q_0 q_1 \dots q_f [q_f q_{f+1} \dots q_n]^\omega \\
+&= \langle \pi_0, q_0 \rangle \dots \langle \pi_{f-1}, q_{f-1} \rangle [ \langle \pi_f , q_f \rangle \langle \pi_f , q_f \rangle \dots \langle \pi_{n}, q_n \rangle ]^\omega
+\end{align*} 
+from meng
+where $q_0 = \langle \pi_0, q_0 \rangle \in \Q_0$ and $q_f = \langle \pi_f , q_f \rangle \in \F$. There is a finite set of transitions in our infinite path i.e.\ 
+\begin{align*}
+\Edge (R) = \{(q_i, q_{i+1}) , i = 0,1,\dots ,(n-1)\} \cup \{(q_n , q_f ) \}.
+\end{align*}
+Each of these transitions has a cost, given by $W_p(q_i,q_{i+1})$ allowing us to define the total cost of $R$ as
+\begin{align*}
+\Cost (R, \A_p) &= \sum_{i=0}^{f-1} W_p(q_i,q_{i+1}) + \gamma \sum_{i=f}^{n-1} W_p(q_i,q_{i+1}) \\
+&= \sum_{i=0}^{f-1} W_c(\pi_i,\pi_{i+1}) + \gamma \sum_{i=f}^{n-1} W_c(\pi_i, \pi_{i+1})
+\end{align*}
+where $\gamma \geq 0$ is the relative weighting of the transient response (prefix) cost and steady response (suffix) cost. We then look for the accepting run with prefix-suffix structure that minimizes the total cost. 
+
+We will denote this accepting run as $R_{opt}$, with the corresponding plan $\tau_{opt} = R_{opt}|_\Pi$. We note however that this plan may not actually be the true optimal plan with prefix-suffix structure. In \cite{schuppan05} we see that simplifications in the translation from LTL formulas to NBA can result in a loss of optimality. This will be important when we analyse the paths our algorithm generates. 
+
+\section{Search Algorithm}
+The search algorithm used in many recent works on the specific type of control planning synthesis comes from this prefix-suffix structure. The basic idea is to find a path from an initial node, $q_0$ to an accepting node, $q_f$, and then find a path from the $q_f$ back to itself. The first part from $q_0$ to $q_f$ is the prefix and the second part $q_f$ back to $q_f$ is the suffix. Then the resulting path, $\tau$, will be the prefix, followed by the suffix repeated infinitely many times. This path is thus accepting because the suffix finds the path from an initial state back to itself, and thus contains the initial state, and is repeated infinitely many times $q_f \in \Inf \tau  \Rightarrow \Inf \tau \cap \F \neq \emptyset$. 
+
+Algorithm \ref{optrun}, from \cite{guo15}, gives pseudocode of how to compute $R_{opt}$.
+\begin{algorithm}
+\caption{OptRun()}\label{optrun}
+\begin{algorithmic}[1]
+\Require Input $\A_p, S' = \Q_0'$ by default
+\Ensure $R_{opt}$
+%\Procedure{MyProcedure}{}
+\State If $Q_0'$ or $\F'$ is empty, construct $Q_0'$ or $\F'$ first.
+\State For each initial state $q_0' \in S'$, call $\texttt{DijksTargets}(\A_p,q_0',\F')$.
+\State For each accepting state $q_f' \in \F'$, call $\texttt{DijksCycle}(\A_p,q_f')$. 
+\State Find the pair of $(q_{0,opt}',q_{f,opt}')$ that minimizes the total cost
+\State Optimal accepting run $R_{opt}$, prefix: shortest path from $q_{0*}'$ to  $q_{f*}$; suffix: the shortest cycle from $q_{f*}'$ and back to itself.
+\end{algorithmic}
+\end{algorithm}
+
+$\texttt{DijksTargets}(\A_p,q_0',\F)$ computes the shortest paths in $\A_p$ from initial state $q_0' \in \Q_0$ to every accepting node in $\F$ using Dijkstra's algorithm \cite{dijkstra59} and $\texttt{DijksCycle}(\A_p,q_f')$ computes the shortest path in $\A_p$ from accepting state $q_f'$ back to itself using Dijkstra's algorithm.
+
+\section{Our Algorithm}
+As we can see, the current algorithm has to do a lot of work. 
+
+

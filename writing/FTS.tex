@@ -1,0 +1,89 @@
+\section{Abstraction of the Workspace}
+In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph (B\"{u}chi automata, which will be defined later) that represents the robot motion. Next is the execution level, which involves finding a path through the graph that satisfies a specification. Lastly, in the implementation level robot controllers are constructed that satisfy the path found in the previous step. 
+
+To create a graph that represents the robot motion we need to consider the workspace, denote $W_0 \subset \mathbb{R}^n$, our robot is in and the dynamics of the robot. First we partition our environment, $W_0$, into a finite number of equivalence classes. Various partitions can be used i.e. \cite{belta04} IS THIS TOO SIMILAR TO FAINEKOS2005, however the partition must satisfy the bisimulation property, which will be defined later once more notation has been introduced. We denote the $\Pi = {\pi_1, \pi_2, \dots, \pi_w}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. 
+
+\begin{definition}
+\label{defLF}
+A partition map, $T: W_0 \rightarrow \Pi$ sends each state $x \in W_0$ to the finite set of equivalence classes $\Pi = {\pi_i} i = 1,2,\dots ,w$. $T^{-1}(\pi_i)$ is then all the states $x \in W_0$ that are in the equivalence class $\pi_i$. 
+\end{definition} 
+
+We now introduce atomic propositions, which will be the building blocks for our task specification. Atomic propositions are boolean variables, and will be used to express properties about the state or the robot or the workspace. We define the following set of atomic propositions $AP_r = {a_{r,i}}$, $i=1,2,\dots,w$ where 
+\[\alpha_{r,i} =  \begin{cases}
+\top & \text{if the robot is in region $\pi_i$} \\
+\bot & \text{else}
+\end{cases}
+\]
+which represent the robot's location. Other things we want to be able to express are potential tasks, denote $AP_p = {\alpha_{p,i}}$, $i=1,2,\dots,m$. These can be ...
+We now define the set of all propositions $AP = AP_r \cup AP_p$.
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defCLF}
+The labelling function $L_C:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $\pi_i$. From meng
+\end{definition} 
+
+We also include a definition of the discrete counterpart 
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defDLF}
+The labelling function $L_D:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$ to the set of atomic propositions satisfied by $\pi_i$. From meng
+\end{definition} 
+Note: $2^{AP}$ is the powerset of $AP$, i.e. the set of all subsets of $AP$ include the null set and $AP$.
+
+For example...
+
+Next, we must define transitions to show the relationship between the regions. We define a transition as follows
+\theoremstyle{definition}
+\begin{definition}
+\label{defCTransition}
+There is a continuous transition, $\rightarrow_C \subset W_0 \times W_0$ from $x$ to $x'$, denoted $x \rightarrow_C x'$ if it is possible to construct a trajectory $x(t)$ for $0 \leq t \leq T$ with $x(0)=x$ and $x(T) =x'$ and we have $x(t) \in (T^{-1}(T(x))\cup T^{-1}(T(x')))$
+ From dynamic robots
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defDTransition}
+There is a discrete transition, $\rightarrow_D \subset \Pi \times \Pi$, from $\pi_i$ to $\pi_j$, denoted $\pi_i \rightarrow_D \pi_j$ if there exists $x$ and $x'$ such that $T(x) = \pi_i$, $T(x')=\pi_j$ and $x \rightarrow_C x'$
+\end{definition}
+
+We can now define bisimulations
+\theoremstyle{definition}
+\begin{definition}
+\label{defDTransition}
+A partition $T:W_0\rightarrow \Pi$ is called a bisimulation if the following properties hold for all $x,y \in W_0$
+\begin{enumerate}
+    \item (Observation Preserving): If $T(x)=T(y)$, then $L_C(x) = L_C(y)$.
+    \item (Reachability Preserving): If $T(x) = T(y)$, then if $x\rightarrow_C x'$ then $y \rightarrow_C y'$ for some $y'$ with $T(x')=T(y')$
+\end{enumerate}
+\end{definition}
+
+The Observation Preserving requirement makes sure we do not allow the situation where part of $\pi_i$ fulfils $\alpha \in AP$ while part of $\pi_i$ does not, and the Reachability Preserving requirement ensures that for every point in region $\pi_i$, there exists a trajectory to some point $x'$, such that $T(x') = \pi_j$ if $\pi_i \rightarrow_D \pi_j$. These two requirements together guarantee that the discrete path we compute is feasible at the continuous level.
+%\theoremstyle{definition}
+%\begin{definition}{Discrete Transition}
+%\label{defTransition}
+%There is a transition from $\pi_i$ to $\pi_j$ if an admissible navigation controller $U:\mathbb{R}\times \Pi \times \Pi \rightarrow \mathbb{R}:$
+%\begin{align*}
+%u(t) = U(x(t),\pi_i,\pi_j)
+%\end{align*}
+%exists that could drive the system from any point in region $\pi_i$ to a point in region $\pi_j$ in finite time, while staying within $\pi_i$ and $\pi_j$ i.e\ $x(t) \in \pi_i \cup \pi_j, \hspace{0.2cm} \forall t \in [t',t'']$. From meng
+%\end{definition}
+
+We can now definite Finite-State Transition System (FTS), which is how we will represent our workspace.
+\theoremstyle{definition}
+\begin{definition}
+\label{defFTS}
+An FTS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_D, \Pi_0, AP,L_C)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_C$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_C \pi_j$. Note: $\pi_i \rightarrow_C \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_C: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defLF}.
+\end{definition}
+
+In this thesis, we will also consider the weighted FTS (WFTS)
+\begin{definition}
+\label{defFTS}
+A WTFS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_C, \Pi_0, AP,L_C,W_C)$ where $\Pi$, $\rightarrow_C$, $\Pi_0$, $AP$, and $L_C$ are defined as in definition \ref{defFTS} and $W_C: \Pi \times \Pi \rightarrow \R^+$ is the weight function i.e.\ the cost of a transition in $\rightarrow_C$. 
+\end{definition}
+When we use a WFTS, we will estimate the cost of a transition by the Euclidean distance between the centers of the two regions. Note: $W_C(\pi_i,\pi_i) =0$.
+
+When talking about FTS, it is helpful to use the notation Pre($\pi_i$) = $\{\pi_j \in \Pi | \pi_j \rightarrow_D \pi_i\}$ to define the the predecessors of the state $\pi_i$ and Post($\pi_i$) = $\{\pi_j \in \Pi | \pi_j \rightarrow_D \pi_i\}$ to define the the successors of the state $\pi_i$. In this thesis, we will only be dealing with infinite paths. An infinite path of $\mathcal{T}$ is  an infinite sequence of states $\tau = \pi_1 \pi_2 \dots$ such that $\pi_i \in \Pi_0$ and $\pi_i \in $ Post($\pi_{i-1}) \hspace{0.2cm} \forall i > 0$. The trace of a path is the sequence of sets of atomic propositions that are true in the states along a path i.e.\ trace($\tau$) = $L_D(\pi_1)L_D(\pi_2) \dots$.  
+
+
