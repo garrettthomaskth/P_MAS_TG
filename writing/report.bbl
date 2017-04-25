@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{belta07}
 Calin Belta, Antonio Bicchi, Magnus Egerstedt, Emilio Frazzoli, Eric Klavins,
@@ -39,6 +39,18 @@ Hadas Kress-Gazit, Georgios~E Fainekos, and George~J Pappas.
 \newblock From structured english to robot motion.
 \newblock In {\em Intelligent Robots and Systems, 2007. IROS 2007. IEEE/RSJ
   International Conference on}, pages 2717--2722. IEEE, 2007.
+
+\bibitem{lenstra75}
+Jan~K Lenstra and AHG~Rinnooy Kan.
+\newblock Some simple applications of the travelling salesman problem.
+\newblock {\em Journal of the Operational Research Society}, 26(4):717--733,
+  1975.
+
+\bibitem{rosenkrantz74}
+Daniel~J Rosenkrantz, Richard~Edwin Stearns, and Philip~M Lewis.
+\newblock Approximate algorithms for the traveling salesperson problem.
+\newblock In {\em Switching and Automata Theory, 1974., IEEE Conference Record
+  of 15th Annual Symposium on}, pages 33--42. IEEE, 1974.
 
 \bibitem{schuppan05}
 Viktor Schuppan and Armin Biere.

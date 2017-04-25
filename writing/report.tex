@@ -1,5 +1,5 @@
 \documentclass[11pt,a4paper]{article}
-
+\usepackage{bm}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -27,6 +27,11 @@
 \usepackage{mathrsfs}
 \usepackage{commath}
 \usepackage{dsfont}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{setspace}
 
 \usepackage{amsmath}
 \usepackage{algorithm}
@@ -39,10 +44,15 @@
 \title{Thesis}
 \author{Garrett Thomas}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\theoremstyle{lemma}
-\newtheorem{lemma}{Lemma}[section]
+%\theoremstyle{definition}
+\newtheorem{definition}{Definition} % definition numbers are dependent on theorem numbers
+\newtheorem{theorem}{Theorem} % same for example numbers
+\newtheorem{assumption}{Assumption} % same for example numbers
+\newtheorem{problem}{Problem} % same for example numbers
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
 
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
@@ -62,7 +72,7 @@
 \newcommand{\Pre}{\texttt{Pre}}
 \newcommand{\Edge}{\texttt{Edge}}
 \newcommand{\Cost}{\texttt{Cost}}
-
+\newcommand{\U}{\bm{\mathcal{U}}}
 \begin{document}
 
 \maketitle
@@ -72,7 +82,7 @@
 
 %\input{intro}
 
-
+\newpage
 \bibliography{bibliography}
 \bibliographystyle{plain}
 

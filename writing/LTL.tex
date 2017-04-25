@@ -2,7 +2,7 @@
 To define tasks for our robot we must choose a high level language. Temporal logics are especially suited for defining robot tasks because of their ability to express not only fomulas constructed of atomic propositions and standard boolean connectives (conjunction, disjunction, and negation), but also temporal specifications e.g.\ $\alpha$ is true at some point of time. The particular temporal logic we will be using is known as linear temporal logic (LTL) \cite{clarke99}. LTL formulas are defined over a set of atomic propositions $AP$ according to the following grammar:
 
 \begin{align*}
-    \varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \mathcal{U} \varphi_2
+    \varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2
 \end{align*}
 
 where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:

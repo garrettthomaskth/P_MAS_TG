@@ -90,7 +90,7 @@
   organization = {Springer},
 }
 
-@Article{dijkstra1959note,
+@Article{dijkstra59,
   author    = {Dijkstra, Edsger W},
   title     = {A note on two problems in connexion with graphs},
   journal   = {Numerische mathematik},
@@ -98,6 +98,26 @@
   volume    = {1},
   number    = {1},
   pages     = {269--271},
+  publisher = {Springer},
+}
+
+@InProceedings{rosenkrantz74,
+  author       = {Rosenkrantz, Daniel J and Stearns, Richard Edwin and Lewis, Philip M},
+  title        = {Approximate algorithms for the traveling salesperson problem},
+  booktitle    = {Switching and Automata Theory, 1974., IEEE Conference Record of 15th Annual Symposium on},
+  year         = {1974},
+  pages        = {33--42},
+  organization = {IEEE},
+}
+
+@Article{lenstra75,
+  author    = {Lenstra, Jan K and Kan, AHG Rinnooy},
+  title     = {Some simple applications of the travelling salesman problem},
+  journal   = {Journal of the Operational Research Society},
+  year      = {1975},
+  volume    = {26},
+  number    = {4},
+  pages     = {717--733},
   publisher = {Springer},
 }
 

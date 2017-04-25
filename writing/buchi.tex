@@ -16,14 +16,14 @@ Given an infinite word $\sigma = S_0 S_1 S_2 \dots$ over $2^{AP}$, its resulting
 \end{definition}
 
 \section{Product Automata}
-These two structures are then combined to create the product automation. The product automata is also a B\"{u}chi automata and is defined as follows:
+These two structures are then combined to create the product automaton. The product automata is also a B\"{u}chi automata and is defined as follows:
 \begin{definition}
 The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta: Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$ meng
 \end{definition} 
 
 Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' a_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$. meng
 
-Given that $\A_p$ is a B\"{u}chi automation, the requirements of an accepting run is the same as before i.e.\ $\Inf \A_p \cap \F \neq \emptyset$
+Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run is the same as before i.e.\ $\Inf \A_p \cap \F \neq \emptyset$
 
 \begin{lemma}
 If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
@@ -82,10 +82,11 @@ Algorithm \ref{optrun}, from \cite{guo15}, gives pseudocode of how to compute $R
 
 $\texttt{DijksTargets}(\A_p,q_0',\F)$ computes the shortest paths in $\A_p$ from initial state $q_0' \in \Q_0$ to every accepting node in $\F$ using Dijkstra's algorithm \cite{dijkstra59} and $\texttt{DijksCycle}(\A_p,q_f')$ computes the shortest path in $\A_p$ from accepting state $q_f'$ back to itself using Dijkstra's algorithm.
 
+\newpage
 \section{Our Algorithm}
-As we can see, the current algorithm has to do a lot of work. First it has to do Dijkstra's search for each initial state, and then one for each accepting state (the number of accepting states is at least the size of the FTS). The state space that is being searched can also become very big, which is known as the state explosion problem \cite{clarke99}. The size of the product automation, $|\A_p|$ is the size of the B\"{u}chi automation corresponding to the LTL formula times the size of the FTS i.e.\ $|\Pi| \dot |\Q|$. The size of the B\"{u}chi automation corresponding to the LTL formula is then usually exponential in the size of the formula. We can imagine how much searching is needed if we have and FTS and B\"{u}chi that are both fairly large. To solve this problem, we suggest an algorithm that sacrifices optimality but preforms much faster than the current accepted algorithm. 
+As we can see, the current algorithm has to do a lot of work. First it has to do Dijkstra's search for each initial state, and then one for each accepting state (the number of accepting states is at least the size of the FTS). The state space that is being searched can also become very big, which is known as the state explosion problem \cite{clarke99}. The size of the product automaton, $|\A_p|$ is the size of the B\"{u}chi automaton corresponding to the LTL formula times the size of the FTS i.e.\ $|\Pi| \dot |\Q|$. The size of the B\"{u}chi automaton corresponding to the LTL formula is then usually exponential in the size of the formula. We can imagine how much searching is needed if we have and FTS and B\"{u}chi that are both fairly large. To solve this problem, we suggest an algorithm that sacrifices optimality but preforms much faster than the current accepted algorithm. 
 
-The idea stems from the fact that $q' = \langle \pi, q \rangle \in \Q'$ is an accepting state of $\A_p$ iff $q \in Q$ is an accepting state of $\A_\varphi$. Thus finding an accepting state in the product automaton is essentially finding an accepting state of the LTL B\"{u}chi automaton. We therefore suggest assigning a distance measure in the LTL B\"{u}chi automaton that carries over to the product automaton. To do this, we first define a B\"{u}chi automation that includes information on the distance to an accepting state.
+The idea stems from the fact that $q' = \langle \pi, q \rangle \in \Q'$ is an accepting state of $\A_p$ iff $q \in Q$ is an accepting state of $\A_\varphi$. Thus finding an accepting state in the product automaton is essentially finding an accepting state of the LTL B\"{u}chi automaton. We therefore suggest assigning a distance measure in the LTL B\"{u}chi automaton that carries over to the product automaton. To do this, we first define a B\"{u}chi automaton that includes information on the distance to an accepting state.
 
 \begin{definition}
 \label{defBWD}
@@ -100,7 +101,7 @@ d(q_n) = \min_x \{x | q_x \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \t
 which is the length of the number of transitions in the shortest path from $q_n$ to an accepting state.
 \end{definition}
 
-Then we also have a product automation with distance, $\mathcal{A}_{p,d} = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p, d_p)$, defined similarly, with $d_p(q') = d(q'|\Q)$. We will refer to $q'$ as being on level $n$ if $d_p(q') = n$.
+Then we also have a product automaton with distance, $\mathcal{A}_{p,d} = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p, d_p)$, defined similarly, with $d_p(q') = d(q'|\Q)$. We will refer to $q'$ as being on level $n$ if $d_p(q') = n$.
 
 The idea of our algorithm is to start from $q_0' \in \Q'$, say $d_p(q_0')=n$ and then use a Dijkstra search to find the closest node that is on next smallest level, $n-1$. Then we will do another Dijkstra search on the next level down to find the closest node that has a transition down, and so on. This ensures that we will approach the accepting states i.e.\ those states on level 0. Once we reach an accepting state, we use a Dijkstra search to find the fastest way from the accepting state back to itself. We do not use the idea of decreasing levels because, although it would be faster, in general this procedure cannot be use to find a specific accepting state. We will refer to the run generated by this algorithm as $R_{nn}$ in which $nn$ stands for nearest neighbour. An explanation of the the name will be given in the following discussion. Pseudocode is given in Algorithm \ref{NNrun}
 
@@ -110,22 +111,250 @@ The idea of our algorithm is to start from $q_0' \in \Q'$, say $d_p(q_0')=n$ and
 \Require Input $\A_{p,d}, S' = \Q_0'$ by default
 \Ensure $R_{nn}$
 %\Procedure{MyProcedure}{}
-\State Path = []
+\State PathPre = []
 \State Level = $d_p(q_0' \in \Q_0')$
 \State Found = false
-\While Found == false
-\State find Next_Node to add using Dijkstra's algorithm
-\If $d_p(\text{next_node})$ == Level - 1 
-\State		add path to Next_Node onto Path
-\State 		\If $d_p(\text{next_node})$ == 0
-\State			
-\State
-\State Find the pair of $(q_{0,opt}',q_{f,opt}')$ that minimizes the total cost
-\State Optimal accepting run $R_{opt}$, prefix: shortest path from $q_{0*}'$ to  $q_{f*}$; suffix: the shortest cycle from $q_{f*}'$ and back to itself.
+\While {Found == false}
+\State find NextNode to add using Dijkstra's algorithm
+\If {$d_p(\text{NextNode})$ == Level - 1}
+\State	add path to NextNode onto Path
+\If {$d_p(\text{NextNode})$ == 0 }
+\State found = true
+\Else 
+\State Level = Level - 1	
+\EndIf
+\EndIf
+\EndWhile
+\State PathSuf = shortest path from last node in path back to it self, found using Dijkstra's search
+\State $R_{nn}$, prefix: PathPre; suffix: PathSuf.
 \end{algorithmic}
 \end{algorithm}
 
+As we can see, assuming that we reach an accepting state in a strongly connected component, we will do $n+1$ searches. This still may seem like a lot, however the searches are done on much smaller graphs. The first $n$ searches only look at graphs with $|\Pi|$ nodes. 
+
+We now analyse how this algorithm performs in when the LTL formula expresses certain behaviours. 
+
+\section{Algorithm Performance with Specific Behaviours}
+To show how our algorithm differs with the current accepted algorithm, we illustrate examples using the FTS in figure \ref{fig:ftsEx}
+
+\begin{figure}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$\pi_1$};
+  \node[state]         (B) [ right of=A] {$\pi_2$};
+  \node[state]         (C) [below of=A] {$\pi_3$};
+  \node[state]         (D) [right of=C] {$\pi_4$};
+  \node[state]         (E) [right of=B] {$\pi_5$};
+
+  \path (A) edge     [bend left]         node {$right$} (B)
+  		(B) edge     [bend left]         node {$left$} (A)
+		(A) edge     [bend left]         node {$down$} (C)
+  		(C) edge     [bend left]         node {$up$} (A)
+  		(C) edge     [bend left]         node {$right$} (D)
+  		(D) edge     [bend left]         node {$left$} (C)
+  		(B) edge     [bend left]         node {$down$} (D)
+  		(D) edge     [bend left]         node {$up$} (B)
+  		(B) edge     [bend left]         node {$right$} (E)
+  		(E) edge     [bend left]         node {$left$} (B)
+        (A) edge [loop above] node {$stay$} (A)
+        (B) edge [loop above] node {$stay$} (B)
+        (C) edge [loop left] node {$stay$} (C)
+        (D) edge [loop right] node {$stay$} (D)
+        (E) edge [loop above] node {$stay$} (E);
+\end{tikzpicture}
+\caption{$FTS$}
+\label{fig:ftsEx}
+\end{figure}
+
+\subsection{Reachability while avoiding regions} 
+Reachability while avoiding regions is a property in which we wish to not cross over certain areas, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
+
+! include Wring LTL calculation
+
+The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state,accepting]         (B) [right of=A] {$q_2$};
+
+  \path (A) edge              node {$\pi_{n+1}$} (B)
+  		(A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2 \wedge \dots \wedge \neg \pi_{n+1}$} (A)
+  		(B) edge [loop above] node {$1$} (B);
+\end{tikzpicture}
+\caption{B\"{u}chi automaton corresponding to reachability while avoiding regions }
+\label{fig:ReachAvoid}
+\end{figure}
+
+As we can see $d_p(q_1)=1$ and $d_p(q_1)=0$. For our example, we will look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton is shown in figure \ref{fig:reachAvoidProduct}
+
+\begin{figure*}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$(\pi_1,q_1)$};
+  \node[state]         (B) [ right of=A] {$(\pi_2,q_1)$};
+  \node[state]         (C) [right of=B] {$(\pi_3,q_1)$};
+  \node[state]         (D) [right of=C] {$(\pi_4,q_1)$};
+  \node[state]         (E) [right of=D] {$(\pi_5,q_1)$};
+  
+  \node[state] 		   (AA)  [below of=A]  {$(\pi_1,q_2)$};
+  \node[state]         (BB) [ right of=AA] {$(\pi_2,q_2)$};
+  \node[state]         (CC) [right of=BB] {$(\pi_3,q_2)$};
+  \node[state]         (DD) [right of=CC] {$(\pi_4,q_2)$};
+  \node[state]         (EE) [right of=DD] {$(\pi_5,q_2)$};  
+
+  \path (A) edge     [bend left]          (B)
+        (B) edge     [bend left]          (A)
+        (A) edge     [bend left]         (C)
+        (C) edge     [bend left]          (A)
+        (C) edge     [bend left]          (D)
+        (D) edge     [bend left]          (C)
+		(B) edge     [bend left]          (D)
+        (D) edge     [bend left]          (B)
+        (B) edge               (EE)
+        (DD) edge       [bend left]        (BB)
+        (BB) edge        [bend left]       (DD)
+        (BB) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (BB)
+        (BB) edge        [bend left]       (EE)
+        (EE) edge        [bend left]       (BB)
+        (DD) edge       [bend left]        (CC)
+        (CC) edge        [bend left]       (DD)
+        (CC) edge        [bend left]       (DD)
+        (DD) edge        [bend left]       (CC)
+        (CC) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (CC);
+\end{tikzpicture}
+\caption{Product Automaton}
+\label{fig:reachAvoidProduct}
+\end{figure*}
+Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
+Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general from of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm on a formula of this type.
 
 
+\subsection{Sequencing}
+Sequencing is the behaviour of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. A formula that describes this behaviour for $n=3$ is $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ and is shown in figure \ref{fig:seq}. This behaviour is ideal for our algorithm.
+
+%\begin{figure}
+%\centering
+%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+%                    semithick]
+%  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+%
+%  \node[initial,state] (A)                    {$q_1$};
+%  \node[state] (B)                    [right of=A]{$q_2$};
+%  \node[state,accepting]         (C) [right of=B] {$q_3$};
+%
+%  \path (A) edge              node {$\pi_{1}$} (B)
+%  		(A) edge [loop above] node {$\neg \pi_1$} (A)
+%  		(B) edge [loop above] node {$\neg \pi_2$} (B)
+%  		(B) edge              node {$\pi_{2}$} (C)
+%  		(C) edge [loop above] node {$1$} (C);
+%\end{tikzpicture}
+%\caption{B\"{u}chi automaton corresponding to sequencing}
+%\label{fig:example1}
+%\end{figure}
 
 
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state] (B)                    [right of=A]{$q_2$};
+  \node[state] (C)                    [right of=B]{$q_3$};
+  \node[state,accepting]         (D) [right of=C] {$q_4$};
+
+  \path (A) edge              node {$\pi_{1}$} (B)
+  		(A) edge [loop above] node {$\neg \pi_1$} (A)
+  		(B) edge [loop above] node {$\neg \pi_2$} (B)
+  		(B) edge              node {$\pi_{2}$} (C)
+  		(C) edge [loop above] node {$\neg \pi_3$} (C)
+  		(C) edge              node {$\pi_{3}$} (D)
+  		(D) edge [loop above] node {$1$} (D);
+\end{tikzpicture}
+\caption{Example 1: $BA$}
+\label{fig:seq}
+\end{figure}
+
+We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi_5))$ the same FTS as before. The product automaton is shown in figure \ref{fig:Sequencing}
+\begin{figure*}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$(\pi_1,q_1)$};
+  \node[state]         (B) [ right of=A] {$(\pi_2,q_1)$};
+  \node[state]         (C) [right of=B] {$(\pi_3,q_1)$};
+  \node[state]         (D) [right of=C] {$(\pi_4,q_1)$};
+  \node[state]         (E) [right of=D] {$(\pi_5,q_1)$};
+  
+  \node[state] 		   (AA)  [below of=A]  {$(\pi_1,q_2)$};
+  \node[state]         (BB) [ right of=AA] {$(\pi_2,q_2)$};
+  \node[state]         (CC) [right of=BB] {$(\pi_3,q_2)$};
+  \node[state]         (DD) [right of=CC] {$(\pi_4,q_2)$};
+  \node[state]         (EE) [right of=DD] {$(\pi_5,q_2)$};
+  
+  \node[state,accepting] 		   (AAA)  [below of=AA]  {$(\pi_1,q_3)$};
+  \node[state,accepting]         (BBB) [ right of=AAA] {$(\pi_2,q_3)$};
+  \node[state,accepting]         (CCC) [right of=BBB] {$(\pi_3,q_3)$};
+  \node[state,accepting]         (DDD) [right of=CCC] {$(\pi_4,q_3)$};
+  \node[state,accepting]         (EEE) [right of=DDD] {$(\pi_5,q_3)$};
+  
+
+  \path (A) edge     [bend left]          (B)
+        (B) edge     [bend left]          (A)
+        (A) edge     [bend left]         (C)
+        (C) edge     [bend left]          (A)
+        (A) edge               (BB)
+        (BB) edge               (EEE)
+        (C) edge               (DD)
+        (B) edge       [bend left]        (E)
+        (E) edge       [bend left]        (B)
+        %(B) edge       [bend left]        (D)
+        %(D) edge       [bend left]        (B)
+        (DD) edge       [bend left]        (BB)
+        (BB) edge        [bend left]       (DD)
+        (BB) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (BB)
+        (CC) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (CC)
+        (CC) edge        [bend left]       (DD)
+        (DD) edge        [bend left]       (CC)
+        
+        (DDD) edge       [bend left]        (BBB)
+        (BBB) edge        [bend left]       (DDD)
+        (BBB) edge        [bend left]       (AAA)
+        (AAA) edge        [bend left]       (BBB)
+        (BBB) edge        [bend left]       (EEE)
+        (EEE) edge        [bend left]       (BBB)
+        (DDD) edge       [bend left]        (CCC)
+        (CCC) edge        [bend left]       (DDD)
+        (CCC) edge        [bend left]       (DDD)
+        (DDD) edge        [bend left]       (CCC)
+        (CCC) edge        [bend left]       (AAA)
+        (AAA) edge        [bend left]       (CCC);
+\end{tikzpicture}
+\caption{Product Automaton}
+\label{fig:Sequencing}
+\end{figure*}
+
+Our algorithm finds $(\pi_4,q_2)$, then starts another Dijkstra search and finds $(\pi_5,q_3)$. Will search through extraneous nodes, for example $(\pi_5,q_1)$. This may not seem like a lot in this example, but when we expand to larger problems the difference becomes significant. Check how many nodes are searched with both algorithms, and show time difference.
+
+\subsection{Coverage}
+When we use our algorithm on a coverage formula, we will likely not get the optimal path. We will however get an accepting path, and we now show that this path corresponds to the one generated by the nearest neighbour approach to the travelling salesperson problem. We also provide a provide a bound on the distance of our path based on the worst case ratio of the nearest neighbour tour to the optimal tour given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he passes through a given set of cities and then returns back home at the end. More formally, it can be stated as finding the minimum Hamiltonian circuit with the lowest sum of distances between the nodes (cities). This problem has been studied extensively and "give quote about importance". This problem is NP-hard, and thus many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbour algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. It has been shown that for an n-node travelling salesperson problem, 
+\begin{align*}
+\dfrac{\text{NEARNEIBR}}{\text{OPTIMAL}} \leq \frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}
+\end{align*}
+where NEARNEIBR is the cost of the path generated by the nearest neighbour algorithm and OPTIMAL is the cost of the optimal path. We now need to formulate our problem as a travelling salesperson problem.
+To formulate our problem as a travelling salesman problem we use the idea of a dummy node from Lenstra and Rinnooy Kan's computer wiring example in \cite{lenstra75}. In their example, they are designing a computer interface at the Institute for Nuclear Physical Research in Amsterdam. An interface is made up of several modules, with multiple pins on each module. A given subset of pins has to be interconnnected by wires, and at most two wires can be connected to any pin. For obvious regions, it is desirable to minimize the amount of wire used. They show that this is actually a travelling salesperson problem in disguise. They 
