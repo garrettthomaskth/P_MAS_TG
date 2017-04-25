@@ -28,6 +28,12 @@ Georgios~E Fainekos, Antoine Girard, Hadas Kress-Gazit, and George~J Pappas.
 \newblock Temporal logic motion planning for dynamic robots.
 \newblock {\em Automatica}, 45(2):343--352, 2009.
 
+\bibitem{gastin01}
+Paul Gastin and Denis Oddoux.
+\newblock Fast ltl to b{\"u}chi automata translation.
+\newblock In {\em International Conference on Computer Aided Verification},
+  pages 53--65. Springer, 2001.
+
 \bibitem{guo15}
 Meng Guo.
 \newblock {\em Hybrid control of multi-robot systems under complex temporal

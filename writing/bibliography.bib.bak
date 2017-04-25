@@ -121,4 +121,13 @@
   publisher = {Springer},
 }
 
+@InProceedings{gastin01,
+  author       = {Gastin, Paul and Oddoux, Denis},
+  title        = {Fast LTL to B{\"u}chi automata translation},
+  booktitle    = {International Conference on Computer Aided Verification},
+  year         = {2001},
+  pages        = {53--65},
+  organization = {Springer},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
