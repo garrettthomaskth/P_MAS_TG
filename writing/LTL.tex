@@ -18,7 +18,7 @@ We are also able to derive the following additional temporal operators:
     \text{Always: }& \square \varphi_1 = \neg \diamond \neg \varphi_1
 \end{align*}
 
-There is a growing interest in path and mission planning in robots using temporal logic specifications given the easy extension from natural language to temporal logic. We now give examples to illustrate this point. First, the atomic operators generally capture properties of the robot or the environment i.e. "the robot is in region 1", "the ball is in region 2", "the robot is holding a ball". We now give examples of common tasks converted to LTL formulas \citep{fainekos09} 
+There is a growing interest in path and mission planning in robots using temporal logic specifications given the easy extension from natural language to temporal logic \cite{kress07}. We now give examples to illustrate this point and to introduce us to LTL formulas. First, the atomic operators generally capture properties of the robot or the environment i.e. "the robot is in region 1", "the ball is in region 2", "the robot is holding a ball". There are some common tasks converted to LTL formulas given in \citep{fainekos09} 
 \begin{enumerate}
     \item \textbf{Reachability while avoiding regions}: "Go to region $\pi_{n+1}$ while avoiding regions $\pi_1, \pi_2, \dots, \pi_n$" \\ $\neg(\pi_1 \lor \pi_2 \dots \pi_n) \mathcal{U} \pi_{n+1}$ 
     \item \textbf{Sequencing}: "Visit regions $\pi_1, \pi_2, \pi_3$ in that order"\\ 
@@ -28,8 +28,6 @@ There is a growing interest in path and mission planning in robots using tempora
 \end{enumerate}
 Of course more complicated tasks are also expressible in LTL, and atomic propositions need not only refer to the location of the robot. Here is an example given in  \cite{guo15}: "Pick up the red ball, drop it to one of the baskets and then stay in room one" \\
 $\diamond(rball \land \diamond basket) \land \diamond \square r1$ 
-
-As it is possible to develop develop computational interfaces between natural language and temporal logics\cite{kress07}, LTL.
 
 An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$, i.e.\ $\sigma = S_0 S_1 S_2 \dots$ where $S_k \in 2^{AP}$ for all $k=1,2,\dots$ where $S_k$ is the set of atomic propositions that are true at the time stop $k$. 
 
