@@ -1,5 +1,5 @@
 \section{B\"{u}chi Automata}
-Given an LTL formula $\varphi$ over $AP$, there exists a Nondeterministic B\"{u}chi automaton (NBA) over $2^{AP}$ corresponding to $\varphi$, denoted $A_\varphi$ according to [1, Theorem 5.37] lars' paper
+We now know if a path of an FTS satisfies a given LTL formula, however we are interested in \textit{generating} paths that satisfy a given formula, which requires a significantly more amout of work! We are going to need a finite representation of a given LTL formula, that we can search. This representation is a Nondeterministic B\"{u}chi automaton (NBA). 
 \begin{definition}
 \label{defNBA}
 An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
@@ -8,20 +8,19 @@ An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
 \end{align*}
 where $\Q$ is a finite set of states, $\Q_0 \subseteq \Q$ is the set of initial states, $2^{AP}$ is the alphabet, $\delta: \Q \times 2^{AP} \rightarrow 2^\Q$ is a transition relation, and $\mathcal{F} \subseteq \Q$ is the set of accepting states
 \end{definition} 
-An infinite run of an NBA is an infinite sequence of states that starts from an initial state and follows the transition relation i.e.\ $r=q_0 q_1\dots$ where $q_0 \in \Q_0$ and $q_{k+1} \in \delta(q_k,S)$ for some $S \in 2^{AP}$, $k=0,1,\dots$. An infinite run $r$ is accepting if $\Inf (r) \cap \mathcal{F} \neq \emptyset$, where $\Inf (r)$ is the set of states that appear infinitely often in $r$. from meng As with the FTS, we denote the predecessors of $q_m \in Q$ $\Pre (q_m)$ and the successors $\Post(q_m)$ 
+An infinite run of an NBA is an infinite sequence or states, $r=q_0 q_1 \dots$, where that starts from an initial state i.e.\ $q_0 \in Q_0$ and $q_{k+1} \in \delta(q_k, S)$ for some $S \in 2^{AP}$, for $k = 0,1,\dots$. The requirements for a run $r$ to be accepting is $\Inf(r) \cap \F \neq \emptyset$, where $\Inf(r)$ is the set of states that appear in $r$ infinitely often \cite{guo15}. 
 
-\begin{definition}
-\label{defRR}
-Given an infinite word $\sigma = S_0 S_1 S_2 \dots$ over $2^{AP}$, its resulting run in $\mathcal{A}_\sigma$ is denoted by$ r_\sigma = q_0 q_1 q_2 \dots$, which satisfies: (i) $q_0 \in Q_0$; (ii) $q_{i+1} \in \delta (q_i, S_i)$, $\forall i = 1,2, \dots$. Similar statement holds for a finite word $\bar{\sigma} = S_0 S_1 S_2 \dots S_{N+1}$.  
-\end{definition}
+Now to tie together the concept of words and runs on an NBA. An infinite word $\sigma = S_0 S_1 \dots$ corresponds to $r_\sigma = q_0 q_1 \dots$ where $q_0 \in Q_0$ and $q_i+1 \in \delta(q_i,S_i)$
+
+It has been shown that given an LTL formula $\varphi$ over $AP$, there exists a NBA over $2^{AP}$ corresponding to $\varphi$, denoted $A_\varphi$ \cite{baier08}. When we say an NBA corresponds to an LTL formula, we mean that the set of words that correspond to accepting runs of the NBA is the same as the set of words accepted by the LTL formula.  
 
 \section{Product Automata}
 These two structures are then combined to create the product automaton. The product automata is also a B\"{u}chi automata and is defined as follows:
 \begin{definition}
-The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta: Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$ meng
+The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta: Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
 \end{definition} 
 
-Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' a_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$. meng
+Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' a_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$ \cite{guo15}. 
 
 Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(r) \cap \F \neq \emptyset$
 
@@ -38,9 +37,9 @@ Proof. see proof in meng
 
 Given \ref{lemma1}, our problem is now to find an accepting run of $\A_p$. Given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities, the process of finding one, nonetheless finding one that has measure of optimality is non-trivial, both theoretically and practically meng "both in theory and software implementation". Therefore we restrict our view of accepting runs to runs that satisfy the prefix-suffix structure i.e.\
 \begin{align*}
-\tau = \langle \tau_{pre}, \tau_{suf} \rangle = \tau_{pre} [tau_{suf}]^\omega
+\tau = \langle \tau_{pre}, \tau_{suf} \rangle = \tau_{pre} [\tau_{suf}]^\omega
 \end{align*}
-The prefix $\tau_{pre}$ is traversed only once and the suffix $\tau_{suf}$ is repeated infinitely often meng (which is the meaning of the $\omega$ superscript). Plans of this form are much easier to deal with because, while they are still infinite plans, they have a finite representation that we can exploit.
+The prefix, $\tau_{pre}$, in our case is going to be a path from an initial node to an accepting node. The suffix, $\tau_{suf}$, is going going to be a path from the same accepting node back to itself. So the full path is going to be the prefix and then the suffix repeated infinitely many times (which is the meaning of the $\omega$ superscript). Thus, the accepting node appears infinitely many times in $\tau$ which makes $\tau$ accepting. Plans of this form are much easier to deal with because, while they are still infinite plans, they have a finite representation that we can exploit.
 
 \section{Cost of a Run}
 We are focusing on the accepting runs of $\A_p$ with the prefix-suffix structure
@@ -82,6 +81,8 @@ Algorithm \ref{optrun}, from \cite{guo15}, gives pseudocode of how to compute $R
 
 $\texttt{DijksTargets}(\A_p,q_0',\F)$ computes the shortest paths in $\A_p$ from initial state $q_0' \in \Q_0$ to every accepting node in $\F$ using Dijkstra's algorithm \cite{dijkstra59} and $\texttt{DijksCycle}(\A_p,q_f')$ computes the shortest path in $\A_p$ from accepting state $q_f'$ back to itself using Dijkstra's algorithm.
 
+This algorithm, or simple variations of it, are used in many works on motion planning synthesis \cite{fainekos09}, add more, so we will refer to it as the \textit{accepted} algorithm. The worst case computational complexity of this algorithm $\mathcal{O}(|\delta'| \cdot \log|\Q_0'| \cdot (|\Q_0'| + |\F'|))$ because... I don't get this. Also calculate it for our algorithm
+
 \newpage
 \section{Our Algorithm}
 As we can see, the current algorithm has to do a lot of work. First it has to do Dijkstra's search for each initial state, and then one for each accepting state (the number of accepting states is at least the size of the FTS). The state space that is being searched can also become very big, which is known as the state explosion problem \cite{clarke99}. The size of the product automaton, $|\A_p|$ is the size of the B\"{u}chi automaton corresponding to the LTL formula times the size of the FTS i.e.\ $|\Pi| \dot |\Q|$. The size of the B\"{u}chi automaton corresponding to the LTL formula is then usually exponential in the size of the formula. We can imagine how much searching is needed if we have and FTS and B\"{u}chi that are both fairly large. To solve this problem, we suggest an algorithm that sacrifices optimality but preforms much faster than the current accepted algorithm. 
@@ -103,7 +104,7 @@ which is the length of the number of transitions in the shortest path from $q_n$
 
 Then we also have a product automaton with distance, $\mathcal{A}_{p,d} = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p, d_p)$, defined similarly, with $d_p(q') = d(q'|\Q)$. We will refer to $q'$ as being on level $n$ if $d_p(q') = n$.
 
-The idea of our algorithm is to start from $q_0' \in \Q'$, say $d_p(q_0')=n$ and then use a Dijkstra search to find the closest node that is on next smallest level, $n-1$. Then we will do another Dijkstra search on the next level down to find the closest node that has a transition down, and so on. This ensures that we will approach the accepting states i.e.\ those states on level 0. Once we reach an accepting state, we use a Dijkstra search to find the fastest way from the accepting state back to itself. We do not use the idea of decreasing levels because, although it would be faster, in general this procedure cannot be use to find a specific accepting state. We will refer to the run generated by this algorithm as $R_{nn}$ in which $nn$ stands for nearest neighbour. An explanation of the the name will be given in the following discussion. Pseudocode is given in Algorithm \ref{NNrun}
+The idea of our algorithm is to start from $q_0' \in \Q'$, say $d_p(q_0')=n$ and then use a Dijkstra search to find the closest node that is on next smallest level, $n-1$. Then we will do another Dijkstra search on the next level down to find the closest node that has a transition down, and so on. This ensures that we will approach the accepting states i.e.\ those states on level 0. Once we reach an accepting state, we use a either a Dijkstra search or a decreasing levels search to find the fastest way from the accepting state back to itself. Sometimes we have to use a Dijkstra search instead of use the idea of decreasing levels because, although it would be faster, in general this procedure cannot be use to find a specific accepting state. We will refer to the run generated by this algorithm as $R_{nn}$ in which $nn$ stands for nearest neighbour. We choose this name because in some situations this search is equivalent to the nearest neighbour search algorithm for the travelling salesperson problem \cite{hoffman86}. Pseudocode is given in Algorithm \ref{NNrun}
 
 \begin{algorithm}
 \caption{NearestNeighborRun()}\label{NNrun}
@@ -170,8 +171,6 @@ To show how our algorithm differs with the current accepted algorithm, we illust
 
 \subsection{Reachability while avoiding regions} 
 Reachability while avoiding regions is a property in which we wish to not cross over certain areas, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
-
-! include Wring LTL calculation
 
 The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}
 
@@ -343,12 +342,29 @@ We provide a proof that
 \begin{align*}
 \dfrac{\text{NEARNEIBR}}{\text{ACCEPT}} \leq \frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}
 \end{align*}
+
 We begin by proving 
 \begin{align*}
 \dfrac{\text{NEARNEIBR}}{\text{OPTIMAL}} \leq \frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}
 \end{align*}
-which can be found in \cite{rosenkrantz74}. Let $l_i$ be the length of the $i^{th}$ largest edge in the tour obtained by the nearest neighbour algorithm. 
+which can be found in \cite{rosenkrantz74}. 
+Proof:
+We begin by proving 
+\begin{align}
+\text{OPTIMAL} \geq 2 \sum^{\min(2k,n)}_{i=k+1} l_i \label{eq:showFirst}
+\end{align}
+for all $k$, $0\leq k \leq n$. 
+Let $l_i$ be the length of the $i^{th}$ largest edge in the tour obtained by the nearest neighbour algorithm. For each $i$, $0 \leq i \leq n$, let $a_i$ be the node \textit{onto which} the $i^{th}$ largest edge is added to (that would be the edge with length $l_i$). Let $H$ be the complete subgraph defined on the set of nodes $\{a_i | 1 \leq i \leq min(2k,n)\}$.
 
+Now, let $T$ be the tour in $H$ which visits the nodes of $H$ in the same order as these nodes are visited in an optimal tour of the original graph. Let LENGTH be the length of $T$. We have 
+\begin{align}
+\text{OPTIMAL $\geq$ LENGTH} \label{eq:optglen}
+\end{align}
+This is because the tour with cost OPTIMAL passes through all the nodes that the tour with cost LENGTH passes through, and more. Thus if H has an edge $(b,c)$, then the OPTIMAL tour will either have the edge $(b,c)$ or take a less direct route through some of its extra nodes. So the triangle inequality implies (\ref{eq:optglen}).  
+   
+Let $(a_i,a_j)$ be an edge of $T$. If the nearest neighbour method adds point $a_i$ before $a_j$, we have $d(a_i,a_j) \geq l_i$, where $d(a_i,a_j)$ is the distance between nodes $a_i$ and $a_j$. We also see that if $a_j$ is added first we have $d(a_i, a_j) \geq l_j$. This is because, say we added $a_i$ first, we know there is a point $l_i$ away from $a_i$ that the nearest neighbour method makes the path to. This can be $a_j$, because we know $a_j$ has not been added yet or another node. If it is another node $d(a_i, a_j) \geq l_i$ because the nearest neighbour finds the closest node that has not yet been visited, or $d(a_i, a_j) = l_i$ if $a_j$ is added next. 
+
+Since one has to be added before the other, we have $d(a_i , a_j) \geq \min(l_i, l_j)$ 
 
 \subsection{Recurrence (Liveness)}
 Recurrence is coverage over and over again, and can be expressed as $\square(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight, and it an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.

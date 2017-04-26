@@ -130,4 +130,11 @@
   organization = {Springer},
 }
 
+@Book{baier08,
+  title     = {Principles of model checking},
+  publisher = {MIT press},
+  year      = {2008},
+  author    = {Baier, Christel and Katoen, Joost-Pieter and Larsen, Kim Guldstrand},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

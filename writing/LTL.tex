@@ -5,7 +5,7 @@ To define tasks for our robot we must choose a high level language. Temporal log
     \varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2
 \end{align*}
 
-where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
+where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $\U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
 \begin{align*}
     \text{Conjunction: }&  \varphi_1  \land \varphi_2 = \neg(\neg \varphi_1 \lor \neg \varphi_2) \\
     \text{Implication: }& \varphi_1 \Rightarrow \varphi_2 = \neg \varphi_1 \lor \varphi_2 \\
@@ -29,7 +29,7 @@ There is a growing interest in path and mission planning in robots using tempora
 Of course more complicated tasks are also expressible in LTL, and atomic propositions need not only refer to the location of the robot. Here is an example given in  \cite{guo15}: "Pick up the red ball, drop it to one of the baskets and then stay in room one" \\
 $\diamond(rball \land \diamond basket) \land \diamond \square r1$ 
 
-An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$, i.e.\ $\sigma = S_0 S_1 S_2 \dots$ where $S_k \in 2^{AP}$ for all $k=1,2,\dots$ where $S_k$ is the set of atomic propositions that are true at the time stop $k$. 
+We now look at what it means to satisfy an LTL formula. We will talk about \textit{words} satisfying LTL formulas, in our case \textit{infinite words}. An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$. That is, $\sigma = S_0 S_1 S_2 \dots$, where $S_k \in 2^{AP}$ for $k=1,2,\dots$ and $S_k$ is the set of atomic propositions that are true at time step $k$ \cite{guo15}. An infinite word $\sigma$ satisfies an LTL formula $\varphi$ based on the LTL semantics.  
 
 \theoremstyle{definition}
 \begin{definition}
@@ -43,11 +43,6 @@ The semantics of LTL are defined as follows:
 (\sigma,k) \models \varphi_1 \mathcal{U} \varphi_2 \hspace{0.3cm}\text{ if }\hspace{0.3cm}& \exists k' \in [k,+\inf ], \hspace{0.1cm} (\sigma ,k') \models \varphi_2 \text{ and } \\ &\forall k'' \in (k,k'), \hspace{0.1cm} (\sigma, k'') \models \varphi_1 
 \end{align*}
 \end{definition}
-In the interest of the reader, we will denote $(\sigma ,0) \models \varphi$ by $\sigma \models \varphi$, which is what is used for all this thesis. The connection to an infinite path $\tau$ of an FTS is that the trace of the path, trace($\tau$), is a word over the alphabet $2^{AP}$. Given the LTL semantics, we can now verify if a path satisfies an LTL formula! We will say an infinite path $\tau$ satisfies $\varphi$ if its trace satisfies $\varphi$, i.e.\ $\tau \models \varphi$ if $trace(\tau) \models \varphi$. A path satisfying $\varphi$ will be referred to as a plan for $\varphi$.
+Where $(\sigma,k)$  refers to $\sigma$ at time step $k$. So an infinite word $\sigma$ is said to said to satisfy formula $\varphi$ if $(\sigma,0) \models \varphi$. For the ease of reading we will refer to $(\sigma,0)$ as $\sigma$. 
 
-
-
-We now describe how to construct a path of an FTS that satisfies an LTL formula. 
-
- 
-
+There is a connection between these infinite words and the FTS described earlier that is crucial in motion planning technique. Given an infinite path $\tau$ of an FTS, we have that the trace of the path, $\trace(\tau)$, is an infinite word over the alphabet $2^{AP}$. Given the LTL semantics, we now have the ability to verify if a path satisfies an LTL formula! We will say an infinite path $\tau$ \textit{satisfies} $\varphi$ if its trace satisfies $\varphi$, i.e.\ $\tau \models \varphi$ if $trace(\tau) \models \varphi$. A path satisfying $\varphi$ will be referred to as a \textit{plan} for $\varphi$.
