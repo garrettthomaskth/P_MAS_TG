@@ -157,6 +157,42 @@ def dijkstra_plan_networkX(product, beta=10):
         return None, None
 
 
+def garrett_dijkstra_plan_optimal(product, beta=10, start_set=None):
+	#used for 'on the fly'
+	start = time.time()
+	#print 'dijkstra plan started!'
+	runs = {}
+	accept_set = product.graph['accept']
+	if start_set == None:
+		init_set = product.graph['initial']
+	else:
+		init_set = start_set
+	#print 'number of accepting states %d' %(len(accept_set))
+	#print 'number of initial states %d' %(len(init_set))
+	loop_dict = {}
+	for init_prod_node in init_set:
+		for (prefix, precost) in dijkstra_targets(product, init_prod_node, accept_set):
+			#print 'accept node reached %s' %(str(prefix[-1]))
+			if prefix[-1] in loop_dict:
+				suffix, sufcost = loop_dict[prefix[-1]]
+			else:
+				suffix, sufcost = dijkstra_loop(product, prefix[-1])
+				#print suffix, sufcost
+				loop_dict[prefix[-1]] = (suffix, sufcost)
+			if suffix:
+				runs[(prefix[0], prefix[-1])] = (prefix, precost, suffix, sufcost)
+				#print 'find run from %s to %s and back' %(str(init_prod_node), str(prefix[-1]))
+	if runs:
+	 	prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
+	 	run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
+	 	#print '\n==================\n'
+	 	print 'optimal_dijkstra_olf done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+	 	return run, time.time()-start
+	print 'no accepting run found in optimal planning!'
+
+
+
+
 def dijkstra_plan_optimal(product, beta=10, start_set=None):
 	#used for 'on the fly'
 	start = time.time()
@@ -223,6 +259,8 @@ def dijkstra_plan_bounded(product, time_limit=3, beta=10):
 
 def dijkstra_targets(product, prod_source, prod_targets):
 	# for product graph only, shortest path from source to a set of targets
+	#
+	# for on the fly only
 	tovisit = set()
 	visited = set()
 	dist  = defaultdict(lambda: float('inf'))

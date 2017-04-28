@@ -137,4 +137,11 @@
   author    = {Baier, Christel and Katoen, Joost-Pieter and Larsen, Kim Guldstrand},
 }
 
+@Book{hoffman86,
+  title     = {The traveling salesman problem: a guided tour of combinatorial optimization},
+  publisher = {J. Wiley \& Sons},
+  year      = {1986},
+  author    = {Hoffman, AJ and Wolfe, J and Garfinkel, RS and Johnson, DS and Papadimitriou, CH and Gilmore, PC and Lawler, EL and Shmoys, DB and Karp, RM and Steele, JM and others},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
