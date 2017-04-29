@@ -406,7 +406,7 @@ We can represent the relationship between the regions in our graph with the foll
 \label{fig:completeGraph}
 \end{figure}
 
-For the distances, we use the so called \textit{Manhatten distance}, i.e.\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that our algorithm, and the nearest neighbour, will take is 
+For the distances, we use the so called \textit{Manhatten distance}, i.e.\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that our algorithm, and the nearest neighbour, will take is shown in figure \ref{fig:pathOnComplete}. The cost of this path is 62.
 
 \begin{figure}
 \centering
@@ -414,7 +414,7 @@ For the distances, we use the so called \textit{Manhatten distance}, i.e.\ $d((x
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
-  \node[state] (A)                    {Initial};
+  \node[state] (A)                    {I$\pi_0$};
   \node[state] (B)                    [right of=A]{$\pi_1$};
   \node[state] (C)                    [below of=A]{$\pi_2$};
   \node[state]         (D) [right of=C] {$\pi_3$};
@@ -427,7 +427,121 @@ For the distances, we use the so called \textit{Manhatten distance}, i.e.\ $d((x
 \label{fig:pathOnComplete}
 \end{figure}
 
-Because we have to make sure that the dummy node does not change the order that our algorithm and the nearest neighbour algorithm takes we have to set the distance the dummy node is away from every other node to be $max_{i,j} c_{ij} $ where $c_{ij}$ is the distance between the nodes in the complete subgraph in figure \ref{fig:completeGraph}. 
+This is not the optimal path though, which is shown in figure \ref{fig:optcompleteGraph} and has a cost of 59.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=4cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[state] (A)                    {Initial};
+  \node[state] (B)                    [right of=A]{$\pi_1$};
+  \node[state] (C)                    [below of=A]{$\pi_2$};
+  \node[state]         (D) [right of=C] {$\pi_3$};
+
+  \path (A) edge              node {$26$} (B)
+  		%(A) edge 			 node {$24$} (C)
+  		%(A) edge              node {$35$} (D)
+  		(B) edge 				node {$22$} (C)
+  		%(B) edge              node {$27$} (D)
+  		(C) edge				node {$11$} (D);
+\end{tikzpicture}
+\caption{Example 1: $BA$}
+\label{fig:optcompleteGraph}
+\end{figure}
+
+
+Because we have to make sure that the dummy node does not change the order that our algorithm and the nearest neighbour algorithm takes we have to set the distance the dummy node is away from every other node to be $max_{i,j} c_{ij} $ where $c_{ij}$ is the distance between the nodes in the complete subgraph in figure \ref{fig:completeGraph}. In our case, this is 35, the path between $\pi_0$ and $\pi_3$. This insures that the path taken is the same as the accepted neighbour because the dummy node will be the last node to be visited. This is because in the nearest neighbour algorithm, ties are broken arbitrarily. Thus, the only time where it is a possibility that the nearest neighbour algorithm goes to the dummy node i.e.\ when the next nodes are $\max_{i,j} c_{ij}$ from the current node is when and if we are faced with the only choice being take the maximum path $\max_{i,j} c_{i,j}$ to $\pi_j$ or to go to the dummy node, and we can choose to go to $\pi_j$ because the ties can be broken arbitrarily. In any other case, the nearest neighbour path will choose a to go to a node where the cost is $c_{i',j'} < c_{i,j}$. 
+
+We show the new subgraph in figure \ref{fig:completeDummy}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=4cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[state] (A)                    {$\pi_0$};
+  \node[state] (B)                    [right of=A]{$\pi_1$};
+  \node[state] (C)                    [below of=A]{$\pi_2$};
+  \node[state]         (D) [right of=C] {$\pi_3$};
+  \node[state] (E)			[right of = D] {$*$}; 
+
+  \path (A) edge              node {$26$} (B)
+  		(A) edge 			 node {$24$} (C)
+  		(A) edge              node {$35$} (D)
+  		(B) edge 				node {$22$} (C)
+  		(B) edge              node {$27$} (D)
+  		(C) edge				node {$11$} (D)
+  		(E) edge 				node {$35$} (D)
+  		(E) edge 				[bend left] node {$35$} (C)
+  		(E) edge 				node {$35$} (B)
+  		(E) edge 				node {$35$} (A);
+\end{tikzpicture}
+\caption{Example 1: $BA$}
+\label{fig:completeDummy}
+\end{figure}
+
+The path that the nearest neighbour algorithm takes in this situation, the complete Hamiltonian circuit, is given in figure \ref{fig:NearNeigDummy}, which gives a total cost of 132.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=4cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[state] (A)                    {$\pi_0$};
+  \node[state] (B)                    [right of=A]{$\pi_1$};
+  \node[state] (C)                    [below of=A]{$\pi_2$};
+  \node[state]         (D) [right of=C] {$\pi_3$};
+  \node[state] (E)			[right of = D] {$*$}; 
+
+  \path (A) edge 			 node {$24$} (C)
+  		%(A) edge              node {$35$} (D)
+  		%(B) edge 				node {$22$} (C)
+  		(B) edge              node {$27$} (D)
+  		(C) edge				node {$11$} (D)
+  		%(E) edge 				node {$35$} (D)
+  		%(E) edge 				[bend left] node {$35$} (C)
+  		(E) edge 				node {$35$} (B)
+  		(E) edge 				node {$35$} (A);
+\end{tikzpicture}
+\caption{Example 1: $BA$}
+\label{fig:NearNeigDummy}
+\end{figure}
+
+We node however that this is not the optimal solution. This optimal solution is shown in 
+figure \ref{fig:optDummy} and has a cost of 129.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=4cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[state] (A)                    {$\pi_0$};
+  \node[state] (B)                    [right of=A]{$\pi_1$};
+  \node[state] (C)                    [below of=A]{$\pi_2$};
+  \node[state]         (D) [right of=C] {$\pi_3$};
+  \node[state] (E)			[right of = D] {$*$}; 
+
+  \path (A) edge			node {$26$} (B)
+  		%(A) edge 			 node {$24$} (C)
+  		%(A) edge              node {$35$} (D)
+  		(B) edge 				node {$22$} (C)
+  		%(B) edge              node {$27$} (D)
+  		(C) edge				node {$11$} (D)
+  		(E) edge 				node {$35$} (D)
+  		%(E) edge 				[bend left] node {$35$} (C)
+  		%(E) edge 				node {$35$} (B)
+  		(E) edge 				node {$35$} (A);
+\end{tikzpicture}
+\caption{Example 1: $BA$}
+\label{fig:optDummy}
+\end{figure}
+
+
 
 It has been shown that for an n-node travelling salesperson problem which satisfies the triangle inequality i.e.\ $d(i,j) = d(j,k) \geq d(i,k)$ for all $i,j,$ and $k$ where $d(i,j)$ is the nonnegative distance between nodes $i$ and $j$, 
 \begin{align*}
@@ -435,6 +549,14 @@ It has been shown that for an n-node travelling salesperson problem which satisf
 \end{align*}
 where NEARNEIBR is the cost of the path generated by the nearest neighbour algorithm and OPTIMAL is the cost of the optimal path. 
 
+Our values do indeed satisfy this inequality
+\begin{align*}
+\text{NEARNEIBR} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL}
+132 &\leq (\frac{1}{2} \lceil \log(5) \rceil + \frac{1}{2})129
+132 &\leq (2)129
+132 \leq 258 
+\end{align*}
+We also see that it is very conservative worst case bound and we will likely do much better.
 
 We provide a proof of
 \begin{align}
@@ -526,7 +648,37 @@ By definition, $\sum_{i=1}^n l_i = \text{NEARNEIBR}$, thus we have
 \end{align*}
 \qed 
 
+We have thus shown that when formulating and solving our problem as a travelling salesman problem with a dummy node, we get the same solution as the nearest neighbour search algorithm. This search algorithm then has a bound on the worst case cost of the resulting solution in teams of the cost of the optimal solution i.e.\ 
+\begin{align*}
+\text{NEARNEIBR} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) \text{OPTIMAL}
+\end{align*}
 
+We now must remove the dummy node and provide a bound for the true cost that we will get from our search. 
+
+NEARNEIBR and OPTIMAL as above are costs of Hamaltonian circuits. By definition every node in a Hamaltonian circuit is passed through exactly once. Therefore the dummy node will be passed through exactly once, and we have shown that it will be the last node passed through in the NEARNEIBR. In the NEARNEIBR path, because the dummy node is length $\max_{i,j} c_{i,j}$ it will never be the closest next node, unless we are given the choice to go from $\pi_i$ to $\pi_j$ for $i$ and $j$ being the maximum edge cost in the complete subgraph. In this case we can break the tie arbitrarily and choose to go to $\pi_j$ instead of the dummy node. Thus the path found by the nearest neighbour search will be the path found by our our algorithm, and then going to the dummy node for a cost of $\max_{i,j} c_{i,j}$, then from there going to the initial node to for a cost of $\max_{i,j} c_{i,j}$. Therefore the cost of our algorithm, denote ALGOR is 
+\begin{align*}
+\text{ALGOR = NEARNEIBR - } 2\max_{i,j} c_{i,j} 
+\end{align*}
+
+The path OPTIMAL, however is not guaranteed to have the dummy node be the last node visited. The cost of the path which is optimal and requires that the dummy node is the last node visited, is then greater than or equal to OPTIMAL. This is because of the freedom taken away by requiring the dummy node to be visited last, and less freedom in a minimization problem results in a larger value. Let ACCEPT be the cost of the accepted algorithm for path planning. ACCEPT $+ 2\max_{i,j} c_{i,j}$ is then equal to the cost of the optimal travelling salesman solution which requires that the dummy node is the last node visited. This is because we have already established that the accepted algorithm will find the optimal path. Therefore we have
+\begin{align*}
+\text{ACCEPT} + 2\max_{i,j} c_{i,j} \geq \text{OPTIMAL}
+\end{align*}
+
+Plugging into the travelling salesman bound, we get
+\begin{align*}
+\text{NEARNEIBR} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) \text{OPTIMAL} \\
+\text{ALG} + 2\max_{i,j} c_{i,j} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) \text{OPTIMAL} \\
+\text{ALG} + 2\max_{i,j} c_{i,j} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j} \\ 
+\end{align*} 
+
+We can check with our previously calculated values for ALG and ACCEPT
+\begin{align*}
+\text{ALG} + 2\max_{i,j} c_{i,j} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j} \\ 
+62 + 2 (35) &\leq (\frac{1}{2} 3 + \frac{1}{2})(59+2(35)) \\
+132 &\leq 258
+\end{align*}
+We can see that this is still a conservative bound, and emphasize that it is the worst case. Usually the algorithm will preform much better.
 
 
 \subsection{Recurrence (Liveness)}
@@ -558,7 +710,7 @@ To illustrate our point, we consider the formula $\square(\diamond \pi_1 \land \
 \end{figure}
 Note: The actual automaton generated has much more edges. For example, there is an edge from $q_4$ to $q_2$ which is labelled $\pi_1 \&\& \pi_2$. It is impossible for us to make this transition because $\pi_i$ for all $i$ is a region in our partition. This is because the requirements of our partition are chosen specially to guarantee that we are never in two regions at once. Thus they are excluded in the interest of the reader. In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{init}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton \ref{fig:gasBuchiRec} the only way to do this is to go to region $\pi_1$. Our algorithm does this, and then starts a new Dijkstra search. In this case the same statement holds for $\pi_2$. Therefore the optimal prefix is to concatenate the optimal paths down from each each level (first to $\pi_1$, etc). Our algorithm does a Dijkstra search at each level so it will return this path as the prefix. The accepted algorithm will also return this prefix. 
 
-This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix) i think??? The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\square(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
+This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\square(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
 
 \begin{figure*}
 \centering
@@ -600,3 +752,4 @@ $\square (\diamond \pi_3 \wedge \pi_5)$
 We notice how in figure \ref{fig:gasBuchiRec} there is only one arrow to the accepting state, labelled $\pi_5$. This implies that the only way to get down to level 0 is to go to $\pi_5$, and thus go to the accepting state $\langle \pi_5, q_3 \rangle$. There is no self loop on $q_3$, so we leave $q_3$ immediately. This implies that the only reachable accepting state is $\langle \pi_5, q_3 \rangle$. So because there is only one accepting state, our algorithm will find this state again, and thus is appropriate for finding the suffix. 
 
 In \ref{fig:otherBuchiRec} on the other hand, there are two arrows going to the accepting state and there is no self loop. This implies that there are two reachable accepting states i.e.\ $\langle \pi_3, q_4 \rangle$ and $\langle \pi_5, q_4 \rangle$. This poses a problem to our algorithm that is only guaranteed to reach an accepting state. We thus propose using Dijkstra's search algorithm to find the path from the accepting node back to itself.   
+
