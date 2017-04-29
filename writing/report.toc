@@ -1,0 +1,15 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Abstraction of the Workspace}{3}{section.1}
+\contentsline {section}{\numberline {2}Linear Temporal Logic (LTL)}{5}{section.2}
+\contentsline {section}{\numberline {3}B\"{u}chi Automata}{6}{section.3}
+\contentsline {section}{\numberline {4}Product Automata}{7}{section.4}
+\contentsline {section}{\numberline {5}Cost of a Run}{8}{section.5}
+\contentsline {section}{\numberline {6}Search Algorithm}{8}{section.6}
+\contentsline {section}{\numberline {7}Our Algorithm}{9}{section.7}
+\contentsline {section}{\numberline {8}Algorithm Performance with Specific Behaviours}{10}{section.8}
+\contentsline {subsection}{\numberline {8.1}Reachability while avoiding regions}{10}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Sequencing}{12}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Coverage}{13}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Recurrence (Liveness)}{21}{subsection.8.4}
+\contentsline {section}{\numberline {9}More Complex Formulas}{23}{section.9}
+\contentsline {subsection}{\numberline {9.1}Example 1}{24}{subsection.9.1}
