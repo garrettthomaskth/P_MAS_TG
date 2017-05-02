@@ -42,7 +42,7 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
     """
     
     # Garrett 
-    pred = {source:[]}
+    #pred = {source:[]}
     paths = {source: [source]}
     # Garrett
     # define weight function
@@ -93,15 +93,15 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
                 push(fringe, (vu_dist, next(c), u))
                 if paths is not None:
                     paths[u] = paths[v] + [u]
-                if pred is not None:
-                    pred[u] = [v]
-            elif vu_dist == seen[u]:
-                if pred is not None:
-                    pred[u].append(v)
+                #if pred is not None:
+                 #   pred[u] = [v]
+            #elif vu_dist == seen[u]:
+             #   if pred is not None:
+              #      pred[u].append(v)
 
     # The optional predecessor and path dictionaries can be accessed
     # by the caller via the pred and paths objects passed as arguments.
-    return pred, dist, v, paths
+    return dist, v, paths
 
 
 

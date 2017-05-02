@@ -13,5 +13,6 @@
 \contentsline {figure}{\numberline {12}{\ignorespaces Optimal Path with Dummy Node}}{18}{figure.12}
 \contentsline {figure}{\numberline {13}{\ignorespaces B\"uchi Automaton for $\square (\diamond \pi _1 \land \diamond \pi _2 \land \diamond \pi _3)$ 1}}{22}{figure.13}
 \contentsline {figure}{\numberline {14}{\ignorespaces B\"uchi Automaton for $\square (\diamond \pi _1 \land \diamond \pi _2 \land \diamond \pi _3)$ 2}}{22}{figure.14}
-\contentsline {figure}{\numberline {15}{\ignorespaces Example 1: $BA$}}{25}{figure.15}
-\contentsline {figure}{\numberline {16}{\ignorespaces Example 1: $BA$}}{25}{figure.16}
+\contentsline {figure}{\numberline {15}{\ignorespaces B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {rball} \wedge \diamond \text {basket}) \wedge \diamond \square r1$}}{24}{figure.15}
+\contentsline {figure}{\numberline {16}{\ignorespaces Simplified B\"uchi Automaton for $\varphi = \diamond (\text {rball} \wedge \diamond \text {basket}) \wedge \diamond \square r1$ 1}}{25}{figure.16}
+\contentsline {figure}{\numberline {17}{\ignorespaces Simplified B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {rball} \wedge \diamond \text {basket}) \wedge \diamond \square r1$ 2}}{26}{figure.17}

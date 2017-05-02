@@ -7,11 +7,11 @@
 \contentsline {section}{\numberline {6}Search Algorithm}{8}{section.6}
 \contentsline {section}{\numberline {7}Our Algorithm}{9}{section.7}
 \contentsline {section}{\numberline {8}Algorithm Performance with Specific Behaviours}{10}{section.8}
-\contentsline {subsection}{\numberline {8.1}Reachability while avoiding regions}{10}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.1}Reachability while avoiding regions}{11}{subsection.8.1}
 \contentsline {subsection}{\numberline {8.2}Sequencing}{12}{subsection.8.2}
 \contentsline {subsection}{\numberline {8.3}Coverage}{13}{subsection.8.3}
 \contentsline {subsection}{\numberline {8.4}Recurrence (Liveness)}{21}{subsection.8.4}
 \contentsline {section}{\numberline {9}More Complex Formulas}{23}{section.9}
 \contentsline {subsection}{\numberline {9.1}Example 1}{24}{subsection.9.1}
 \contentsline {subsection}{\numberline {9.2}Example 1 Overlapping Regions}{24}{subsection.9.2}
-\contentsline {subsection}{\numberline {9.3}Example 2}{26}{subsection.9.3}
+\contentsline {subsection}{\numberline {9.3}Example 2}{25}{subsection.9.3}
