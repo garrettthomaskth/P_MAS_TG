@@ -43,6 +43,7 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
     
     # Garrett 
     pred = {source:[]}
+    paths = {source: [source]}
     # Garrett
     # define weight function
     weight = _weight_function(G, weight)
@@ -100,7 +101,7 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
 
     # The optional predecessor and path dictionaries can be accessed
     # by the caller via the pred and paths objects passed as arguments.
-    return pred, dist, v
+    return pred, dist, v, paths
 
 
 

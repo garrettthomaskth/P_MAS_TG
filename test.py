@@ -39,12 +39,12 @@ ap = {'r','b'}
 regions = {}
 edges = []
 
-N = 50
-k = 1
+N = 25
+k = 0
 asdf = ['r','b']
 for i in range(0,N):
   for j in range(0,N):
-    regions[(i,j,1)] = set(['r'+str(k),asdf[j%2]])
+    regions[(j,i,1)] = set(['r'+str(k),asdf[j%2]])
     ap.add('r'+str(k))
     if i>0 and ((i-1,j,1),(i,j,1)) not in edges and ((i,j,1),(i-1,j,1)) not in edges:
       edges.append(((i-1,j,1),(i,j,1)))
@@ -56,6 +56,7 @@ for i in range(0,N):
       edges.append(((i,j+1,1),(i,j,1)))
     k=k+1
 
+print k
 
 #robot_motion = MotionFts(aregions, aap, 'office' )
 #robot_motion.set_initial((0, 0, 1))
@@ -64,7 +65,7 @@ for i in range(0,N):
 
 robot_motion = MotionFts(regions, ap, 'asdf' )
 robot_motion.set_initial((0, 0, 1))
-robot_motion.add_un_edges(edges, unit_cost = 0.1)
+robot_motion.add_un_edges(edges, unit_cost = 1)
 
 ##############################
 # action FTS
@@ -99,7 +100,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
-hard_task = '(<> r51 && <> r3 && <>r4 && <>r9 && <>r15 && <>r20 && <>r30 && <>r40 ) '
+hard_task = '<> r312 && <> r395 && <>r602 '
 soft_task = None#'([]! b)'
 
 

@@ -165,9 +165,11 @@ To show how our algorithm differs with the current accepted algorithm, we illust
         (D) edge [loop right] node {$stay$} (D)
         (E) edge [loop above] node {$stay$} (E);
 \end{tikzpicture}
-\caption{$FTS$}
+\caption{Simple Finite Transition System}
 \label{fig:ftsEx}
 \end{figure}
+This FTS will be used in figures unless otherwise stated. We chose it to be very simple because the state explosion problem applies even to this report. If we chose a more complex FTS we would not be able to include illustrations of the product automaton because it gets very big very quickly. We will henceforth refer to this FTS as simple FTS. When providing computational results, we will use an FTS that is much larger, to bring out the difference between our algorithm and the accepted algorithm.
+
 
 \subsection{Reachability while avoiding regions} 
 Reachability while avoiding regions is a property in which we wish to not cross over certain areas, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
@@ -187,7 +189,7 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
   		(A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2 \wedge \dots \wedge \neg \pi_{n+1}$} (A)
   		(B) edge [loop above] node {$1$} (B);
 \end{tikzpicture}
-\caption{B\"{u}chi automaton corresponding to reachability while avoiding regions }
+\caption{B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$}
 \label{fig:ReachAvoid}
 \end{figure}
 
@@ -232,11 +234,12 @@ As we can see $d_p(q_1)=1$ and $d_p(q_1)=0$. For our example, we will look at th
         (CC) edge        [bend left]       (AA)
         (AA) edge        [bend left]       (CC);
 \end{tikzpicture}
-\caption{Product Automaton}
+\caption{Product Automaton for $\neg \pi_4 \U \pi_5$ with Simple FTS}
 \label{fig:reachAvoidProduct}
 \end{figure*}
 Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
 Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general from of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm on a formula of this type.
+
 
 
 \subsection{Sequencing}
@@ -262,11 +265,11 @@ Sequencing is the behaviour of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in tha
   		(C) edge              node {$\pi_{3}$} (D)
   		(D) edge [loop above] node {$1$} (D);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{B\"uchi Automaton Corresponding to $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$}
 \label{fig:seq}
 \end{figure}
 
-We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi_5))$ the same FTS as before. The product automaton is shown in figure \ref{fig:Sequencing}
+We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi_5))$ the simple FTS as before. The product automaton is shown in figure \ref{fig:Sequencing}
 \begin{figure*}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
                     semithick]
@@ -324,7 +327,7 @@ We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi
         (CCC) edge        [bend left]       (AAA)
         (AAA) edge        [bend left]       (CCC);
 \end{tikzpicture}
-\caption{Product Automaton}
+\caption{Product Automaton for $\diamond (\pi_2 \wedge \diamond \pi_5))$ with Simple FTS}
 \label{fig:Sequencing}
 \end{figure*}
 
@@ -362,7 +365,7 @@ A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ i
    (D) edge              node {$\pi_{1}$} (F)
    (C) edge              node {$\pi_{1}$} (G);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{B\"uchi Automaton Corresponding to $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \pi_3$}
 \label{fig:buchCov}
 \end{figure}
 
@@ -402,11 +405,11 @@ We can represent the relationship between the regions in our graph with the foll
   		(B) edge              node {$27$} (D)
   		(C) edge				node {$11$} (D);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{Complete Graph between Regions of Interest}
 \label{fig:completeGraph}
 \end{figure}
 
-For the distances, we use the so called \textit{Manhatten distance}, i.e.\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that our algorithm, and the nearest neighbour, will take is shown in figure \ref{fig:pathOnComplete}. The cost of this path is 62.
+For the distances, we use the so called \textit{Manhattan distance}, i.e.\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that our algorithm, and the nearest neighbour, will take is shown in figure \ref{fig:pathOnComplete}. The cost of this path is 62.
 
 \begin{figure}
 \centering
@@ -423,7 +426,7 @@ For the distances, we use the so called \textit{Manhatten distance}, i.e.\ $d((x
   		(B) edge              node {$27$} (D)
   		(C) edge				node {$11$} (D);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{Nearest Neighbour Path}
 \label{fig:pathOnComplete}
 \end{figure}
 
@@ -447,7 +450,7 @@ This is not the optimal path though, which is shown in figure \ref{fig:optcomple
   		%(B) edge              node {$27$} (D)
   		(C) edge				node {$11$} (D);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{Optimal Path}
 \label{fig:optcompleteGraph}
 \end{figure}
 
@@ -479,7 +482,7 @@ We show the new subgraph in figure \ref{fig:completeDummy}
   		(E) edge 				node {$35$} (B)
   		(E) edge 				node {$35$} (A);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{Complete Subgraph with Dummy Node}
 \label{fig:completeDummy}
 \end{figure}
 
@@ -507,7 +510,7 @@ The path that the nearest neighbour algorithm takes in this situation, the compl
   		(E) edge 				node {$35$} (B)
   		(E) edge 				node {$35$} (A);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{Nearest Neighbour Path with Dummy Node}
 \label{fig:NearNeigDummy}
 \end{figure}
 
@@ -537,7 +540,7 @@ figure \ref{fig:optDummy} and has a cost of 129.
   		%(E) edge 				node {$35$} (B)
   		(E) edge 				node {$35$} (A);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{Optimal Path with Dummy Node}
 \label{fig:optDummy}
 \end{figure}
 
@@ -705,7 +708,7 @@ To illustrate our point, we consider the formula $\square(\diamond \pi_1 \land \
 %  		(D) edge [bend right] node {$\neg \pi_1$} (A)
  % 		(D) edge [bend left] node {$\pi_1$} (B);
 \end{tikzpicture}
-\caption{Example 1: $BA$}
+\caption{B\"uchi Automaton for $\square(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$ 1}
 \label{fig:gasBuchiRec}
 \end{figure}
 Note: The actual automaton generated has much more edges. For example, there is an edge from $q_4$ to $q_2$ which is labelled $\pi_1 \&\& \pi_2$. It is impossible for us to make this transition because $\pi_i$ for all $i$ is a region in our partition. This is because the requirements of our partition are chosen specially to guarantee that we are never in two regions at once. Thus they are excluded in the interest of the reader. In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{init}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton \ref{fig:gasBuchiRec} the only way to do this is to go to region $\pi_1$. Our algorithm does this, and then starts a new Dijkstra search. In this case the same statement holds for $\pi_2$. Therefore the optimal prefix is to concatenate the optimal paths down from each each level (first to $\pi_1$, etc). Our algorithm does a Dijkstra search at each level so it will return this path as the prefix. The accepted algorithm will also return this prefix. 
@@ -734,7 +737,7 @@ This path however is in general not truly optimal. It is because the B\"{u}chi a
         (D) edge [bend left] node {$\pi_1$} (B)
         (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
 \end{tikzpicture}
-\caption{Product Automaton}
+\caption{B\"uchi Automaton for $\square(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$ 2}
 \label{fig:otherBuchiRec}
 \end{figure*}
 

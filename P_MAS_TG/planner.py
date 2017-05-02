@@ -27,9 +27,15 @@ class ltl_planner(object):
 			self.product.build_full()
 			print 'graph_construction_time'
 			print time.time() - graph_construction_time
+
+			#print 'Accepted'
 			#self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
+			#print 'HELALKDSOS DOHISD HU S'
 			# Garrett
+			print 'Garrett'
 			self.run, plantime = Garrett_dijkstra_plan_networkX(self.product, self.beta)
+			print '###'
+			print '###'
 		elif style == 'ready':
 			self.product.build_full()
 			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)

@@ -32,16 +32,26 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 		precost = 0
 		prefix = [start_node]
 		while lev > 0:
-			pre,di,targ = ga.adapted_dijkstra_multisource(product,start_node)
+			pre,di,targ,path = ga.adapted_dijkstra_multisource(product,start_node,paths={})
+			print 'di'
+			print len(di)
+			#print pre
+			#print len(di)
+			#print len(targ)
+			#print len(path)
+			#print path[targ]
 			lev = product.node[targ]['dist']
 			start_node = targ
 			print start_node
 			precost = precost+di[targ]
 			if lev == 0:				
-				prefix.extend(compute_path_from_pre(pre, targ)[1:])
+				prefix.extend(path[targ][1:-2])
+				#prefix.extend(compute_path_from_pre(pre, targ)[1:])
 			# [1:-1] because first is the starting node and last is the same node as second to last
 			else:
-				prefix.extend(compute_path_from_pre(pre, targ)[1:-1])
+				prefix.extend(path[targ][1:-1])
+				#prefix.extend(compute_path_from_pre(pre, targ)[1:-1])
+
 
 	prod_target = targ
 	#Find suffix
@@ -65,8 +75,6 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 			loop[prod_target] = (cycle[opti_pred], suffix)
 
 
-
-
 	for target in loop.iterkeys():
 		if target == targ:
 			line[target] = precost+beta*loop[target][0]
@@ -78,7 +86,7 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
 		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 		print '=================='
-		print 'Dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+		print 'Dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
 		return run, time.time()-start
 		#print '\n==================\n'
 	print '=================='        
@@ -113,7 +121,8 @@ def dijkstra_plan_networkX(product, beta=10):
         # dijkstra_predecessor_and_distance gives distances to all nodes **prod_target** is a predecessor or! like all
         # states prod_target can get to
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
-
+		print 'loop_dist'
+		print len(loop_dist)
 		for target_pred in product.predecessors_iter(prod_target):
 
 			if target_pred in loop_dist:
@@ -132,6 +141,9 @@ def dijkstra_plan_networkX(product, beta=10):
 		print 'find next node'
 		t_start = time.time()
 		line_pre, line_dist = dijkstra_predecessor_and_distance(product, prod_init)
+		print 'line dist'
+		print len(line_dist)
+		print line_dist
 		for target in loop.iterkeys():
 			if target in line_dist:
 				line[target] = line_dist[target]+beta*loop[target][0]
@@ -149,7 +161,7 @@ def dijkstra_plan_networkX(product, beta=10):
 		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
 		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 		print '=================='
-		print 'Dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, precost, sufcost)
+		print 'Dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
 		return run, time.time()-start
 		#print '\n==================\n'
 	print '=================='        
