@@ -1,17 +1,18 @@
 \select@language {english}
-\contentsline {section}{\numberline {1}Abstraction of the Workspace}{3}{section.1}
-\contentsline {section}{\numberline {2}Linear Temporal Logic (LTL)}{5}{section.2}
-\contentsline {section}{\numberline {3}B\"{u}chi Automata}{6}{section.3}
-\contentsline {section}{\numberline {4}Product Automata}{7}{section.4}
-\contentsline {section}{\numberline {5}Cost of a Run}{8}{section.5}
-\contentsline {section}{\numberline {6}Search Algorithm}{8}{section.6}
-\contentsline {section}{\numberline {7}Our Algorithm}{9}{section.7}
-\contentsline {section}{\numberline {8}Algorithm Performance with Specific Behaviours}{10}{section.8}
-\contentsline {subsection}{\numberline {8.1}Reachability while avoiding regions}{11}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Sequencing}{12}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Coverage}{13}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}Recurrence (Liveness)}{21}{subsection.8.4}
-\contentsline {section}{\numberline {9}More Complex Formulas}{23}{section.9}
-\contentsline {subsection}{\numberline {9.1}Example 1}{24}{subsection.9.1}
-\contentsline {subsection}{\numberline {9.2}Example 1 Overlapping Regions}{24}{subsection.9.2}
-\contentsline {subsection}{\numberline {9.3}Example 2}{25}{subsection.9.3}
+\contentsline {section}{\numberline {0.1}Abstraction of the Workspace}{3}{section.0.1}
+\contentsline {section}{\numberline {0.2}Linear Temporal Logic (LTL)}{5}{section.0.2}
+\contentsline {section}{\numberline {0.3}B\"{u}chi Automata}{7}{section.0.3}
+\contentsline {section}{\numberline {0.4}Product Automata}{8}{section.0.4}
+\contentsline {section}{\numberline {0.5}Cost of a Run}{9}{section.0.5}
+\contentsline {section}{\numberline {0.6}Search Algorithm}{10}{section.0.6}
+\contentsline {section}{\numberline {0.7}Our Algorithm}{11}{section.0.7}
+\contentsline {section}{\numberline {0.8}Algorithm Performance with Specific Behaviours}{12}{section.0.8}
+\contentsline {subsection}{\numberline {0.8.1}Reachability while avoiding regions}{13}{subsection.0.8.1}
+\contentsline {subsection}{\numberline {0.8.2}Sequencing}{14}{subsection.0.8.2}
+\contentsline {subsection}{\numberline {0.8.3}Coverage}{16}{subsection.0.8.3}
+\contentsline {subsection}{\numberline {0.8.4}Recurrence (Liveness)}{26}{subsection.0.8.4}
+\contentsline {section}{\numberline {0.9}More Complex Formulas}{28}{section.0.9}
+\contentsline {subsection}{\numberline {0.9.1}Example 1}{29}{subsection.0.9.1}
+\contentsline {subsection}{\numberline {0.9.2}Example 1 Overlapping Regions}{30}{subsection.0.9.2}
+\contentsline {subsection}{\numberline {0.9.3}Example 2}{31}{subsection.0.9.3}
+\contentsline {subsection}{\numberline {0.9.4}OR Operator}{32}{subsection.0.9.4}

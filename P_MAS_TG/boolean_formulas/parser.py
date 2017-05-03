@@ -171,7 +171,7 @@ class ORExpression(BinExpression):
 
     #Garrett       
     def symCheck(self):
-        return max(self.left.symCheck(), self.right.symCheck())
+        return min(self.left.symCheck(), self.right.symCheck())
 
 class ANDExpression(BinExpression):
     name = "AND"

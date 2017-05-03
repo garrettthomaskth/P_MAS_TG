@@ -24,18 +24,21 @@ Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is d
 
 Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(r) \cap \F \neq \emptyset$
 
-\begin{lemma}
-If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
-\end{lemma}
-Proof. see the proof of Theorem from [11] meng
+%\begin{lemma}
+%If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
+%\end{lemma}
+%Proof. see the proof of Theorem from [11] meng
+%
+%
+%\begin{lemma}
+%\label{lemma1}
+%If $R$ is an accepting run of $\A_p$, then $R|_\Pi \models \varphi$ 
+%\end{lemma}
+%Proof. %meng % By the definition of 
+%Assume R is an accepting run of $\A_p$. Given the definition of an accepting run of $\A_p$, there exists an accepting state $q_f' \in \F'$ that appears in R infinitely many times. 
 
-\begin{lemma}
-\label{lemma1}
-If $R$ is an accepting run of $\A_p$, then $R|_\Pi \models \varphi$ 
-\end{lemma}
-Proof. see proof in meng
 
-Given \ref{lemma1}, our problem is now to find an accepting run of $\A_p$. Given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities, the process of finding one, nonetheless finding one that has measure of optimality is non-trivial, both theoretically and practically meng "both in theory and software implementation". Therefore we restrict our view of accepting runs to runs that satisfy the prefix-suffix structure i.e.\
+Our problem is now to find an accepting run of $\A_p$. Given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities, the process of finding one, nonetheless finding one that has measure of optimality is non-trivial, both theoretically and practically. Therefore we restrict our view of accepting runs to runs that satisfy the prefix-suffix structure i.e.\
 \begin{align*}
 \tau = \langle \tau_{pre}, \tau_{suf} \rangle = \tau_{pre} [\tau_{suf}]^\omega
 \end{align*}

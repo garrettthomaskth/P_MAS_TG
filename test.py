@@ -100,7 +100,8 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
-hard_task = '<> r312 && <> r395 && <>r602 '
+#hard_task = '<> r312 && <> r395 && <>r602 '
+hard_task = '<> r1 && <> r600 || <>r7'
 soft_task = None#'([]! b)'
 
 
@@ -149,8 +150,8 @@ for node in robot_planner.product.graph['buchi'].node:
 #nx.draw_networkx(robot_planner.product,node_color=colP,labels=labels)
 #plt.show()
 
-#nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
-#plt.show()
+nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
+plt.show()
 #app = Viewer(robot_planner.product)
 #app.mainloop()
 # synthesis

@@ -144,4 +144,10 @@
   author    = {Hoffman, AJ and Wolfe, J and Garfinkel, RS and Johnson, DS and Papadimitriou, CH and Gilmore, PC and Lawler, EL and Shmoys, DB and Karp, RM and Steele, JM and others},
 }
 
+@Misc{ltlbuchiwebsite,
+  title        = {LTL 2 BA : fast translation from LTL formulae to Büchi automata},
+  howpublished = {\url{http://www.lsv.fr/~gastin/ltl2ba/index.php}},
+  note         = {Accessed: 2017-05-03},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

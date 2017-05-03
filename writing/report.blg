@@ -3,44 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
-You've used 14 entries,
+Warning--to sort, need author or key in ltlbuchiwebsite
+You've used 15 entries,
             2118 wiz_defined-function locations,
-            580 strings with 6475 characters,
-and the built_in function-call counts, 5672 in all, are:
-= -- 575
-> -- 270
+            584 strings with 6622 characters,
+and the built_in function-call counts, 5840 in all, are:
+= -- 592
+> -- 271
 < -- 7
-+ -- 108
++ -- 109
 - -- 92
-* -- 385
-:= -- 900
-add.period$ -- 48
-call.type$ -- 14
-change.case$ -- 83
+* -- 390
+:= -- 919
+add.period$ -- 51
+call.type$ -- 15
+change.case$ -- 86
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 227
-empty$ -- 433
+cite$ -- 16
+duplicate$ -- 234
+empty$ -- 456
 format.name$ -- 92
-if$ -- 1227
+if$ -- 1269
 int.to.chr$ -- 0
-int.to.str$ -- 14
+int.to.str$ -- 15
 missing$ -- 16
-newline$ -- 73
+newline$ -- 78
 num.names$ -- 28
-pop$ -- 107
+pop$ -- 117
 preamble$ -- 1
-purify$ -- 73
+purify$ -- 75
 quote$ -- 0
-skip$ -- 165
+skip$ -- 170
 stack$ -- 0
-substring$ -- 358
-swap$ -- 75
+substring$ -- 363
+swap$ -- 76
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 50
-warning$ -- 0
+type$ -- 54
+warning$ -- 1
 while$ -- 54
-width$ -- 16
-write$ -- 160
+width$ -- 17
+write$ -- 169
+(There was 1 warning)

@@ -121,8 +121,8 @@ def dijkstra_plan_networkX(product, beta=10):
         # dijkstra_predecessor_and_distance gives distances to all nodes **prod_target** is a predecessor or! like all
         # states prod_target can get to
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
-		print 'loop_dist'
-		print len(loop_dist)
+		#print 'loop_dist'
+		#print len(loop_dist)
 		for target_pred in product.predecessors_iter(prod_target):
 
 			if target_pred in loop_dist:
@@ -141,9 +141,9 @@ def dijkstra_plan_networkX(product, beta=10):
 		print 'find next node'
 		t_start = time.time()
 		line_pre, line_dist = dijkstra_predecessor_and_distance(product, prod_init)
-		print 'line dist'
-		print len(line_dist)
-		print line_dist
+		#print 'line dist'
+		#print len(line_dist)
+		#print line_dist
 		for target in loop.iterkeys():
 			if target in line_dist:
 				line[target] = line_dist[target]+beta*loop[target][0]
