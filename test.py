@@ -100,8 +100,8 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
-#hard_task = '<> r312 && <> r395 && <>r602 '
-hard_task = '<> r1 && <> r600 || <>r7'
+hard_task = '<> r312 && <> r395 && <>r602 '
+#hard_task = '<> r1 && <> r600 || <>r7'
 soft_task = None#'([]! b)'
 
 

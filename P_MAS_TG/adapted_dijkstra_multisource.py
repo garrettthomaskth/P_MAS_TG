@@ -5,8 +5,7 @@ import networkx as nx
 from networkx.utils import generate_unique_node
 import warnings as _warnings
 
-def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
-                          cutoff=None, target=None):
+def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
     """Uses Dijkstra's algorithm to find shortest weighted paths
     Parameters
     ----------
@@ -17,36 +16,31 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
         start from that node. If there are two or more nodes in this
         iterable, the computed paths may begin from any one of the start
         nodes.
-    weight: function
-        Function with (u, v, data) input that returns that edges weight
-    pred: dict of lists, optional(default=None)
-        dict to store a list of predecessors keyed by that node
-        If None, predecessors are not stored.
-    paths: dict, optional (default=None)
-        dict to store the path list from source to each node, keyed by node.
-        If None, paths are not stored.
     target : node label, optional
         Ending node for path. Search is halted when target is found.
     cutoff : integer or float, optional
         Depth to stop the search. Only return paths with length <= cutoff.
     Returns
     -------
-    distance : dictionary
+    dist : dictionary
         A mapping from node to shortest distance to that node from one
         of the source nodes.
+    next_node : tuple
+        The first node, n, the search finds that is one level below the current node
+        i.e. d_p(n) = lev - 1
+    paths: dictionary
+        dict to store the path list from source to each node, keyed by node.
     Notes
     -----
     The optional predecessor and path dictionaries can be accessed by
     the caller through the original pred and paths objects passed
     as arguments. No need to explicitly return pred or paths.
     """
-    
-    # Garrett 
-    #pred = {source:[]}
+
     paths = {source: [source]}
-    # Garrett
+
     # define weight function
-    weight = _weight_function(G, weight)
+    weight = lambda u, v, data: data.get('weight', 1)
 
     # succ = successors
     G_succ = G.succ if G.is_directed() else G.adj
@@ -62,7 +56,6 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
     c = count()
     fringe = []
 
-    # Garrett
     # current level of starting node
     cur_level = G.node[source]['dist']
 
@@ -75,6 +68,7 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
             continue  # already searched this node.
         dist[v] = d
         if G.node[v]['dist'] < cur_level:
+            next_node = v
             break
         for u, e in G_succ[v].items():
             cost = weight(v, u, e)
@@ -93,47 +87,44 @@ def adapted_dijkstra_multisource(G, source, weight='weight', paths=None,
                 push(fringe, (vu_dist, next(c), u))
                 if paths is not None:
                     paths[u] = paths[v] + [u]
-                #if pred is not None:
-                 #   pred[u] = [v]
-            #elif vu_dist == seen[u]:
-             #   if pred is not None:
-              #      pred[u].append(v)
-
-    # The optional predecessor and path dictionaries can be accessed
-    # by the caller via the pred and paths objects passed as arguments.
-    return dist, v, paths
+    print next_node
+    print type(next_node)
+    return dist, next_node, paths
 
 
 
-def _weight_function(G, weight):
-    """Returns a function that returns the weight of an edge.
-    The returned function is specifically suitable for input to
-    functions :func:`_dijkstra` and :func:`_bellman_ford_relaxation`.
-    Parameters
-    ----------
-    G : NetworkX graph.
-    weight : string or function
-        If it is callable, `weight` itself is returned. If it is a string,
-        it is assumed to be the name of the edge attribute that represents
-        the weight of an edge. In that case, a function is returned that
-        gets the edge weight according to the specified edge attribute.
-    Returns
-    -------
-    function
-        This function returns a callable that accepts exactly three inputs:
-        a node, an node adjacent to the first one, and the edge attribute
-        dictionary for the eedge joining those nodes. That function returns
-        a number representing the weight of an edge.
-    If `G` is a multigraph, and `weight` is not callable, the
-    minimum edge weight over all parallel edges is returned. If any edge
-    does not have an attribute with key `weight`, it is assumed to
-    have weight one.
-    """
-    if callable(weight):
-        return weight
-    # If the weight keyword argument is not callable, we assume it is a
-    # string representing the edge attribute containing the weight of
-    # the edge.
-    if G.is_multigraph():
-        return lambda u, v, d: min(attr.get(weight, 1) for attr in d.values())
-    return lambda u, v, data: data.get(weight, 1)
+# def _weight_function(G, weight):
+#     """Returns a function that returns the weight of an edge.
+#     The returned function is specifically suitable for input to
+#     functions :func:`_dijkstra` and :func:`_bellman_ford_relaxation`.
+#     Parameters
+#     ----------
+#     G : NetworkX graph.
+#     weight : string or function
+#         If it is callable, `weight` itself is returned. If it is a string,
+#         it is assumed to be the name of the edge attribute that represents
+#         the weight of an edge. In that case, a function is returned that
+#         gets the edge weight according to the specified edge attribute.
+#     Returns
+#     -------
+#     function
+#         This function returns a callable that accepts exactly three inputs:
+#         a node, an node adjacent to the first one, and the edge attribute
+#         dictionary for the eedge joining those nodes. That function returns
+#         a number representing the weight of an edge.
+#     If `G` is a multigraph, and `weight` is not callable, the
+#     minimum edge weight over all parallel edges is returned. If any edge
+#     does not have an attribute with key `weight`, it is assumed to
+#     have weight one.
+#     """
+#     if callable(weight):
+#         print 'callable'
+#         return weight
+#     # If the weight keyword argument is not callable, we assume it is a
+#     # string representing the edge attribute containing the weight of
+#     # the edge.
+#     if G.is_multigraph():
+#         print 'multigraph'
+#         return lambda u, v, d: min(attr.get(weight, 1) for attr in d.values())
+#     print 'neither'
+#     return lambda u, v, data: data.get(weight, 1)

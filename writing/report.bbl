@@ -56,6 +56,11 @@ Meng Guo.
   tasks}.
 \newblock PhD thesis, KTH Royal Institute of Technology, 2015.
 
+\bibitem{pMasGit}
+Meng Guo.
+\newblock P-mas-tg.
+\newblock \url{https://github.com/MengGuo/P_MAS_TG}, 2015.
+
 \bibitem{hoffman86}
 AJ~Hoffman, J~Wolfe, RS~Garfinkel, DS~Johnson, CH~Papadimitriou, PC~Gilmore,
   EL~Lawler, DB~Shmoys, RM~Karp, JM~Steele, et~al.
@@ -80,6 +85,12 @@ Daniel~J Rosenkrantz, Richard~Edwin Stearns, and Philip~M Lewis.
 \newblock Approximate algorithms for the traveling salesperson problem.
 \newblock In {\em Switching and Automata Theory, 1974., IEEE Conference Record
   of 15th Annual Symposium on}, pages 33--42. IEEE, 1974.
+
+\bibitem{schult08}
+Daniel~A Schult and P~Swart.
+\newblock Exploring network structure, dynamics, and function using networkx.
+\newblock In {\em Proceedings of the 7th Python in Science Conferences (SciPy
+  2008)}, volume 2008, pages 11--16, 2008.
 
 \bibitem{schuppan05}
 Viktor Schuppan and Armin Biere.

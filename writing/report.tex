@@ -32,11 +32,11 @@
 \usepackage{pgfplots}
 \usepackage{graphicx}
 \usepackage{setspace}
-
+\usepackage{listings}
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
-
+%\usepackage[section]{placeins}
 
 \usepackage{natbib}
 \usepackage{graphicx}
@@ -81,14 +81,30 @@
 \newpage
 \listoffigures
 \newpage
-\input{FTS}
-\input{LTL}
-\input{Buchi}
+\FloatBarrier
+\input{background}
+\newpage
+\FloatBarrier
+\input{basics}
+\newpage
+\FloatBarrier
+\input{algorithms}
+%\input{LTL}
+%\newpage
+%\input{Buchi}
+\newpage
+\FloatBarrier
+\input{commonFormulas}
+\newpage
+\FloatBarrier
 \input{complexFormulas}
-
+\newpage
+\FloatBarrier
+\input{appendix}
 %\input{intro}
 
 \newpage
+\FloatBarrier
 \bibliography{bibliography}
 \bibliographystyle{plain}
 

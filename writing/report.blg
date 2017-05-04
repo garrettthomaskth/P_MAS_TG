@@ -4,45 +4,45 @@ The top-level auxiliary file: report.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
 Warning--to sort, need author or key in ltlbuchiwebsite
-You've used 15 entries,
+You've used 17 entries,
             2118 wiz_defined-function locations,
-            584 strings with 6622 characters,
-and the built_in function-call counts, 5840 in all, are:
-= -- 592
-> -- 271
-< -- 7
-+ -- 109
-- -- 92
-* -- 390
-:= -- 919
-add.period$ -- 51
-call.type$ -- 15
-change.case$ -- 86
+            596 strings with 6890 characters,
+and the built_in function-call counts, 6472 in all, are:
+= -- 655
+> -- 291
+< -- 9
++ -- 117
+- -- 98
+* -- 421
+:= -- 1013
+add.period$ -- 57
+call.type$ -- 17
+change.case$ -- 95
 chr.to.int$ -- 0
-cite$ -- 16
-duplicate$ -- 234
-empty$ -- 456
-format.name$ -- 92
-if$ -- 1269
+cite$ -- 18
+duplicate$ -- 262
+empty$ -- 516
+format.name$ -- 98
+if$ -- 1413
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 16
-newline$ -- 78
-num.names$ -- 28
-pop$ -- 117
+int.to.str$ -- 17
+missing$ -- 17
+newline$ -- 88
+num.names$ -- 32
+pop$ -- 132
 preamble$ -- 1
-purify$ -- 75
+purify$ -- 82
 quote$ -- 0
-skip$ -- 170
+skip$ -- 196
 stack$ -- 0
-substring$ -- 363
-swap$ -- 76
-text.length$ -- 7
+substring$ -- 397
+swap$ -- 87
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 54
+type$ -- 62
 warning$ -- 1
-while$ -- 54
-width$ -- 17
-write$ -- 169
+while$ -- 61
+width$ -- 19
+write$ -- 191
 (There was 1 warning)

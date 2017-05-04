@@ -32,7 +32,7 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 		precost = 0
 		prefix = [start_node]
 		while lev > 0:
-			di,targ,path = ga.adapted_dijkstra_multisource(product,start_node,paths={})
+			di,targ,path = ga.adapted_dijkstra_multisource(product,start_node)
 			print 'di'
 			print len(di)
 			#print pre
