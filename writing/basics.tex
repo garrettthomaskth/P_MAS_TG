@@ -1,0 +1,205 @@
+\section{Basics}
+\subsection{Abstraction of the Workspace}
+In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph (B\"{u}chi automata, which will be defined later) that represents the robot motion. Next is the execution level, which involves finding a path through the graph that satisfies a specification. Lastly, in the implementation level robot controllers are constructed that satisfy the path found in the previous step. 
+
+We assume that we have one robot which is located in a given workspace denote $W_0 \subset \mathbb{R}^n$, which is bounded. To create a graph that represents the robot motion we need to consider the workspace along with the dynamics of the robot. To represent our workspace, which is a subspace of $\mathbb{R}^n$, in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in definition \ref{def:PM}. Any partition can be used as long as it satisfy the bisimulation property, which will be defined later once more notation has been introduced \cite{belta04}. We denote the $\Pi = {\pi_1, \pi_2, \dots, \pi_w}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
+
+\begin{definition}
+\label{def:PM}
+A partition map, $T: W_0 \rightarrow \Pi$ sends each state $x \in W_0$ to the finite set of equivalence classes $\Pi = {\pi_i}$,  $i = 1,2,\dots ,w$. $T^{-1}(\pi_i)$ is then all the states $x \in W_0$ that are in the equivalence class $\pi_i$ \cite{fainekos05}. 
+\end{definition} 
+
+We now introduce atomic propositions, which will be the building blocks for our task specification. Atomic propositions are boolean variables, and will be used to express properties about the state or the robot or the workspace. We define the following set of atomic propositions $AP_r = {a_{r,i}}$, $i=1,2,\dots,w$ where 
+\[\alpha_{r,i} =  \begin{cases}
+\top & \text{if the robot is in region $\pi_i$} \\
+\bot & \text{else}
+\end{cases}
+\]
+which represent the robot's location \cite{guo15}. Other things we want to be able to express are potential tasks, denote $AP_p = {\alpha_{p,i}}$, $i=1,2,\dots,m$. These can be statements such as "there is a ball in region $\pi_I$" or "the robot beeps"
+We now define the set of all propositions $AP = AP_r \cup AP_p$.
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defCLF}
+The labelling function $L_C:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $x$ \cite{guo15}.
+\end{definition} 
+
+We also include a definition of the discrete counterpart 
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defDLF}
+The labelling function $L_D:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$ to the set of atomic propositions satisfied by $\pi_i$.
+\end{definition} 
+Note: $2^{AP}$ is the powerset of $AP$, i.e. the set of all subsets of $AP$ include the null set and $AP$.
+
+For example, by definition, $a_{r,i} \in L_D(\pi_i)$. 
+
+To define a graph that represents our environment, we must also consider the dynamics of the robot. The dynamics are relevant because they define the relationship between the various regions. The relationship we refer to is known as a transition. We define a transition between two points in $W_0$ as follows
+\theoremstyle{definition}
+\begin{definition}
+\label{defCTransition}
+There is a continuous transition, $\rightarrow_C \subset W_0 \times W_0$ from $x$ to $x'$, denoted $x \rightarrow_C x'$ if it is possible to construct a trajectory $x(t)$ for $0 \leq t \leq T$ with $x(0)=x$ and $x(T) =x'$ and we have $x(t) \in (T^{-1}(T(x))\cup T^{-1}(T(x')))$ \cite{fainekos09}
+\end{definition}
+
+We then say that there is a transition between two regions if from any point in the first region there is a transition to a point in the second region. More formally
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defDTransition}
+There is a discrete transition, $\rightarrow_D \subset \Pi \times \Pi$, from $\pi_i$ to $\pi_j$, denoted $\pi_i \rightarrow_D \pi_j$ if there exists $x$ and $x'$ such that $T(x) = \pi_i$, $T(x')=\pi_j$ and $x \rightarrow_C x'$
+\end{definition}
+
+We can now define bisimulations
+\theoremstyle{definition}
+\begin{definition}
+\label{defDTransition}
+A partition $T:W_0\rightarrow \Pi$ is called a bisimulation if the following properties hold for all $x,y \in W_0$
+\begin{enumerate}
+    \item (Observation Preserving): If $T(x)=T(y)$, then $L_C(x) = L_C(y)$.
+    \item (Reachability Preserving): If $T(x) = T(y)$, then if $x\rightarrow_C x'$ then $y \rightarrow_C y'$ for some $y'$ with $T(x')=T(y')$
+\end{enumerate}
+\end{definition}
+
+The Observation Preserving requirement makes sure we do not allow the situation where part of $\pi_i$ fulfils $\alpha \in AP$ while part of $\pi_i$ does not, and the Reachability Preserving requirement ensures that for every point in region $\pi_i$, there exists a trajectory to some point $x'$, such that $T(x') = \pi_j$ if $\pi_i \rightarrow_D \pi_j$. These two requirements together guarantee that the discrete path we compute is feasible at the continuous level.
+
+
+We can now define Finite-State Transition System (FTS), which is how we will represent our workspace.
+\theoremstyle{definition}
+\begin{definition}
+\label{defFTS}
+An FTS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_D, \Pi_0, AP,L_C)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_C$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_C \pi_j$. Note: $\pi_i \rightarrow_C \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_C: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defLF}.
+\end{definition}
+
+In this thesis, we will also consider the weighted FTS (WFTS)
+\begin{definition}
+\label{defFTS}
+A WTFS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_C, \Pi_0, AP,L_C,W_C)$ where $\Pi$, $\rightarrow_C$, $\Pi_0$, $AP$, and $L_C$ are defined as in definition \ref{defFTS} and $W_C: \Pi \times \Pi \rightarrow \R^+$ is the weight function i.e.\ the cost of a transition in $\rightarrow_C$. 
+\end{definition}
+Note: Any FTS can be written can be converted to an WFTS with the weights of all transitions equalling one.
+
+We use the FTS which represents our workspace to search for paths that are doable for our robot. When we search for a path, from one state we will only consider states which have a transition from our current state, because these are the only states the robot can move to. When talking about FTS, it can be helpful to use the notation $\Pre(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_D \pi_i\}$ to define the the predecessors of the state $\pi_i$ and $\Post(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_D \pi_i\}$ to define the the successors of the state $\pi_i$. In this thesis, we will deal with infinite paths. An infinite path is an infinite sequence of states $\tau = \pi_1 \pi_2 \dots$ such that $\pi_i \in \Pi_0$ and $\pi_i \in $ Post($\pi_{i-1}) \hspace{0.2cm} \forall i > 0$. The trace of a path is the sequence of sets of atomic propositions that are true in the states along a path i.e.\ trace($\tau$) = $L_D(\pi_1)L_D(\pi_2) \dots$.  
+
+
+\subsection{Linear Temporal Logic (LTL)}
+To define tasks for our robot we must choose a high level language. Temporal logics are especially suited for defining robot tasks because of their ability to express not only fomulas constructed of atomic propositions and standard boolean connectives (conjunction, disjunction, and negation), but also temporal specifications e.g.\ $\alpha$ is true at some point of time. The particular temporal logic we will be using is known as linear temporal logic (LTL) \cite{clarke99}. LTL formulas are defined over a set of atomic propositions $AP$ according to the following grammar:
+
+\begin{align*}
+    \varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2
+\end{align*}
+
+where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $\U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
+\begin{align*}
+    \text{Conjunction: }&  \varphi_1  \land \varphi_2 = \neg(\neg \varphi_1 \lor \neg \varphi_2) \\
+    \text{Implication: }& \varphi_1 \Rightarrow \varphi_2 = \neg \varphi_1 \lor \varphi_2 \\
+    \text{Equivalence: }& \varphi_1 \Leftrightarrow \varphi_2 = (\varphi_1 \Rightarrow \varphi_2) \land (\varphi_2 \Rightarrow \varphi_1)
+\end{align*}
+We note quickly that we have the false predicate, $\bot = \neg \top$.
+We are also able to derive the following additional temporal operators:
+\begin{align*}
+    \text{Eventuality: }& \diamond \varphi_1 = T U \varphi_1 \\
+    \text{Always: }& \square \varphi_1 = \neg \diamond \neg \varphi_1
+\end{align*}
+
+There is a growing interest in path and mission planning in robots using temporal logic specifications given the easy extension from natural language to temporal logic \cite{kress07}. We now give examples to illustrate this point and to introduce us to LTL formulas. First, the atomic operators generally capture properties of the robot or the environment i.e. "the robot is in region 1", "the ball is in region 2", "the robot is holding a ball". There are some common tasks converted to LTL formulas given in \citep{fainekos09} 
+\begin{enumerate}
+    \item \textbf{Reachability while avoiding regions}: "Go to region $\pi_{n+1}$ while avoiding regions $\pi_1, \pi_2, \dots, \pi_n$" \\ $\neg(\pi_1 \lor \pi_2 \dots \pi_n) \mathcal{U} \pi_{n+1}$ 
+    \item \textbf{Sequencing}: "Visit regions $\pi_1, \pi_2, \pi_3$ in that order"\\ 
+    $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ 
+    \item \textbf{Coverage}: "Visit regions $\pi_1, \pi_2, \dots, \pi_n$ in any order"\\ $\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n$
+    \item \textbf{Recurrence (Liveness)}: "Visit regions $\pi_1, \dots, \pi_n$ in any order over and over again"\\ $\square(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$      
+\end{enumerate}
+Of course more complicated tasks are also expressible in LTL, and atomic propositions need not only refer to the location of the robot. Here is an example given in  \cite{guo15}: "Pick up the red ball, drop it to one of the baskets and then stay in room one" \\
+$\diamond(rball \land \diamond basket) \land \diamond \square r1$ 
+
+We now look at what it means to satisfy an LTL formula. We will talk about \textit{words} satisfying LTL formulas, in our case \textit{infinite words}. An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$. That is, $\sigma = S_0 S_1 S_2 \dots$, where $S_k \in 2^{AP}$ for $k=1,2,\dots$ and $S_k$ is the set of atomic propositions that are true at time step $k$ \cite{guo15}. An infinite word $\sigma$ satisfies an LTL formula $\varphi$ based on the LTL semantics.  
+
+\theoremstyle{definition}
+\begin{definition}
+\label{defLTLS}
+The semantics of LTL are defined as follows:
+\begin{align*}
+(\sigma,k) \models \alpha \hspace{0.3cm}\text{ if }\hspace{0.3cm}& \alpha \in S_k \\
+(\sigma,k) \models \neg \varphi \hspace{0.3cm}\text{ if }\hspace{0.3cm}& (\sigma, k) \not \models \varphi \\
+(\sigma,k) \models \textbf{X} \varphi \hspace{0.3cm}\text{ if }\hspace{0.3cm}& (\sigma, k+1) \models \varphi \\
+(\sigma,k) \models \varphi_1 \lor \varphi_2 \hspace{0.3cm}\text{ if }\hspace{0.3cm}& (\sigma,k) \models \varphi_1 \text{ or } (\sigma,k) \models \varphi_2 \\
+(\sigma,k) \models \varphi_1 \mathcal{U} \varphi_2 \hspace{0.3cm}\text{ if }\hspace{0.3cm}& \exists k' \in [k,+\inf ], \hspace{0.1cm} (\sigma ,k') \models \varphi_2 \text{ and } \\ &\forall k'' \in (k,k'), \hspace{0.1cm} (\sigma, k'') \models \varphi_1 
+\end{align*}
+\end{definition}
+Where $(\sigma,k)$  refers to $\sigma$ at time step $k$. So an infinite word $\sigma$ is said to said to satisfy formula $\varphi$ if $(\sigma,0) \models \varphi$. For the ease of reading we will refer to $(\sigma,0)$ as $\sigma$. 
+
+There is a connection between these infinite words and the FTS described earlier that is crucial in motion planning technique. Given an infinite path $\tau$ of an FTS, we have that the trace of the path, $\trace(\tau)$, is an infinite word over the alphabet $2^{AP}$. Given the LTL semantics, we now have the ability to verify if a path satisfies an LTL formula! We will say an infinite path $\tau$ \textit{satisfies} $\varphi$ if its trace satisfies $\varphi$, i.e.\ $\tau \models \varphi$ if $trace(\tau) \models \varphi$. A path satisfying $\varphi$ will be referred to as a \textit{plan} for $\varphi$.
+
+
+
+
+\subsection{B\"{u}chi Automata}
+We now know if a path of an FTS satisfies a given LTL formula, however we are interested in \textit{generating} paths that satisfy a given formula, which requires a significantly more amout of work! We are going to need a finite representation of a given LTL formula, that we can search. This representation is a Nondeterministic B\"{u}chi automaton (NBA). 
+\begin{definition}
+\label{defNBA}
+An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
+\begin{align*}
+\mathcal{A}_\varphi = (\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F})
+\end{align*}
+where $\Q$ is a finite set of states, $\Q_0 \subseteq \Q$ is the set of initial states, $2^{AP}$ is the alphabet, $\delta: \Q \times 2^{AP} \rightarrow 2^\Q$ is a transition relation, and $\mathcal{F} \subseteq \Q$ is the set of accepting states
+\end{definition} 
+An infinite run of an NBA is an infinite sequence or states, $r=q_0 q_1 \dots$, where that starts from an initial state i.e.\ $q_0 \in Q_0$ and $q_{k+1} \in \delta(q_k, S)$ for some $S \in 2^{AP}$, for $k = 0,1,\dots$. The requirements for a run $r$ to be accepting is $\Inf(r) \cap \F \neq \emptyset$, where $\Inf(r)$ is the set of states that appear in $r$ infinitely often \cite{guo15}. 
+
+Now to tie together the concept of words and runs on an NBA. An infinite word $\sigma = S_0 S_1 \dots$ corresponds to $r_\sigma = q_0 q_1 \dots$ where $q_0 \in Q_0$ and $q_i+1 \in \delta(q_i,S_i)$
+
+It has been shown that given an LTL formula $\varphi$ over $AP$, there exists a NBA over $2^{AP}$ corresponding to $\varphi$, denoted $A_\varphi$ \cite{baier08}. When we say an NBA corresponds to an LTL formula, we mean that the set of words that correspond to accepting runs of the NBA is the same as the set of words accepted by the LTL formula.  
+
+\subsection{Product Automata}
+These two structures are then combined to create the product automaton. The product automata is also a B\"{u}chi automata and is defined as follows:
+\begin{definition}
+The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
+\end{definition} 
+
+Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' a_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$ \cite{guo15}. 
+
+Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(r) \cap \F \neq \emptyset$
+
+%\begin{lemma}
+%If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
+%\end{lemma}
+%Proof. see the proof of Theorem from [11] meng
+%
+%
+%\begin{lemma}
+%\label{lemma1}
+%If $R$ is an accepting run of $\A_p$, then $R|_\Pi \models \varphi$ 
+%\end{lemma}
+%Proof. %meng % By the definition of 
+%Assume R is an accepting run of $\A_p$. Given the definition of an accepting run of $\A_p$, there exists an accepting state $q_f' \in \F'$ that appears in R infinitely many times. 
+
+
+Our problem is now to find an accepting run of $\A_p$. This can be a difficult task, given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities. We also want to have some sort of measure of optimality, making the problem harder. To accomplish this, we are going to restrict our search to plans with a finite representation. This limits the plans that we can calculate, however it is much easier to deal paths that admit a finite representation. Specifically, we are going to be looking for paths in the prefix-suffix structure i.e.\
+\begin{align*}
+\tau = \langle \tau_{pre}, \tau_{suf} \rangle = \tau_{pre} [\tau_{suf}]^\omega
+\end{align*}
+The prefix, $\tau_{pre}$, is the path from an initial node to an accepting node. The suffix, $\tau_{suf}$, is going to be a path from the same accepting node back to itself. So the full path is going to be the prefix and then the suffix repeated infinitely many times (which is the meaning of the $\omega$ superscript). Thus, the accepting node appears infinitely many times in $\tau$ which makes $\tau$ accepting. Plans of this form are much easier to deal with because, while they are still infinite plans, they have a finite representation which is easier to deal with.
+
+\subsection{Cost of a Run}
+As we said before, we want to have a way to measure the optimality of a run. We introduce the concept of the \textit{cost} of a run to satisfy this requirement. We are focusing on the accepting runs of $\A_p$ with the prefix-suffix structure
+\begin{align*}
+R &= \langle R_{pre}, R_{suf} \rangle = q_0' q_1' \dots q_f' [q_f' q_{f+1}' \dots q_n']^\omega \\
+&= \langle \pi_0, q_0 \rangle \dots \langle \pi_{f-1}, q_{f-1} \rangle [ \langle \pi_f , q_f \rangle \langle \pi_f , q_f \rangle \dots \langle \pi_{n}, q_n \rangle ]^\omega
+\end{align*} 
+
+where $q_0' = \langle \pi_0, q_0 \rangle \in \Q_0'$ and $q_f' = \langle \pi_f , q_f \rangle \in \F'$. 
+
+As we can see, our path is a sequence of states, $q_0',q_1',\dots,q_n'$ in $\A_p$, where $q_{i+1}' \in \delta' (q_i')$ for all $i=0,1, \dots, n-1$. Each of these transitions has a weight or cost associated with it, given by $W_p(q_i',q_{i+1}') = W_c(q_i'|_\Pi , q_{i+1}'|_\Pi)$. We simply define the cost of our path as the sum of the cost of the transitions in the path, with the cost of the suffix being weighted.
+%There is a finite set of transitions in our infinite path i.e.\ 
+%\begin{align*}
+%\Edge (R) = \{(q_i, q_{i+1}) , i = 0,1,\dots ,(n-1)\} \cup \{(q_n , q_f ) \}.
+%\end{align*}
+
+\begin{align*}
+\Cost (R, \A_p) &= \sum_{i=0}^{f-1} W_p(q_i,q_{i+1}) + \gamma \sum_{i=f}^{n-1} W_p(q_i,q_{i+1}) \\
+&= \sum_{i=0}^{f-1} W_c(\pi_i,\pi_{i+1}) + \gamma \sum_{i=f}^{n-1} W_c(\pi_i, \pi_{i+1})
+\end{align*}
+where $\gamma \geq 0$ is the relative weighting of the transient response (prefix) cost and steady response (suffix) cost \cite{guo15}. In \cite{fainekos09} they say that they search for the path with the least amount of transitions and say this is the optimal path. This is an example converting a FTS to a WFTS by setting the weight of every transition to one.
+ 
+
+
+We will denote the accepting run with prefix-suffix structure that minimizes the total cost as $R_{opt}$, with the corresponding plan $\tau_{opt} = R_{opt}|_\Pi$. We note however that this plan may not actually be the true optimal plan with prefix-suffix structure. In \cite{schuppan05} we see that simplifications in the translation from LTL formulas to NBA can result in a loss of optimality. This will come up again when we analyse the paths our algorithm generates. 

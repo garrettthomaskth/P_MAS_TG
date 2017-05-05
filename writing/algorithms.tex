@@ -1,0 +1,70 @@
+\section{Search Algorithms}
+The task is now to compute a path that satisfies our LTL formula. The current accepted algorithm does an exhaustive search of the product automaton to find the optimal path (again this may not actually be the optimal path \cite{schuppan05}. This however is a computationally intensive task. We present an approximation algorithm that gives a \textit{good} path, but not necessarily the optimal path. This can be attractive if the cost of the path is not of dire importance. We first present the current standard algorithm and then our algorithm. 
+\subsection{Accepted Algorithm}
+The search algorithm used in many recent works on the specific type of control planning synthesis comes from this prefix-suffix structure. The basic idea is to find a path from an initial node, $q_0$ to an accepting node, $q_f$, and then find a path from the $q_f$ back to itself. The first part from $q_0$ to $q_f$ is the prefix and the second part $q_f$ back to $q_f$ is the suffix. Then the resulting path, $\tau$, will be the prefix, followed by the suffix repeated infinitely many times. This path is thus accepting because the suffix finds the path from an initial state back to itself, and thus contains the initial state, and is repeated infinitely many times $q_f \in \Inf \tau  \Rightarrow \Inf \tau \cap \F \neq \emptyset$. 
+
+Algorithm \ref{optrun}, from \cite{guo15}, gives pseudocode of how to compute $R_{opt}$.
+\begin{algorithm}
+\caption{OptRun()}\label{optrun}
+\begin{algorithmic}[1]
+\Require Input $\A_p, S' = \Q_0'$ by default
+\Ensure $R_{opt}$
+%\Procedure{MyProcedure}{}
+\State If $Q_0'$ or $\F'$ is empty, construct $Q_0'$ or $\F'$ first.
+\State For initial state $q_0' \in S'$, call $\texttt{DijksTargets}(\A_p,q_0',\F')$.
+\State For each accepting state $q_f' \in \F'$, call $\texttt{DijksCycle}(\A_p,q_f')$. 
+\State Find the pair of $(q_{0,opt}',q_{f,opt}')$ that minimizes the total cost
+\State Optimal accepting run $R_{opt}$, prefix: shortest path from $q_{0*}'$ to  $q_{f*}$; suffix: the shortest cycle from $q_{f*}'$ and back to itself.
+\end{algorithmic}
+\end{algorithm}
+
+$\texttt{DijksTargets}(\A_p,q_0',\F)$ computes the shortest paths in $\A_p$ from initial state $q_0' \in \Q_0$ to every accepting node in $\F$ using Dijkstra's algorithm \cite{dijkstra59} and $\texttt{DijksCycle}(\A_p,q_f')$ computes the shortest path in $\A_p$ from accepting state $q_f'$ back to itself using Dijkstra's algorithm.
+
+This algorithm, or simple variations of it, are used in many works on motion planning synthesis \cite{fainekos09}, add more, so we will refer to it as the \textit{accepted} algorithm. The worst case computational complexity of this algorithm $\mathcal{O}(|\delta'| \cdot \log|\Q_0'| \cdot (|\Q_0'| + |\F'|))$ because... I don't get this. Also calculate it for our algorithm
+
+Meng Guo has created a public github repository, P-MAS-TG (Planner for Multiple Agent System with Temporal Goals) \cite{pMasGit}. The function \texttt{dijkstra\_plan\_networkX} in \texttt{P\_MAS\_TG\\discrete\_plan.py} is approximately equvialent to Algorithm \ref{optrun}. The work of $\texttt{DijksTargets}(\A_p,q_0',\F)$ and $\texttt{DijksCycle}(\A_p,q_f')$ are instead done by the function \texttt{dijkstra\_predecessor\_and\_distance} from the NetworkX python package \cite{schult08}. 
+\subsection{Our Algorithm}
+As we can see, the current algorithm has to do a lot of work. First it has to do Dijkstra's search for each initial state, and then one for each accepting state (the number of accepting states is at least the size of the FTS). The state space that is being searched can also become very big, which is known as the state explosion problem \cite{clarke99}. The size of the product automaton, $|\A_p|$ is the size of the B\"{u}chi automaton corresponding to the LTL formula times the size of the FTS i.e.\ $|\Pi| \dot |\Q|$. The size of the B\"{u}chi automaton corresponding to the LTL formula is then usually exponential in the size of the formula. We can imagine how much searching is needed if we have and FTS and B\"{u}chi that are both fairly large. To solve this problem, we suggest an algorithm that sacrifices optimality but preforms much faster than the current accepted algorithm. 
+
+The idea stems from the fact that $q' = \langle \pi, q \rangle \in \Q'$ is an accepting state of $\A_p$ iff $q \in Q$ is an accepting state of $\A_\varphi$. Thus finding an accepting state in the product automaton is essentially finding an accepting state of the LTL B\"{u}chi automaton. We therefore suggest assigning a distance measure in the LTL B\"{u}chi automaton that carries over to the product automaton. To do this, we first define a B\"{u}chi automaton that includes information on the distance to an accepting state.
+
+\begin{definition}
+\label{defBWD}
+An NBA with distance, NBAD, is defined by a six-tuple:
+\begin{align*}
+\mathcal{A}_{\varphi,d} = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F},d)
+\end{align*}
+where $\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F}$ are defined as in definition \ref{defNBA} and $d:\Q \rightarrow \mathbb{Z}$ is defined as 
+\begin{align*}
+d(q_n) = \min_x \{x | q_x \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \text{ for some } S_k \in 2^{AP} \text{ and } k = 0,1,\dots, x-1 \}
+\end{align*}
+which is the length of the number of transitions in the shortest path from $q_n$ to an accepting state.
+\end{definition}
+
+Then we also have a product automaton with distance, $\mathcal{A}_{p,d} = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p, d_p)$, defined similarly, with $d_p(q') = d(q'|\Q)$. We will refer to $q'$ as being on level $n$ if $d_p(q') = n$.
+
+The idea of our algorithm is to start from $q_0' \in \Q'$, say $d_p(q_0')=n$ and then use a Dijkstra search to find the closest node that is on next smallest level, $n-1$. Then we will do another Dijkstra search on the next level down to find the closest node that has a transition down, and so on. This ensures that we will approach the accepting states i.e.\ those states on level 0. Once we reach an accepting state, we use a either a Dijkstra search or a decreasing levels search to find the fastest way from the accepting state back to itself. Sometimes we have to use a Dijkstra search instead of use the idea of decreasing levels because, although it would be faster, in general this procedure cannot be use to find a specific accepting state. We will refer to the run generated by this algorithm as $R_{nn}$ in which $nn$ stands for nearest neighbour. We choose this name because in some situations this search is equivalent to the nearest neighbour search algorithm for the travelling salesperson problem \cite{hoffman86}. Pseudocode is given in Algorithm \ref{NNrun}
+
+\begin{algorithm}
+\caption{NearestNeighborRun()}\label{NNrun}
+\begin{algorithmic}[1]
+\Require Input $\A_{p,d}, S' = \Q_0'$ by default
+\Ensure $R_{nn}$
+%\Procedure{MyProcedure}{}
+\State Level = $d_p(q_0' \in \Q_0')$, Prefix = [$q_0'$]
+\While {Level > 0}
+\State find NextNode using \texttt{adapted\_dijkstra\_multisource}
+\State	add path to NextNode onto Path
+\If {$d_p(\text{NextNode})$ == 0 }
+\State break
+\EndIf
+\State Level = Level - 1	
+\EndWhile
+\State Suffix = \texttt{DijksCycle($A_{p,d}$,NextNode)}
+\State $R_{nn}$, prefix: PathPre; suffix: PathSuf.
+\end{algorithmic}
+\end{algorithm}
+
+As we can see, assuming that we reach an accepting state in a strongly connected component, we will do $n+1$ searches. This still may seem like a lot, however the searches are done on much smaller graphs. The first $n$ searches only look at graphs with $|\Pi|$ nodes. 
+
+We now analyse how this algorithm performs in when the LTL formula expresses certain behaviours. 
