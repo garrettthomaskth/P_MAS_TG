@@ -2,6 +2,7 @@
 To show how our algorithm differs with the current accepted algorithm, we illustrate examples using the FTS in figure \ref{fig:ftsEx}
 
 \begin{figure}
+\centering
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
@@ -41,7 +42,7 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.2cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
@@ -59,7 +60,8 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
 As we can see $d_p(q_1)=1$ and $d_p(q_1)=0$. For our example, we will look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton is shown in figure \ref{fig:reachAvoidProduct}
 
 \begin{figure*}
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
@@ -101,7 +103,9 @@ As we can see $d_p(q_1)=1$ and $d_p(q_1)=0$. For our example, we will look at th
 \label{fig:reachAvoidProduct}
 \end{figure*}
 Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
-Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general from of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm on a formula of this type.
+Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general from of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm to find an accepting node. However, we do gain a much faster run time because we do not have to do a Dijkstra search for every accepting node. We simply do one, and because there $q_2$ in automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple FTS has a self loop, every accepting state in the product automaton will have a self loop.
+
+The search of a loop from every accepting node back to itself requires a lot of time. We can illustrate this in an example. We have a workspace partitioned into $25 \times 25$ equally sized squares
 
 
 

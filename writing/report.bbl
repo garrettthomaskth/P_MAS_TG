@@ -28,11 +28,6 @@ Edmund~M Clarke, Orna Grumberg, and Doron Peled.
 \newblock {\em Model checking}.
 \newblock MIT press, 1999.
 
-\bibitem{dijkstra59}
-Edsger~W Dijkstra.
-\newblock A note on two problems in connexion with graphs.
-\newblock {\em Numerische mathematik}, 1(1):269--271, 1959.
-
 \bibitem{fainekos09}
 Georgios~E Fainekos, Antoine Girard, Hadas Kress-Gazit, and George~J Pappas.
 \newblock Temporal logic motion planning for dynamic robots.
