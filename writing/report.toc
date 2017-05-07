@@ -10,12 +10,12 @@
 \contentsline {subsection}{\numberline {0.2.2}Our Algorithm}{12}{subsection.0.2.2}
 \contentsline {section}{\numberline {0.3}Algorithm Performance with Specific Behaviours}{15}{section.0.3}
 \contentsline {subsection}{\numberline {0.3.1}Reachability while avoiding regions}{15}{subsection.0.3.1}
-\contentsline {subsection}{\numberline {0.3.2}Sequencing}{15}{subsection.0.3.2}
-\contentsline {subsection}{\numberline {0.3.3}Coverage}{18}{subsection.0.3.3}
-\contentsline {subsection}{\numberline {0.3.4}Recurrence (Liveness)}{28}{subsection.0.3.4}
-\contentsline {section}{\numberline {0.4}More Complex Formulas}{31}{section.0.4}
-\contentsline {subsection}{\numberline {0.4.1}Example 1}{31}{subsection.0.4.1}
-\contentsline {subsection}{\numberline {0.4.2}Example 1 Overlapping Regions}{32}{subsection.0.4.2}
-\contentsline {subsection}{\numberline {0.4.3}Example 2}{33}{subsection.0.4.3}
-\contentsline {subsection}{\numberline {0.4.4}OR Operator}{34}{subsection.0.4.4}
-\contentsline {section}{\numberline {0.5}Appendix}{36}{section.0.5}
+\contentsline {subsection}{\numberline {0.3.2}Sequencing}{19}{subsection.0.3.2}
+\contentsline {subsection}{\numberline {0.3.3}Coverage}{19}{subsection.0.3.3}
+\contentsline {subsection}{\numberline {0.3.4}Recurrence (Liveness)}{31}{subsection.0.3.4}
+\contentsline {section}{\numberline {0.4}More Complex Formulas}{34}{section.0.4}
+\contentsline {subsection}{\numberline {0.4.1}Example 1}{34}{subsection.0.4.1}
+\contentsline {subsection}{\numberline {0.4.2}Example 1 Overlapping Regions}{35}{subsection.0.4.2}
+\contentsline {subsection}{\numberline {0.4.3}Example 2}{36}{subsection.0.4.3}
+\contentsline {subsection}{\numberline {0.4.4}OR Operator}{37}{subsection.0.4.4}
+\contentsline {section}{\numberline {0.5}Appendix}{39}{section.0.5}

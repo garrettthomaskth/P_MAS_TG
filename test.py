@@ -72,9 +72,9 @@ robot_motion.add_un_edges(edges, unit_cost = 1)
 ############# no action model
 action = dict()
 ############# with action
-action = { 'pick': (100, 'r', set(['pick'])),
-           'drop': (50, 'b', set(['drop']))
-}
+#action = { 'pick': (100, 'r', set(['pick'])),
+#           'drop': (50, 'b', set(['drop']))
+#}
 
 
 robot_action = ActionModel(action)
@@ -100,7 +100,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
-hard_task = '<> r312 && <> r395 && <>r602 '
+#hard_task = '<> r312 && <> r395 && <>r602 '
 #hard_task = '<> r1 && <> r600 || <>r7'
 hard_task = '!(r300 || r400 || r5) U r445'
 soft_task = None#'([]! b)'
@@ -151,8 +151,8 @@ for node in robot_planner.product.graph['buchi'].node:
 #nx.draw_networkx(robot_planner.product,node_color=colP,labels=labels)
 #plt.show()
 
-nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
-plt.show()
+#nx.draw_networkx(robot_planner.product.graph['buchi'],node_color=colB,labels=l)
+#plt.show()
 #app = Viewer(robot_planner.product)
 #app.mainloop()
 # synthesis

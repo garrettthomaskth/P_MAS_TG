@@ -57,7 +57,7 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
 \label{fig:ReachAvoid}
 \end{figure}
 
-As we can see $d_p(q_1)=1$ and $d_p(q_1)=0$. For our example, we will look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton is shown in figure \ref{fig:reachAvoidProduct}
+As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. For our example, we will look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton is shown in figure \ref{fig:reachAvoidProduct}
 
 \begin{figure*}
 \centering
@@ -105,12 +105,52 @@ As we can see $d_p(q_1)=1$ and $d_p(q_1)=0$. For our example, we will look at th
 Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
 Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general from of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm to find an accepting node. However, we do gain a much faster run time because we do not have to do a Dijkstra search for every accepting node. We simply do one, and because there $q_2$ in automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple FTS has a self loop, every accepting state in the product automaton will have a self loop.
 
-The search of a loop from every accepting node back to itself requires a lot of time. We can illustrate this in an example. We have a workspace partitioned into $25 \times 25$ equally sized squares
+The search of a loop from every accepting node back to itself requires a lot of time. We can illustrate this in an example. We have a workspace partitioned into $25 \times 25 = 625$ equally sized squares
 
 
 
+The output from the accepted algorithm is
+\begin{lstlisting}
+Accepted Algorithm
+==================
+Dijkstra_plan_networkX done within 0.02s: precost 37.00, sufcost 0.00
+------------------------------
+the prefix of plan **states**:
+[((0, 0, 1), 'None'), ((1, 0, 1), 'None'), ((2, 0, 1), 'None'), ((3, 0, 1), 'None'), ((3, 1, 1), 'None'), ((4, 1, 1), 'None'), ((5, 1, 1), 'None'), ((6, 1, 1), 'None'), ((6, 2, 1), 'None'), ((6, 3, 1), 'None'), ((6, 4, 1), 'None'), ((6, 5, 1), 'None'), ((7, 5, 1), 'None'), ((8, 5, 1), 'None'), ((8, 6, 1), 'None'), ((9, 6, 1), 'None'), ((10, 6, 1), 'None'), ((10, 7, 1), 'None'), ((10, 8, 1), 'None'), ((10, 9, 1), 'None'), ((11, 9, 1), 'None'), ((12, 9, 1), 'None'), ((12, 10, 1), 'None'), ((13, 10, 1), 'None'), ((14, 10, 1), 'None'), ((14, 11, 1), 'None'), ((15, 11, 1), 'None'), ((16, 11, 1), 'None'), ((17, 11, 1), 'None'), ((18, 11, 1), 'None'), ((19, 11, 1), 'None'), ((19, 12, 1), 'None'), ((20, 12, 1), 'None'), ((20, 13, 1), 'None'), ((20, 14, 1), 'None'), ((20, 15, 1), 'None'), ((20, 16, 1), 'None'), ((20, 17, 1), 'None'), ((20, 17, 1), 'None')]
+the suffix of plan **states**:
+[((20, 17, 1), 'None'), ((20, 17, 1), 'None')]
+------------------------------
+the prefix of plan **actions**:
+[(0, 0, 1), (1, 0, 1), (2, 0, 1), (3, 0, 1), (3, 1, 1), (4, 1, 1), (5, 1, 1), (6, 1, 1), (6, 2, 1), (6, 3, 1), (6, 4, 1), (6, 5, 1), (7, 5, 1), (8, 5, 1), (8, 6, 1), (9, 6, 1), (10, 6, 1), (10, 7, 1), (10, 8, 1), (10, 9, 1), (11, 9, 1), (12, 9, 1), (12, 10, 1), (13, 10, 1), (14, 10, 1), (14, 11, 1), (15, 11, 1), (16, 11, 1), (17, 11, 1), (18, 11, 1), (19, 11, 1), (19, 12, 1), (20, 12, 1), (20, 13, 1), (20, 14, 1), (20, 15, 1), (20, 16, 1), (20, 17, 1), 'None', 'None']
+the suffix of plan **actions**:
+['None', 'None']
+full construction and synthesis done within 0.11s
+\end{lstlisting}
+
+At the top of the output the time taken to calculate the path, the cost of the prefix and the cost of the suffix is given. The states can be thought of as the result of the labelling function, and actions can be thought of the labels of the transition of the B\"uchi automaton. The time for \texttt{full construction and synthesis} is larger than the first time given because it includes the time taken to initialize and construct the graph, which takes the majority of time.
+
+The output of our algorithm is as follows
+
+\begin{lstlisting}
+==================
+Dijkstra_plan_networkX done within 0.01s: precost 37.00, sufcost 0.00
+------------------------------
+the prefix of plan **states**:
+[((0, 0, 1), 'None'), ((1, 0, 1), 'None'), ((2, 0, 1), 'None'), ((3, 0, 1), 'None'), ((3, 1, 1), 'None'), ((4, 1, 1), 'None'), ((4, 2, 1), 'None'), ((5, 2, 1), 'None'), ((6, 2, 1), 'None'), ((6, 3, 1), 'None'), ((6, 4, 1), 'None'), ((7, 4, 1), 'None'), ((7, 5, 1), 'None'), ((8, 5, 1), 'None'), ((9, 5, 1), 'None'), ((9, 6, 1), 'None'), ((9, 7, 1), 'None'), ((9, 8, 1), 'None'), ((10, 8, 1), 'None'), ((10, 9, 1), 'None'), ((10, 10, 1), 'None'), ((11, 10, 1), 'None'), ((12, 10, 1), 'None'), ((13, 10, 1), 'None'), ((14, 10, 1), 'None'), ((14, 11, 1), 'None'), ((15, 11, 1), 'None'), ((16, 11, 1), 'None'), ((17, 11, 1), 'None'), ((18, 11, 1), 'None'), ((19, 11, 1), 'None'), ((19, 12, 1), 'None'), ((20, 12, 1), 'None'), ((20, 13, 1), 'None'), ((20, 14, 1), 'None'), ((20, 15, 1), 'None'), ((20, 16, 1), 'None')]
+the suffix of plan **states**:
+[((20, 17, 1), 'None'), ((20, 17, 1), 'None')]
+------------------------------
+the prefix of plan **actions**:
+[(0, 0, 1), (1, 0, 1), (2, 0, 1), (3, 0, 1), (3, 1, 1), (4, 1, 1), (4, 2, 1), (5, 2, 1), (6, 2, 1), (6, 3, 1), (6, 4, 1), (7, 4, 1), (7, 5, 1), (8, 5, 1), (9, 5, 1), (9, 6, 1), (9, 7, 1), (9, 8, 1), (10, 8, 1), (10, 9, 1), (10, 10, 1), (11, 10, 1), (12, 10, 1), (13, 10, 1), (14, 10, 1), (14, 11, 1), (15, 11, 1), (16, 11, 1), (17, 11, 1), (18, 11, 1), (19, 11, 1), (19, 12, 1), (20, 12, 1), (20, 13, 1), (20, 14, 1), (20, 15, 1), (20, 16, 1), (20, 17, 1)]
+the suffix of plan **actions**:
+['None', 'None']
+full construction and synthesis done within 0.32s 
+\end{lstlisting}
+
+
+As we can see, our algorithm computed the same path in about the same.%seconds. This may seem weird because we have shown that our algorithm does the same calculation when finding a path from the initial node to an accepting node. The difference is that for each accepting node, a Dijkstra search is performed. In this example, there are 625 accepting states (the number of states in the FTS times the number of states in the B\"uchi automaton). The function \texttt{dijkstra\_predecessor\_and\_distance} from \cite{schult08} is used to calculate the shortest path back to an accepting node. 
 \subsection{Sequencing}
-Sequencing is the behaviour of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. A formula that describes this behaviour for $n=3$ is $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ and is shown in figure \ref{fig:seq}. This behaviour is ideal for our algorithm.
+This behaviour is ideal for our algorithm. Sequencing is the behaviour of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. A formula that describes this behaviour for $n=3$ is $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ and is shown in figure \ref{fig:seq}. We note that this is automaton is only applicable if because of the partition we defined earlier in Definition \ref{def:PM} which makes it impossible for $\pi_i$ and $\pi_j$ to be true at the same time if $i\neq j$. The LTL2BA tool \cite{ltlbuchiwebsite} that is used the github repository \cite{pMasGit} actually generates an automaton with connecting every node. For example, there is an edge from $q_1$ to $q_4$ labelled $\pi_1 \&\& \pi_2 \&\& \pi_3$. This transition is impossible so we take it out before calculating the distances. Our algorithm would not work very well if every state in the B\"uchi automaton had a distance of 1 and the accepting states had a distance of 0.
 
 
 \begin{figure}
@@ -205,7 +245,7 @@ A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ i
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
@@ -223,14 +263,14 @@ A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ i
    (A) edge              node {$\pi_{2}$} (C)
    (A) edge              node {$\pi_{3}$} (D)
    (B) edge              node {$\pi_{2}$} (E)
-   (B) edge              node {$\pi_{3}$} (F)
-   (C) edge              node {$\pi_{1}$} (E)
+   (B) edge              node [near start] {$\pi_{3}$} (F)
+   (C) edge              node [near start] {$\pi_{1}$} (E)
    (E) edge              node {$\pi_{3}$} (H)
    (F) edge              node {$\pi_{2}$} (H)
    (G) edge              node {$\pi_{1}$} (H)
    (D) edge              node {$\pi_{2}$} (G)
-   (D) edge              node {$\pi_{1}$} (F)
-   (C) edge              node {$\pi_{1}$} (G);
+   (D) edge              node [near start] {$\pi_{1}$} (F)
+   (C) edge              node [near start] {$\pi_{3}$} (G);
 \end{tikzpicture}
 \caption{B\"uchi Automaton Corresponding to $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \pi_3$}
 \label{fig:buchCov}
@@ -247,28 +287,28 @@ We now define a workspace to use with our problem. Our workspace is a grid, 25 u
 \end{figure}
 
 
-When we use our algorithm on a coverage formula, we may not get the optimal path. We will however get an accepting path, and we now show that this path corresponds to the one generated by the nearest neighbour approach to the travelling salesperson problem. We also provide a provide a bound on the distance of our path based on the worst case ratio of the nearest neighbour tour to the optimal tour given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he passes through a given set of cities and then returns back home at the end. More formally, it can be stated as finding the minimum Hamiltonian circuit with the lowest sum of distances between the nodes (cities). This problem has been studied extensively and "give quote about importance". This problem is NP-hard, and thus many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbour algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. If there is a tie in the next closest neighbour, we assume that the next node can be decided arbitrarily. This is exactly what our algorithm does in this situation, the first Dijkstra search finds the closest node, and the we start another search. 
+When we use our algorithm on a coverage formula, we may not get the optimal path. We will however get an accepting path, and we now show that this path corresponds to the one generated by the nearest neighbour approach to the travelling salesperson problem. We also provide a bound on the distance of our path based on the worst case ratio of the nearest neighbour tour to the optimal tour given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he passes through a given set of cities and then returns back home at the end. More formally, it can be stated as finding the minimum Hamiltonian circuit with the lowest sum of distances between the nodes (cities). This problem has been studied extensively and "give quote about importance". This problem is NP-hard, and thus many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbour algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. If there is a tie in the next closest neighbour, we assume that the next node can be decided arbitrarily. This is exactly what our algorithm does in this situation, the first Dijkstra search finds the closest node, and the we start another search. 
 
 To formulate our problem as a travelling salesman problem we use the idea of a dummy node from Lenstra and Rinnooy Kan's computer wiring example in \cite{lenstra75}. In their example, they are designing a computer interface at the Institute for Nuclear Physical Research in Amsterdam. An interface is made up of several modules, with multiple pins on each module. A given subset of pins has to be interconnnected by wires, and at most two wires can be connected to any pin. For obvious regions, it is desirable to minimize the amount of wire used. They show that this is actually a travelling salesperson problem in disguise. The only difference between this problem and a travelling salesman problem is that in the travelling salesman problem, the salesman must return home at the end. This is not true in this problem. It is also not true in our problem, we only need to pass through $\pi_1$, $\pi_2$ and $\pi_3$, there is no need to return to the starting state after we do this. To formulate this seemingly unrelated problem into a travelling salesperson problem, they set $P$ to be the set of pins to be interconnected, $c_{ij}$ to be the distance between pin $i$ and pin $j$. They then introduce a dummy node $*$ that is a distance 0 from all the other nodes i.e.\ $c_{i*} = c_{*i} = 0$ for all i. Then the corresponding problem is solving the travelling salesperson problem on the set of nodes $N=P \cup \{*\}$. 
 
 For our problem, we set $c_{ij}=d(\pi_i , \pi_j)$, for $i,j=0,1,2,3$ where where the initial state is from now on known as $\pi_0$, to be the shortest path our robot can take from $\pi_i$ to $\pi_j$, insuring that the triangle inequality is satisfied for all $i$ and $j$. We must preserve the the triangle inequality for a proof of a worst case scenario bound we will provide later on. We use this same idea as above of adding a dummy node, however to preserve the triangle inequality we cannot have the dummy node be distance 0 from the other nodes. Indeed, if $c_{i*} = c_{*i} = 0 $ the triangle inequality would be violated because $c_{i*} + c_{*j} = 0 \geq c_{ij}$ which would make the cost from getting to any point 0, thus rendering the problem extremely trivial. 
 
-We can represent the relationship between the regions in our graph with the following \textit{complete} subgraph, shown in figure. A complete graph is an undirected graph in which every pair of vertices is connected by an edge. 
+We can represent the relationship between the regions in our graph with the following \textit{complete} subgraph, shown in figure \ref{fig:completeGraph}. A complete graph is an undirected graph in which every pair of vertices is connected by an edge. 
 \begin{figure}
 \centering
-\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=4cm,
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=5cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
-  \node[state] (A)                    {Initial};
+  \node[state] (A)                    {$\pi_0$};
   \node[state] (B)                    [right of=A]{$\pi_1$};
   \node[state] (C)                    [below of=A]{$\pi_2$};
   \node[state]         (D) [right of=C] {$\pi_3$};
 
   \path (A) edge              node {$26$} (B)
   		(A) edge 			 node {$24$} (C)
-  		(A) edge              node {$35$} (D)
-  		(B) edge 				node {$22$} (C)
+  		(A) edge              node [near start] {$35$} (D)
+  		(B) edge 				node [near start] {$22$} (C)
   		(B) edge              node {$27$} (D)
   		(C) edge				node {$11$} (D);
 \end{tikzpicture}
@@ -284,7 +324,7 @@ For the distances, we use the so called \textit{Manhattan distance}, i.e.\ $d((x
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
-  \node[state] (A)                    {I$\pi_0$};
+  \node[state] (A)                    {$\pi_0$};
   \node[state] (B)                    [right of=A]{$\pi_1$};
   \node[state] (C)                    [below of=A]{$\pi_2$};
   \node[state]         (D) [right of=C] {$\pi_3$};
@@ -305,7 +345,7 @@ This is not the optimal path though, which is shown in figure \ref{fig:optcomple
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
-  \node[state] (A)                    {Initial};
+  \node[state] (A)                    {$\pi_0$};
   \node[state] (B)                    [right of=A]{$\pi_1$};
   \node[state] (C)                    [below of=A]{$\pi_2$};
   \node[state]         (D) [right of=C] {$\pi_3$};
@@ -328,7 +368,7 @@ We show the new subgraph in figure \ref{fig:completeDummy}
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=4cm,
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=5cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
@@ -340,14 +380,14 @@ We show the new subgraph in figure \ref{fig:completeDummy}
 
   \path (A) edge              node {$26$} (B)
   		(A) edge 			 node {$24$} (C)
-  		(A) edge              node {$35$} (D)
-  		(B) edge 				node {$22$} (C)
-  		(B) edge              node {$27$} (D)
+  		(A) edge              node [near end] {$35$} (D)
+  		(B) edge 				node [near end] {$22$} (C)
+  		(B) edge              node [near start] {$27$} (D)
   		(C) edge				node {$11$} (D)
   		(E) edge 				node {$35$} (D)
   		(E) edge 				[bend left] node {$35$} (C)
   		(E) edge 				node {$35$} (B)
-  		(E) edge 				node {$35$} (A);
+  		(E) edge 				node [near start] {$35$} (A);
 \end{tikzpicture}
 \caption{Complete Subgraph with Dummy Node}
 \label{fig:completeDummy}
@@ -370,18 +410,18 @@ The path that the nearest neighbour algorithm takes in this situation, the compl
   \path (A) edge 			 node {$24$} (C)
   		%(A) edge              node {$35$} (D)
   		%(B) edge 				node {$22$} (C)
-  		(B) edge              node {$27$} (D)
+  		(B) edge              node [near start] {$27$} (D)
   		(C) edge				node {$11$} (D)
   		%(E) edge 				node {$35$} (D)
   		%(E) edge 				[bend left] node {$35$} (C)
   		(E) edge 				node {$35$} (B)
-  		(E) edge 				node {$35$} (A);
+  		(E) edge 				node [near start] {$35$} (A);
 \end{tikzpicture}
 \caption{Nearest Neighbour Path with Dummy Node}
 \label{fig:NearNeigDummy}
 \end{figure}
 
-We node however that this is not the optimal solution. This optimal solution is shown in 
+We note however that this is not the optimal solution. This optimal solution is shown in 
 figure \ref{fig:optDummy} and has a cost of 129.
 
 \begin{figure}
@@ -413,7 +453,7 @@ figure \ref{fig:optDummy} and has a cost of 129.
 
 
 
-It has been shown that for an n-node travelling salesperson problem which satisfies the triangle inequality i.e.\ $d(i,j) = d(j,k) \geq d(i,k)$ for all $i,j,$ and $k$ where $d(i,j)$ is the nonnegative distance between nodes $i$ and $j$, 
+It has been shown \cite{rosenkrantz74} that for an n-node travelling salesperson problem which satisfies the triangle inequality i.e.\ $d(i,j) = d(j,k) \geq d(i,k)$ for all $i,j,$ and $k$ where $d(i,j)$ is the nonnegative distance between nodes $i$ and $j$, 
 \begin{align*}
 \text{NEARNEIBR} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL}
 \end{align*}
@@ -556,7 +596,7 @@ We can see that this is still a conservative bound, and emphasize that it is the
 \subsection{Recurrence (Liveness)}
 Recurrence is coverage over and over again, and can be expressed as $\square(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight, and it an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
 
-To illustrate our point, we consider the formula $\square(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is 
+To illustrate our point, we consider the formula $\square(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}
 
 \begin{figure}
 \centering
@@ -577,38 +617,38 @@ To illustrate our point, we consider the formula $\square(\diamond \pi_1 \land \
 %  		(D) edge [bend right] node {$\neg \pi_1$} (A)
  % 		(D) edge [bend left] node {$\pi_1$} (B);
 \end{tikzpicture}
-\caption{B\"uchi Automaton for $\square(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$ 1}
+\caption{B\"uchi Automaton for $\square(\diamond \pi_1 \land \diamond \pi_2 )$ 1}
 \label{fig:gasBuchiRec}
 \end{figure}
 Note: The actual automaton generated has much more edges. For example, there is an edge from $q_4$ to $q_2$ which is labelled $\pi_1 \&\& \pi_2$. It is impossible for us to make this transition because $\pi_i$ for all $i$ is a region in our partition. This is because the requirements of our partition are chosen specially to guarantee that we are never in two regions at once. Thus they are excluded in the interest of the reader. In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{init}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton \ref{fig:gasBuchiRec} the only way to do this is to go to region $\pi_1$. Our algorithm does this, and then starts a new Dijkstra search. In this case the same statement holds for $\pi_2$. Therefore the optimal prefix is to concatenate the optimal paths down from each each level (first to $\pi_1$, etc). Our algorithm does a Dijkstra search at each level so it will return this path as the prefix. The accepted algorithm will also return this prefix. 
 
 This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\square(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
 
-\begin{figure*}
+\begin{figure}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.7cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
   \node[initial,state] (A)                    {$q_1$};
   \node[state]         (B) [ right of=A] {$q_2$};  
-  \node[state] 		   (C)  [below of=B]  {$\pi_3$};
+  \node[state] 		   (C)  [below of=B]  {$q_3$};
   \node[state,accepting]       (D) [ right of=C] {$q_4$};
 
   \path (A) edge         node {$\pi_{1}$}   (B)
         (B) edge       node {$\pi_{2}$}     (D)
-        (A) edge       node {$\pi_{2}$}  (C)
+        (A) edge       node [near end] {$\pi_{2}$}  (C)
         (C) edge     node {$\pi_{1}$}       (D)
         (A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2$} (A)
         (B) edge [loop above] node {$\neg \pi_2$} (B)
         (C) edge [loop below] node {$\neg \pi_1$} (C)
         (D) edge [bend left] node {$\pi_2$} (C)
-        (D) edge [bend left] node {$\pi_1$} (B)
+        (D) edge [bend right] node [near end] {$\pi_1$} (B)
         (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
 \end{tikzpicture}
-\caption{B\"uchi Automaton for $\square(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$ 2}
+\caption{B\"uchi Automaton for $\square(\diamond \pi_1 \land \diamond \pi_2)$ 2}
 \label{fig:otherBuchiRec}
-\end{figure*}
+\end{figure}
 
 In this automaton, $d(q_1) = 2$, $d(q_2) = d(q_3) = 1$, and $d(q_4)= 0$. So, we are starting at the same level i.e. 2, however this time we have two choices about what to do to get down to level 2; we can go to $\pi_1$ or $\pi_2$. Being able to choose is good in the sense that we can now find the optimal path, and bad in the sense that the extra state in the $B\"{u}chi$ automaton increased the size of the product automaton by 33\% (hence increasing the time it takes to search the automaton). This very well illustrates the trade off between the search time and optimally/cost of the resulting run. We propose that this is a good way to think about our algorithm. There is a trade off that sometimes it will not find the optimal run, even if this is possible, though it will be faster. 
 

@@ -34,8 +34,8 @@ class ltl_planner(object):
 			# Garrett
 			#print 'Garrett'
 			#self.run, plantime = Garrett_dijkstra_plan_networkX(self.product, self.beta)
-			print '###'
-			print '###'
+			#print '###'
+			#print '###'
 		elif style == 'ready':
 			self.product.build_full()
 			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)

@@ -33,8 +33,8 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 		prefix = [start_node]
 		while lev > 0:
 			di,targ,path = ga.adapted_dijkstra_multisource(product,start_node)
-			print 'di'
-			print len(di)
+			#print 'di'
+			#print len(di)
 			#print pre
 			#print len(di)
 			#print len(targ)
@@ -100,6 +100,7 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 
 
 def dijkstra_plan_networkX(product, beta=10):
+	print 'Hello'
 	# requires a full construct of product automaton
 	# used for 'stadic' and 'ready'
 	start = time.time()
@@ -111,18 +112,25 @@ def dijkstra_plan_networkX(product, beta=10):
 	# For each accepting state, find shortest path
 	# back to itself
 	#
+	c = 1
 	for prod_target in product.graph['accept']:
-                #print 'prod_target', prod_target
-                # accepting state in self-loop
-                if prod_target in product.predecessors(prod_target):
-                        loop[prod_target] = (product.edge[prod_target][prod_target]["weight"], [prod_target, prod_target])
-                        continue
+		#print 'prod_target', prod_target
+		# accepting state in self-loop
+		if prod_target in product.predecessors(prod_target):
+			#print 'Hello'
+			loop[prod_target] = (product.edge[prod_target][prod_target]["weight"], [prod_target, prod_target])
+			continue
                 
         # dijkstra_predecessor_and_distance gives distances to all nodes **prod_target** is a predecessor or! like all
         # states prod_target can get to
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
 		#print 'loop_dist'
-		#print len(loop_dist)
+		
+		
+		if c==1:
+			print len(loop_dist)
+			print loop_dist
+		c = c+1
 		for target_pred in product.predecessors_iter(prod_target):
 
 			if target_pred in loop_dist:
@@ -138,7 +146,7 @@ def dijkstra_plan_networkX(product, beta=10):
 	# to each accepting state
 	#
 	for prod_init in product.graph['initial']:
-		print 'find next node'
+		#print 'find next node'
 		t_start = time.time()
 		line_pre, line_dist = dijkstra_predecessor_and_distance(product, prod_init)
 		#print 'line dist'
@@ -147,17 +155,18 @@ def dijkstra_plan_networkX(product, beta=10):
 		for target in loop.iterkeys():
 			if target in line_dist:
 				line[target] = line_dist[target]+beta*loop[target][0]
-		print t_start - time.time()
+		#print t_start - time.time()
 		if line:
 			opti_targ = min(line, key = line.get)
-			print 'add path'
-			t_start = time.time()
+			#print 'add path'
+			#t_start = time.time()
 			prefix = compute_path_from_pre(line_pre, opti_targ)
-			print time.time() - t_start
+			#print time.time() - t_start
 			precost = line_dist[opti_targ]
 			runs[(prod_init, opti_targ)] = (prefix, precost, loop[opti_targ][1], loop[opti_targ][0])
 	# best combination
 	if runs:
+		print 'Accepted Algorithm'
 		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
 		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 		print '=================='

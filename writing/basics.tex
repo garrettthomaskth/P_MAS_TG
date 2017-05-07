@@ -47,14 +47,14 @@ We then say that there is a transition between two regions if from any point in 
 \theoremstyle{definition}
 \begin{definition}
 \label{defDTransition}
-There is a discrete transition, $\rightarrow_D \subset \Pi \times \Pi$, from $\pi_i$ to $\pi_j$, denoted $\pi_i \rightarrow_D \pi_j$ if there exists $x$ and $x'$ such that $T(x) = \pi_i$, $T(x')=\pi_j$ and $x \rightarrow_C x'$
+There is a discrete transition, $\rightarrow_D \subset \Pi \times \Pi$, from $\pi_i$ to $\pi_j$, denoted $\pi_i \rightarrow_D \pi_j$ if for every $x$ in $\pi_i$ i.e.\ $T(x) = \pi_i$ there exists $x'$ such that $T(x')=\pi_j$ and $x \rightarrow_C x'$
 \end{definition}
 
 We can now define bisimulations
 \theoremstyle{definition}
 \begin{definition}
 \label{defDTransition}
-A partition $T:W_0\rightarrow \Pi$ is called a bisimulation if the following properties hold for all $x,y \in W_0$
+A partition $T:W_0\rightarrow \Pi$ is called a bisimulation \cite{fainekos09} if the following properties hold for all $x,y \in W_0$
 \begin{enumerate}
     \item (Observation Preserving): If $T(x)=T(y)$, then $L_C(x) = L_C(y)$.
     \item (Reachability Preserving): If $T(x) = T(y)$, then if $x\rightarrow_C x'$ then $y \rightarrow_C y'$ for some $y'$ with $T(x')=T(y')$
@@ -68,7 +68,7 @@ We can now define Finite-State Transition System (FTS), which is how we will rep
 \theoremstyle{definition}
 \begin{definition}
 \label{defFTS}
-An FTS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_D, \Pi_0, AP,L_C)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_C$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_C \pi_j$. Note: $\pi_i \rightarrow_C \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_C: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defLF}.
+An FTS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_D, \Pi_0, AP,L_C)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_C: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
 \end{definition}
 
 In this thesis, we will also consider the weighted FTS (WFTS)
@@ -88,7 +88,7 @@ To define tasks for our robot we must choose a high level language. Temporal log
     \varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2
 \end{align*}
 
-where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $\U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
+where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $\U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
 \begin{align*}
     \text{Conjunction: }&  \varphi_1  \land \varphi_2 = \neg(\neg \varphi_1 \lor \neg \varphi_2) \\
     \text{Implication: }& \varphi_1 \Rightarrow \varphi_2 = \neg \varphi_1 \lor \varphi_2 \\
@@ -112,7 +112,7 @@ There is a growing interest in path and mission planning in robots using tempora
 Of course more complicated tasks are also expressible in LTL, and atomic propositions need not only refer to the location of the robot. Here is an example given in  \cite{guo15}: "Pick up the red ball, drop it to one of the baskets and then stay in room one" \\
 $\diamond(rball \land \diamond basket) \land \diamond \square r1$ 
 
-We now look at what it means to satisfy an LTL formula. We will talk about \textit{words} satisfying LTL formulas, in our case \textit{infinite words}. An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$. That is, $\sigma = S_0 S_1 S_2 \dots$, where $S_k \in 2^{AP}$ for $k=1,2,\dots$ and $S_k$ is the set of atomic propositions that are true at time step $k$ \cite{guo15}. An infinite word $\sigma$ satisfies an LTL formula $\varphi$ based on the LTL semantics.  
+We now look at what it means to satisfy an LTL formula. We will talk about \textit{words} satisfying LTL formulas, in our case \textit{infinite words}. An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$. The $\omega$ superscript means an infinte repatition; that is, $\sigma = S_0 S_1 S_2 \dots$, where $S_k \in 2^{AP}$ for $k=1,2,\dots$ and $S_k$ is the set of atomic propositions that are true at time step $k$ \cite{guo15}. An infinite word $\sigma$ satisfies an LTL formula $\varphi$ based on the LTL semantics.  
 
 \theoremstyle{definition}
 \begin{definition}
@@ -139,25 +139,25 @@ We now know if a path of an FTS satisfies a given LTL formula, however we are in
 \label{defNBA}
 An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
 \begin{align*}
-\mathcal{A}_\varphi = (\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F})
+\mathcal{A}_\varphi = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F})
 \end{align*}
 where $\Q$ is a finite set of states, $\Q_0 \subseteq \Q$ is the set of initial states, $2^{AP}$ is the alphabet, $\delta: \Q \times 2^{AP} \rightarrow 2^\Q$ is a transition relation, and $\mathcal{F} \subseteq \Q$ is the set of accepting states
 \end{definition} 
 An infinite run of an NBA is an infinite sequence or states, $r=q_0 q_1 \dots$, where that starts from an initial state i.e.\ $q_0 \in Q_0$ and $q_{k+1} \in \delta(q_k, S)$ for some $S \in 2^{AP}$, for $k = 0,1,\dots$. The requirements for a run $r$ to be accepting is $\Inf(r) \cap \F \neq \emptyset$, where $\Inf(r)$ is the set of states that appear in $r$ infinitely often \cite{guo15}. 
 
-Now to tie together the concept of words and runs on an NBA. An infinite word $\sigma = S_0 S_1 \dots$ corresponds to $r_\sigma = q_0 q_1 \dots$ where $q_0 \in Q_0$ and $q_i+1 \in \delta(q_i,S_i)$
+Now to tie together the concept of words and runs on an NBA. An infinite word $\sigma = S_0 S_1 \dots$ corresponds to $r_\sigma = q_0 q_1 \dots$ where $q_0 \in Q_0$ and $q_{i+1} \in \delta(q_i,S_i)$
 
 It has been shown that given an LTL formula $\varphi$ over $AP$, there exists a NBA over $2^{AP}$ corresponding to $\varphi$, denoted $A_\varphi$ \cite{baier08}. When we say an NBA corresponds to an LTL formula, we mean that the set of words that correspond to accepting runs of the NBA is the same as the set of words accepted by the LTL formula.  
 
 \subsection{Product Automata}
 These two structures are then combined to create the product automaton. The product automata is also a B\"{u}chi automata and is defined as follows:
 \begin{definition}
-The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
+The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_d(\pi_j))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
 \end{definition} 
 
-Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' a_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$ \cite{guo15}. 
+Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' q_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$ \cite{guo15}. 
 
-Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(r) \cap \F \neq \emptyset$
+Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(r) \cap \F' \neq \emptyset$
 
 %\begin{lemma}
 %If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.

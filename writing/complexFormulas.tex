@@ -102,7 +102,7 @@ The B\"uchi automaton corresponding to this formula as calculated by \cite{gasti
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
@@ -121,7 +121,7 @@ The B\"uchi automaton corresponding to this formula as calculated by \cite{gasti
   		(B) edge              node {$\pi_0$} (C)
   		(E) edge              node {$\pi_0$} (D)
   		(F) edge              node {$\pi_2$} (D)
-  		(A) edge              [bend left] node {$\pi_0$} (C)
+  		(A) edge              [bend left] node [near end] {$\pi_0$} (C)
   		(A) edge             node {$\pi_1$} (E)
   		(A) edge              [bend left] node {$\pi_2$} (D);
   		%(E) edge [loop above] node {$\neg$rball} (E)
