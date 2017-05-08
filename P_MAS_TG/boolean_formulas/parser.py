@@ -42,6 +42,7 @@ class SymbolExpression(Expression):
 
     #Garrett       
     def symCheck(self):
+        #return 1
         if self.symbol[0] == 'r':
             return 1
         else:

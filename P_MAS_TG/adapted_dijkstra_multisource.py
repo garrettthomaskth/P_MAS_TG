@@ -68,8 +68,14 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
             continue  # already searched this node.
         dist[v] = d
         if G.node[v]['dist'] < cur_level:
-            next_node = v
-            break
+            if cur_level == 1:
+                if v in G.predecessors(v):
+                    next_node = v
+                    break
+            else:
+                next_node = v
+                break
+
         for u, e in G_succ[v].items():
             cost = weight(v, u, e)
             if cost is None:
@@ -87,8 +93,8 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
                 push(fringe, (vu_dist, next(c), u))
                 if paths is not None:
                     paths[u] = paths[v] + [u]
-    print next_node
-    print type(next_node)
+    #print next_node
+    #print type(next_node)
     return dist, next_node, paths
 
 

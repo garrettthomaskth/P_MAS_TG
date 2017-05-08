@@ -25,8 +25,8 @@ class ltl_planner(object):
 			graph_construction_time = time.time()
 			self.product.graph['ts'].build_full()
 			self.product.build_full()
-			print 'graph_construction_time'
-			print time.time() - graph_construction_time
+			#print 'graph_construction_time'
+			#print time.time() - graph_construction_time
 
 			print 'Accepted'
 			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
