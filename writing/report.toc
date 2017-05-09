@@ -15,7 +15,7 @@
 \contentsline {subsection}{\numberline {0.3.4}Recurrence (Liveness)}{38}{subsection.0.3.4}
 \contentsline {section}{\numberline {0.4}More Complex Formulas}{44}{section.0.4}
 \contentsline {subsection}{\numberline {0.4.1}Example 1}{44}{subsection.0.4.1}
-\contentsline {subsection}{\numberline {0.4.2}Example 1 Overlapping Regions}{47}{subsection.0.4.2}
-\contentsline {subsection}{\numberline {0.4.3}Example 2}{48}{subsection.0.4.3}
+\contentsline {subsection}{\numberline {0.4.2}Example 1 Overlapping Regions}{48}{subsection.0.4.2}
+\contentsline {subsection}{\numberline {0.4.3}Example 2}{49}{subsection.0.4.3}
 \contentsline {subsection}{\numberline {0.4.4}OR Operator}{49}{subsection.0.4.4}
-\contentsline {section}{\numberline {0.5}Appendix}{50}{section.0.5}
+\contentsline {section}{\numberline {0.5}Appendix}{52}{section.0.5}

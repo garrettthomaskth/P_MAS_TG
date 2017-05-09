@@ -44,13 +44,13 @@ k = 0
 asdf = ['r','b']
 for i in range(0,N):
   for j in range(0,N):
-    if j == 9 and i == 16:
+    if j == 9 and i == 15:
       regions[(j,i,1)] = set(['r'+str(k),'rball']) #, 'pick'])
-    elif j ==8 and i == 15:
+    elif j ==7 and i == 14:
       regions[(j,i,1)] = set(['r'+str(k),'basket1'])#, 'drop'])
-    elif j == 12 and i == 6:
+    elif j == 19 and i == 8:
       regions[(j,i,1)] = set(['r'+str(k),'gball'])#, 'pick'])
-    elif j == 18 and i == 7:
+    elif j == 2 and i == 10:
       regions[(j,i,1)] = set(['r'+str(k),'basket2'])#, 'drop'])
     else:
       regions[(j,i,1)] = set(['r'+str(k),asdf[j%2]])
@@ -81,10 +81,10 @@ robot_motion.add_un_edges(edges, unit_cost = 1)
 ############# no action model
 action = dict()
 ############# with action
-action = { 'pickrball': (0, 'rball', set(['pickrball'])),
-           'droprball': (0, 'basket1', set(['droprball'])),           
-           'pickgball': (0, 'gball', set(['pickgball'])),
-           'dropgball': (0, 'basket2', set(['dropgball']))
+action = { 'pickrball': (10, 'rball', set(['pickrball'])),
+           'droprball': (10, 'basket1', set(['droprball'])),           
+           'pickgball': (10, 'gball', set(['pickgball'])),
+           'dropgball': (10, 'basket2', set(['dropgball']))
 }
 
 
@@ -116,9 +116,10 @@ robot_model = MotActModel(robot_motion, robot_action)
 #hard_task = '<> (r312 &&  <>( r395 && <>r602)) '
 #hard_task = '<> r1 && <> r600 || <>r7'
 #hard_task = '!(r300 || r400 || r5) U r445'
-#hard_task = '<>((rball && pick) && <> (basket && drop)) && <>[] r448'
-#hard_task = '<>((pickrball && rball) && <> (droprball && basket1)) && <>((pickgball && gball) && <> (dropgball && basket2)) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
-hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r422 '
+#hard_task = '<>(pickrball && <> droprball) && <>[] r448'
+#####hard_task = '<>((pickrball && rball) && <> (droprball && basket1)) && <>((pickgball && gball) && <> (dropgball && basket2)) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
+hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
+#hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r422 '
 soft_task = None#'([]! b)'
 
 
@@ -140,7 +141,10 @@ labels = {}
 for node in robot_planner.product.node:
   colP.append(robot_planner.product.node[node]['color'])
   labels[node] = robot_planner.product.node[node]['dist']
-  #print robot_planner.product.node[node]
+print 'number of nodes'
+print len(colP)
+
+#print robot_planner.product.node[node]
 #print robot_planner.product.node
 #for node in robot_planner.product.node:
  # print node
@@ -152,17 +156,23 @@ for node in robot_planner.product.node:
   #a = robot_planner.product.graph['buchi'].edge[node].keys()[1]
   #print type(robot_planner.product.graph['buchi'].edge[node][a]['guard'])
 
-colB = []
-l = {}
-for node in robot_planner.product.graph['buchi'].node:
-  l[node] = robot_planner.product.graph['buchi'].node[node]['dist']
-  if node in robot_planner.product.graph['buchi'].graph['accept']:
-    print 'accept'
-    colB.append('r')
-  elif node in robot_planner.product.graph['buchi'].graph['initial']:
-    colB.append('b')
-  else:
-    colB.append('w')
+# colB = []
+# l = {}
+# a = 0
+# for node in robot_planner.product.graph['buchi'].node:
+#   l[node] = robot_planner.product.graph['buchi'].node[node]['dist']
+#   if node in robot_planner.product.graph['buchi'].graph['accept']:
+#     #print 'accept'
+#     a = a + 1
+#     colB.append('r')
+#   elif node in robot_planner.product.graph['buchi'].graph['initial']:
+#     colB.append('b')
+#   else:
+#     colB.append('w')
+# print 'number of accepting nodes'
+# print a
+# print 'number of buchi nodes'
+# print len(colB)
 #print 'len(colB)'
 #print len(colB)
 

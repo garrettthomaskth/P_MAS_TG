@@ -4,6 +4,7 @@ from itertools import count
 import networkx as nx
 from networkx.utils import generate_unique_node
 import warnings as _warnings
+from networkx import dijkstra_predecessor_and_distance
 
 def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
     """Uses Dijkstra's algorithm to find shortest weighted paths
@@ -70,8 +71,18 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
         if G.node[v]['dist'] < cur_level:
             if cur_level == 1:
                 if v in G.predecessors(v):
+                    print 'self loop'
                     next_node = v
                     break
+                loop_pre, loop_dist = dijkstra_predecessor_and_distance(G, v)
+                if v in loop_dist.keys():
+
+                    if loop_dist[v] != 0:
+                        print 'not self loop'
+                        #print 'loop_dist[v]'
+                        #print loop_dist[v]
+                        next_node = v
+                        break 
             else:
                 next_node = v
                 break
