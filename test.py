@@ -81,11 +81,11 @@ robot_motion.add_un_edges(edges, unit_cost = 1)
 ############# no action model
 action = dict()
 ############# with action
-action = { 'pickrball': (10, 'rball', set(['pickrball'])),
-           'droprball': (10, 'basket1', set(['droprball'])),           
-           'pickgball': (10, 'gball', set(['pickgball'])),
-           'dropgball': (10, 'basket2', set(['dropgball']))
-}
+#action = { 'pickrball': (10, 'rball', set(['pickrball'])),
+#           'droprball': (10, 'basket1', set(['droprball'])),           
+#           'pickgball': (10, 'gball', set(['pickgball'])),
+#           'dropgball': (10, 'basket2', set(['dropgball']))
+#}
 
 
 robot_action = ActionModel(action)
@@ -118,8 +118,20 @@ robot_model = MotActModel(robot_motion, robot_action)
 #hard_task = '!(r300 || r400 || r5) U r445'
 #hard_task = '<>(pickrball && <> droprball) && <>[] r448'
 #####hard_task = '<>((pickrball && rball) && <> (droprball && basket1)) && <>((pickgball && gball) && <> (dropgball && basket2)) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
-hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
+#hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
 #hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r422 '
+#hard_task = '(!r223 U r445) || (!r268 U r435)'
+#hard_task = '!r62 U(!r266 U r422)'
+#hard_task = '!(!r62 U(!r266 U r422))'
+#hard_task = '[]<> r0 -> []<> r317'
+#hard_task = '[]<> r0 <-> []<> r317'
+#hard_task = '!(<> <> r498 <-> r541)'
+#hard_task = '!([]<> r3 -> []<>r591)'
+#hard_task = '!([]<> r3 <-> []<>r591)'
+#hard_task = '!r532 R (!r432 || r321)'
+#hard_task = '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' 
+#hard_task = '<> pickrball && [](pickrball -> <> droprball) && ((X pickrball U X droprball) || !X( pickrball U droprball))'  #no
+hard_task = ' <> r124 && <> !r124'
 soft_task = None#'([]! b)'
 
 
@@ -156,25 +168,25 @@ print len(colP)
   #a = robot_planner.product.graph['buchi'].edge[node].keys()[1]
   #print type(robot_planner.product.graph['buchi'].edge[node][a]['guard'])
 
-# colB = []
-# l = {}
-# a = 0
-# for node in robot_planner.product.graph['buchi'].node:
-#   l[node] = robot_planner.product.graph['buchi'].node[node]['dist']
-#   if node in robot_planner.product.graph['buchi'].graph['accept']:
-#     #print 'accept'
-#     a = a + 1
-#     colB.append('r')
-#   elif node in robot_planner.product.graph['buchi'].graph['initial']:
-#     colB.append('b')
-#   else:
-#     colB.append('w')
-# print 'number of accepting nodes'
-# print a
-# print 'number of buchi nodes'
-# print len(colB)
-#print 'len(colB)'
-#print len(colB)
+colB = []
+l = {}
+a = 0
+for node in robot_planner.product.graph['buchi'].node:
+  l[node] = robot_planner.product.graph['buchi'].node[node]['dist']
+  if node in robot_planner.product.graph['buchi'].graph['accept']:
+    #print 'accept'
+    a = a + 1
+    colB.append('r')
+  elif node in robot_planner.product.graph['buchi'].graph['initial']:
+    colB.append('b')
+  else:
+    colB.append('w')
+print 'number of accepting nodes'
+print a
+print 'number of buchi nodes'
+
+print 'len(colB)'
+print len(colB)
 
 #nx.draw_networkx(robot_planner.product,node_color=colP,labels=labels)
 #plt.show()

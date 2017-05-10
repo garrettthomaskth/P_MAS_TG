@@ -31,6 +31,9 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 		start_node = prod_init
 		precost = 0
 		prefix = [start_node]
+		#targ = start_node
+		if lev == 0:
+			lev = 1
 		while lev > 0:
 			#print 'lev'
 			#print lev
@@ -61,6 +64,7 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 	#print prod_target
 	print product.predecessors(prod_target)
 	if prod_target in product.predecessors(prod_target):
+		#print 'self_loop'
 		#print 'len(product.predecessors(prod_target))'
 		#print len(product.predecessors(prod_target))
 		loop[prod_target] = (product.edge[prod_target][prod_target]["weight"], [prod_target, prod_target])
@@ -69,7 +73,7 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
         # states prod_target can get to
 		
    	else:
-
+   		#print 'not self loop'
 
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
 		#print 'len(loop_dist)'
@@ -122,6 +126,7 @@ def dijkstra_plan_networkX(product, beta=10):
 	# For each accepting state, find shortest path
 	# back to itself
 	#
+	total_selfloop = 0
 	total_loop = 0
 	for prod_target in product.graph['accept']:
 
@@ -131,9 +136,11 @@ def dijkstra_plan_networkX(product, beta=10):
 			
 			#print 'Hello'
 			#print 'Hello'
+			#print prod_target
+			#total_selfloop = total_selfloop + 1
 			loop[prod_target] = (product.edge[prod_target][prod_target]["weight"], [prod_target, prod_target])
 			continue
-		total_loop = total_loop + 1
+		#total_loop = total_loop + 1
         # dijkstra_predecessor_and_distance gives distances to all nodes **prod_target** is a predecessor or! like all
         # states prod_target can get to
 		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
@@ -152,6 +159,8 @@ def dijkstra_plan_networkX(product, beta=10):
 		for target_pred in product.predecessors_iter(prod_target):
 
 			if target_pred in loop_dist:
+				#if loop_dist[target_pred] > 0:
+				#	print loop_dist[target_pred]
 				cycle[target_pred] = product.edge[target_pred][prod_target]["weight"] + loop_dist[target_pred]
 				####################  distance from predecessor to prod_target + distance prod_target to predecessor
 		if cycle:
@@ -163,8 +172,10 @@ def dijkstra_plan_networkX(product, beta=10):
 	# Find the shortest path
 	# to each accepting state
 	#
-	print 'without self loop!!'
-	print total_loop
+	#print 'with self loop!!'
+	#print total_selfloop
+	#print 'without self loop!!'
+	#print total_loop
 	for prod_init in product.graph['initial']:
 		#print 'find next node'
 		t_start = time.time()

@@ -16,4 +16,3 @@
 \contentsline {figure}{\numberline {15}{\ignorespaces B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {pickrball} \wedge \diamond \text {droprball}) \wedge \diamond \square r1$}}{44}{figure.0.15}
 \contentsline {figure}{\numberline {16}{\ignorespaces Simplified B\"uchi Automaton for $\varphi = \diamond (\text {pickrball} \wedge \diamond \text {droprball}) \wedge \diamond \square r1$ 1}}{45}{figure.0.16}
 \contentsline {figure}{\numberline {17}{\ignorespaces Simplified B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {rball} \wedge \diamond \text {basket}) \wedge \diamond \square r1$ 2}}{48}{figure.0.17}
-\contentsline {figure}{\numberline {18}{\ignorespaces Simplified B\"uchi Automaton Corresponding to $(\diamond \pi _0 \wedge \diamond \pi _1 ) \lor \diamond \pi _2$}}{50}{figure.0.18}

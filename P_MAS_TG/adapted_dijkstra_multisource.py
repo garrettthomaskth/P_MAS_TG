@@ -59,7 +59,8 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
 
     # current level of starting node
     cur_level = G.node[source]['dist']
-
+    if cur_level == 0:
+        cur_level = 1
     #for source in sources:
     seen[source] = 0
     push(fringe, (0, next(c), source))

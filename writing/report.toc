@@ -17,5 +17,6 @@
 \contentsline {subsection}{\numberline {0.4.1}Example 1}{44}{subsection.0.4.1}
 \contentsline {subsection}{\numberline {0.4.2}Example 1 Overlapping Regions}{48}{subsection.0.4.2}
 \contentsline {subsection}{\numberline {0.4.3}Example 2}{49}{subsection.0.4.3}
-\contentsline {subsection}{\numberline {0.4.4}OR Operator}{49}{subsection.0.4.4}
-\contentsline {section}{\numberline {0.5}Appendix}{52}{section.0.5}
+\contentsline {subsection}{\numberline {0.4.4}Example 2 Modified}{53}{subsection.0.4.4}
+\contentsline {subsection}{\numberline {0.4.5}Other Examples}{57}{subsection.0.4.5}
+\contentsline {section}{\numberline {0.5}Appendix}{58}{section.0.5}

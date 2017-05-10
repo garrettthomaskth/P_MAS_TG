@@ -174,7 +174,7 @@ the suffix of plan **actions**:
 ['None', 'None']
 full construction and synthesis done within 963.61s 
 \end{lstlisting}
-
+and from our algorithm
 \begin{lstlisting}
 Dijkstra_plan_networkX done within 0.39s: precost 101.00, sufcost 0.00
 ------------------------------
@@ -190,71 +190,82 @@ the suffix of plan **actions**:
 full construction and synthesis done within 24.29s 
 \end{lstlisting} 
 
+This is by far the largest difference in computation times that we have seen thus far! Even more surprising is that there was this large of a difference and both algorithms computed the same path. We will show how this difference is caused by the searches from accepting nodes back to themselves.
+
+As before, we have $|\text{product automaton}| =|\text{FTS}| \times |\text{B\"uchi}| \times |\text{possible actions}|$. The FTS still has 625 nodes, this buchi automaton has 38 nodes, and there are 5 possible actions ("none", "pickrball", "droprball", "pickgball", "dropgball"). This makes for a product automaton of 118750. There are 4 accepting states in the B\"uchi automaton. This gives us 12500 accepting nodes in the product automaton. The accepted algorithm calculates a path back from each accepting node back to itself. This calculation is relatively quick if the accepting node can transition back to itself; however, the cost is much longer if it doesn't. It turns out in this example only 629 of the accepting nodes have a self loop, while 11871 do not. It may seem like the accepting nodes should all be able to transfer back to themselves, but they cannot because of the accepting nodes in the B\"uchi automaton. 
+
+Each accepting node in the B\"uchi automaton has a self loop however, the labels of the self loop can make many of these transitions impossible. The four self loop labels for the four accepting nodes of the B\"uchi automaton are (droprball \&\& dropgball), (!pickrball \&\& dropgball), (!pickrball \&\& !pickgball), and (droprball \&\& !pickgball). Thus the only possible self loop is (!pickrball \&\& !pickgball). All other accepting states must look for another path back to themselves, which results in the incredible increase in time. This is likely the largest danger and downside of using the accepted algorithm. The number of accepting states grows with the size of the FTS, the B\"uchi automaton, and the number of possible actions. Then we have to do a search for each of these accepting nodes.  
+
+%(((7, 14, 1), 'droprball'), u'accept_S17')  (((2, 10, 1), 'dropgball'), u'accept_S18')(((2, 10, 1), 'dropgball'), u'accept_S19') (((7, 14, 1), 'droprball'), u'accept_S19')
 
 
-
-
-
-
-
-
-
-
-
+\subsection{Other Examples}
+As we have seen, due to the complexity of the B\"uchi automata it can be very hard to analyse the performance of our algorithm compared to the accepted algorithm with respect to cost for more complex formulas. We therefore provide the results of runs for various formulas in table \ref{table}. The formulas are run on the workspace in figure \ref{fig:workspace2}. 
 
 
 \begin{table}[]
 \centering
 \caption{My caption}
-\label{my-label}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 Formula & Accepted Cost & Accepted Time & Our Cost & Our Time \\ \hline
-     a   &         a      &      a         &      a    &     a     \\ \hline
-        &               &               &          &          \\ \hline
-        &               &               &          &         \\ \hline
+     '(!r223 U r445) || (!r268 U r435)'  &         27      &      0.04         &      27   &     0.01     \\ \hline
+      '!r62 U(!r266 U r422)'  &         38.00      &       0.05        &     38     &     0.02     \\ \hline
+       '[]<> r0 -> []<> r317' &         1      &       5.06        &    1      &    0.00     \\ \hline
+       '[]<> r0 <-> []<> r317'  & 1		&		10.70		& 1 	&  0.00 \\ \hline 
+      '!(<><> r498 <-> r541)' &	42.00	&	0.03	&	42.00	&	0.02	\\		\hline
+      '!([]<> r3 -> []<>r591)' &	 3.00	&	5.06 	&	3.00 	&	0.00	\\		\hline
+      '!([]<> r3 -> []<>r591)' &	 3.00	&	10.31	&	39	&	0.01	\\		\hline
+      '!r532 R (!r432 || r321)' &	 0	&	4.97 	&	0	&	0.01 	\\		\hline
+      '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' &	24.00	&	0.08 	&	24.00	&	0.01	\\		\hline
+    '<> pickrball && [](pickrball -> <> droprball) && ((X pickrball U X droprball) || !X( pickrball U droprball))'  &	47.00	&	28.87	&	47.00	&	0.03	\\		\hline
+      ' <> r124 && <> !r124' &	28.00	&	0.05 	&	28.00	&	0.01	\\		\hline
+      &		&		&		&		\\		\hline
+      &		&		&		&		\\		\hline
+      &		&		&		&		\\		\hline
 \end{tabular}
+\label{table}
 \end{table}
 
 
 
-\subsection{OR Operator}
-As we have seen in the LTL semantics, LTL formulas can contain an OR Boolean connective i.e.\ $\varphi = \varphi_1 \lor \varphi_2$. In all the other examples that we have seen, the formulas specify tasks and the algorithm has to \textit{at most} choose the order of the tasks. The OR connective introduces the idea that the algorithm has to choose \textit{which} tasks to do. Let us first look at the formula $(\diamond \pi_0 \wedge \diamond \pi_1 ) \lor \diamond \pi_2$.
-The B\"uchi automaton corresponding to this formula as calculated by \cite{gastin01} is shown in figure \ref{fig:ORbuchi}.
-
-\begin{figure}
-\centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
-                    semithick]
-  \tikzstyle{every state}=[fill=red,draw=black,text=black]
-
-  \node[initial,state] (A)                    {$q_1$};
-  \node[state] (B)                    [right of=A]{$q_2$};
-  \node[state] (C)                    [right of=B]{$q_4$};
-  \node[state] (E)                    [below of=C]{$q_3$};
-  \node[state] (F)                    [above of=C]{$q_5$};
-  \node[state,accepting]         (D) [right of=C] {$q_6$};
-
-  \path (A) edge              node {$\neg (\pi_0 \lor \pi_1 \lor  \pi_2)$} (B)
-  		(B) edge   				 node {$\pi_0$} (C)
-  		(B) edge					node {$\pi_1$} (E)
-  		(A) edge					 node {$\neg \pi_2$} (F)
-  		(C) edge 					node {$\pi_1$} (D)
-  		(B) edge              node {$\pi_0$} (C)
-  		(E) edge              node {$\pi_0$} (D)
-  		(F) edge              node {$\pi_2$} (D)
-  		(A) edge              [bend left] node [near end] {$\pi_0$} (C)
-  		(A) edge             node {$\pi_1$} (E)
-  		(A) edge              [bend left] node {$\pi_2$} (D);
-  		%(E) edge [loop above] node {$\neg$rball} (E)
-  		%(F) edge [loop above] node {$\neg$basket} (F)
-  		%(D) edge [loop above] node {$r1$} (D);
-\end{tikzpicture}
-\caption{Simplified B\"uchi Automaton Corresponding to $(\diamond \pi_0 \wedge \diamond \pi_1 ) \lor \diamond \pi_2$}
-\label{fig:ORbuchi}
-\end{figure} 
-
-The distances corresponding to this automaton are $d(q_1) = 1$, $d(q_2) = 2$, $d(q_3)=1$, $d(d_4)=1$, $d(q_5)=1$ and $d(q_6)=0$. As one can see, starting with a distance of 1, the only lower level is 0, which is the accepting level. Therefore our algorithm will only do one Dijkstra search, which is the same as the accepted algorithm. Our algorithm therefore gives the optimal result. 
+%\subsection{OR Operator}
+%As we have seen in the LTL semantics, LTL formulas can contain an OR Boolean connective i.e.\ $\varphi = \varphi_1 \lor \varphi_2$. In all the other examples that we have seen, the formulas specify tasks and the algorithm has to \textit{at most} choose the order of the tasks. The OR connective introduces the idea that the algorithm has to choose \textit{which} tasks to do. Let us first look at the formula $(\diamond \pi_0 \wedge \diamond \pi_1 ) \lor \diamond \pi_2$.
+%The B\"uchi automaton corresponding to this formula as calculated by \cite{gastin01} is shown in figure \ref{fig:ORbuchi}.
+%
+%\begin{figure}
+%\centering
+%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
+%                    semithick]
+%  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+%
+%  \node[initial,state] (A)                    {$q_1$};
+%  \node[state] (B)                    [right of=A]{$q_2$};
+%  \node[state] (C)                    [right of=B]{$q_4$};
+%  \node[state] (E)                    [below of=C]{$q_3$};
+%  \node[state] (F)                    [above of=C]{$q_5$};
+%  \node[state,accepting]         (D) [right of=C] {$q_6$};
+%
+%  \path (A) edge              node {$\neg (\pi_0 \lor \pi_1 \lor  \pi_2)$} (B)
+%  		(B) edge   				 node {$\pi_0$} (C)
+%  		(B) edge					node {$\pi_1$} (E)
+%  		(A) edge					 node {$\neg \pi_2$} (F)
+%  		(C) edge 					node {$\pi_1$} (D)
+%  		(B) edge              node {$\pi_0$} (C)
+%  		(E) edge              node {$\pi_0$} (D)
+%  		(F) edge              node {$\pi_2$} (D)
+%  		(A) edge              [bend left] node [near end] {$\pi_0$} (C)
+%  		(A) edge             node {$\pi_1$} (E)
+%  		(A) edge              [bend left] node {$\pi_2$} (D);
+%  		%(E) edge [loop above] node {$\neg$rball} (E)
+%  		%(F) edge [loop above] node {$\neg$basket} (F)
+%  		%(D) edge [loop above] node {$r1$} (D);
+%\end{tikzpicture}
+%\caption{Simplified B\"uchi Automaton Corresponding to $(\diamond \pi_0 \wedge \diamond \pi_1 ) \lor \diamond \pi_2$}
+%\label{fig:ORbuchi}
+%\end{figure} 
+%
+%The distances corresponding to this automaton are $d(q_1) = 1$, $d(q_2) = 2$, $d(q_3)=1$, $d(d_4)=1$, $d(q_5)=1$ and $d(q_6)=0$. As one can see, starting with a distance of 1, the only lower level is 0, which is the accepting level. Therefore our algorithm will only do one Dijkstra search, which is the same as the accepted algorithm. Our algorithm therefore gives the optimal result. 
 
 %\begin{figure}
 %\centering
