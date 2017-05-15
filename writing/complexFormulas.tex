@@ -202,10 +202,10 @@ Each accepting node in the B\"uchi automaton has a self loop however, the labels
 \subsection{Other Examples}
 As we have seen, due to the complexity of the B\"uchi automata it can be very hard to analyse the performance of our algorithm compared to the accepted algorithm with respect to cost for more complex formulas. We therefore provide the results of runs for various formulas in table \ref{table}. The formulas are run on the workspace in figure \ref{fig:workspace2}. 
 
-
+\begin{landscape}
 \begin{table}[]
 \centering
-\caption{My caption}
+\small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 Formula & Accepted Cost & Accepted Time & Our Cost & Our Time \\ \hline
@@ -217,15 +217,17 @@ Formula & Accepted Cost & Accepted Time & Our Cost & Our Time \\ \hline
       '!([]<> r3 -> []<>r591)' &	 3.00	&	5.06 	&	3.00 	&	0.00	\\		\hline
       '!([]<> r3 -> []<>r591)' &	 3.00	&	10.31	&	39	&	0.01	\\		\hline
       '!r532 R (!r432 || r321)' &	 0	&	4.97 	&	0	&	0.01 	\\		\hline
-      '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' &	24.00	&	0.08 	&	24.00	&	0.01	\\		\hline
-    '<> pickrball && [](pickrball -> <> droprball) && ((X pickrball U X droprball) || !X( pickrball U droprball))'  &	47.00	&	28.87	&	47.00	&	0.03	\\		\hline
-      ' <> r124 && <> !r124' &	28.00	&	0.05 	&	28.00	&	0.01	\\		\hline
+     \makecell{ '<> r114 \&\& [](r114 -> <> r12) \&\& \\((X r114 U X r12) || !X( r114 U r12))' }&	24.00	&	0.08 	&	24.00	&	0.01	\\		\hline
+   \makecell{ '<> pickrball \&\& [](pickrball -> <> droprball) \\ \&\& ((X pickrball U X droprball) || !X( pickrball U droprball))' } &	47.00	&	28.87	&	47.00	&	0.03	\\		\hline
+      ' <> r124 \&\& <> !r124' &	28.00	&	0.05 	&	28.00	&	0.01	\\		\hline
       &		&		&		&		\\		\hline
       &		&		&		&		\\		\hline
       &		&		&		&		\\		\hline
 \end{tabular}
+\caption{My caption}
 \label{table}
 \end{table}
+\end{landscape}
 
 
 
