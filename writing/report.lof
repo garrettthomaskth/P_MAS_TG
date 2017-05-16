@@ -2,17 +2,17 @@
 \contentsline {figure}{\numberline {1}{\ignorespaces Simple Finite Transition System}}{15}{figure.0.1}
 \contentsline {figure}{\numberline {2}{\ignorespaces B\"{u}chi automaton corresponding to $\neg (\pi _1 \lor \pi _2 \lor \dots \pi _n) \bm {\mathcal {U}}\pi _{n+1}$}}{15}{figure.0.2}
 \contentsline {figure}{\numberline {3}{\ignorespaces Product Automaton for $\neg \pi _4 \bm {\mathcal {U}}\pi _5$ with Simple FTS}}{15}{figure.0.3}
-\contentsline {figure}{\numberline {4}{\ignorespaces B\"uchi Automaton Corresponding to $\diamond (\pi _1 \land \diamond (\pi _2 \land \diamond \pi _3))$}}{19}{figure.0.4}
-\contentsline {figure}{\numberline {5}{\ignorespaces Product Automaton for $\diamond (\pi _2 \wedge \diamond \pi _5)$ with Simple FTS}}{19}{figure.0.5}
+\contentsline {figure}{\numberline {4}{\ignorespaces B\"uchi Automaton Corresponding to $ \diamond (\pi _3 \land \diamond \pi _5)$}}{19}{figure.0.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces Product Automaton for $\diamond (\pi _4 \wedge \diamond \pi _5)$ with Simple FTS}}{19}{figure.0.5}
 \contentsline {figure}{\numberline {6}{\ignorespaces B\"uchi Automaton Corresponding to $\diamond \pi _1 \wedge \diamond \pi _2 \wedge \diamond \pi _3$}}{25}{figure.0.6}
 \contentsline {figure}{\numberline {7}{\ignorespaces Complete Graph between Regions of Interest}}{27}{figure.0.7}
-\contentsline {figure}{\numberline {8}{\ignorespaces Nearest Neighbour Path}}{27}{figure.0.8}
-\contentsline {figure}{\numberline {9}{\ignorespaces Optimal Path}}{27}{figure.0.9}
-\contentsline {figure}{\numberline {10}{\ignorespaces Complete Subgraph with Dummy Node}}{28}{figure.0.10}
-\contentsline {figure}{\numberline {11}{\ignorespaces Nearest Neighbour Path with Dummy Node}}{29}{figure.0.11}
-\contentsline {figure}{\numberline {12}{\ignorespaces Optimal Path with Dummy Node}}{29}{figure.0.12}
-\contentsline {figure}{\numberline {13}{\ignorespaces B\"uchi Automaton for $\smallsquare (\diamond \pi _1 \land \diamond \pi _2 )$ 1}}{37}{figure.0.13}
-\contentsline {figure}{\numberline {14}{\ignorespaces B\"uchi Automaton for $\smallsquare (\diamond \pi _1 \land \diamond \pi _2)$ 2}}{41}{figure.0.14}
-\contentsline {figure}{\numberline {15}{\ignorespaces B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {pickrball} \wedge \diamond \text {droprball}) \wedge \diamond \smallsquare r1$}}{43}{figure.0.15}
-\contentsline {figure}{\numberline {16}{\ignorespaces Simplified B\"uchi Automaton for $\varphi = \diamond (\text {pickrball} \wedge \diamond \text {droprball}) \wedge \diamond \smallsquare r1$ 1}}{44}{figure.0.16}
-\contentsline {figure}{\numberline {17}{\ignorespaces Simplified B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {rball} \wedge \diamond \text {basket}) \wedge \diamond \smallsquare r1$ 2}}{47}{figure.0.17}
+\contentsline {figure}{\numberline {8}{\ignorespaces Nearest Neighbour Path}}{28}{figure.0.8}
+\contentsline {figure}{\numberline {9}{\ignorespaces Optimal Path}}{28}{figure.0.9}
+\contentsline {figure}{\numberline {10}{\ignorespaces Complete Subgraph with Dummy Node}}{29}{figure.0.10}
+\contentsline {figure}{\numberline {11}{\ignorespaces Nearest Neighbour Path with Dummy Node}}{30}{figure.0.11}
+\contentsline {figure}{\numberline {12}{\ignorespaces Optimal Path with Dummy Node}}{30}{figure.0.12}
+\contentsline {figure}{\numberline {13}{\ignorespaces B\"uchi Automaton for $\smallsquare (\diamond \pi _1 \land \diamond \pi _2 )$ 1}}{38}{figure.0.13}
+\contentsline {figure}{\numberline {14}{\ignorespaces B\"uchi Automaton for $\smallsquare (\diamond \pi _1 \land \diamond \pi _2)$ 2}}{39}{figure.0.14}
+\contentsline {figure}{\numberline {15}{\ignorespaces B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {pickrball} \wedge \diamond \text {droprball}) \wedge \diamond \smallsquare r1$}}{44}{figure.0.15}
+\contentsline {figure}{\numberline {16}{\ignorespaces Simplified B\"uchi Automaton for $\varphi = \diamond (\text {pickrball} \wedge \diamond \text {droprball}) \wedge \diamond \smallsquare r1$ 1}}{45}{figure.0.16}
+\contentsline {figure}{\numberline {17}{\ignorespaces Simplified B\"uchi Automaton Corresponding to $\varphi = \diamond (\text {rball} \wedge \diamond \text {basket}) \wedge \diamond \smallsquare r1$ 2}}{48}{figure.0.17}

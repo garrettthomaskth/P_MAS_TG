@@ -171,7 +171,7 @@ full construction and synthesis done within 0.32s
 
 As we can see, our algorithm computed the same path in about the same.%seconds. This may seem weird because we have shown that our algorithm does the same calculation when finding a path from the initial node to an accepting node. The difference is that for each accepting node, a Dijkstra search is performed. In this example, there are 625 accepting states (the number of states in the FTS times the number of states in the B\"uchi automaton). The function \texttt{dijkstra\_predecessor\_and\_distance} from \cite{schult08} is used to calculate the shortest path back to an accepting node. 
 \subsection{Sequencing}
-This behaviour is ideal for our algorithm. Sequencing is the behaviour of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. A formula that describes this behaviour for $n=3$ is $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ and is shown in figure \ref{fig:seq}. We note that this is automaton is only applicable if because of the partition we defined earlier in Definition \ref{def:PM} which makes it impossible for $\pi_i$ and $\pi_j$ to be true at the same time if $i\neq j$. The LTL2BA tool \cite{ltlbuchiwebsite} that is used the github repository \cite{pMasGit} actually generates an automaton with connecting every node. For example, there is an edge from $q_1$ to $q_4$ labelled $\pi_1 \&\& \pi_2 \&\& \pi_3$. This transition is impossible so we take it out before calculating the distances. Our algorithm would not work very well if every state in the B\"uchi automaton had a distance of 1 and the accepting states had a distance of 0.
+This behaviour is ideal for our algorithm. Sequencing is the behaviour of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. A formula in this subset of formulas is $\diamond (\pi_3 \land  \diamond \pi_5)$ and is shown in figure \ref{fig:seq}. We note that this is automaton is only applicable if because of the partition we defined earlier in Definition \ref{def:PM} which makes it impossible for $\pi_i$ and $\pi_j$ to be true at the same time if $i\neq j$. The LTL2BA tool \cite{ltlbuchiwebsite} that is used the github repository \cite{pMasGit} actually generates an automaton with connecting every node. For example, there is an edge from $q_1$ to $q_3$ labelled $\pi_3 \&\& \pi_5 $. This transition is impossible so we take it out before calculating the distances. Our algorithm would not work very well if every state in the B\"uchi automaton had a distance of 1 and the accepting states had a distance of 0.
 
 
 \begin{figure}
@@ -181,23 +181,23 @@ This behaviour is ideal for our algorithm. Sequencing is the behaviour of visiti
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
   \node[initial,state] (A)                    {$q_1$};
+  %\node[state] (B)                    [right of=A]{$q_2$};
   \node[state] (B)                    [right of=A]{$q_2$};
-  \node[state] (C)                    [right of=B]{$q_3$};
-  \node[state,accepting]         (D) [right of=C] {$q_4$};
+  \node[state,accepting]         (C) [right of=B] {$q_3$};
 
-  \path (A) edge              node {$\pi_{1}$} (B)
-  		(A) edge [loop above] node {$\neg \pi_1$} (A)
-  		(B) edge [loop above] node {$\neg \pi_2$} (B)
-  		(B) edge              node {$\pi_{2}$} (C)
-  		(C) edge [loop above] node {$\neg \pi_3$} (C)
-  		(C) edge              node {$\pi_{3}$} (D)
-  		(D) edge [loop above] node {$1$} (D);
+  \path (A) edge              node {$\pi_{3}$} (B)
+  		(A) edge [loop above] node {$\neg \pi_3$} (A)
+  		(B) edge [loop above] node {$\neg \pi_5$} (B)
+  		(B) edge              node {$\pi_{5}$} (C)
+  		(C) edge [loop above] node {$1$} (C);
+%  		(C) edge              node {$\pi_{3}$} (D)
+ % 		(D) edge [loop above] node {$1$} (D);
 \end{tikzpicture}
-\caption{B\"uchi Automaton Corresponding to $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$}
+\caption{B\"uchi Automaton Corresponding to $  \diamond(\pi_3 \land \diamond \pi_5)$}
 \label{fig:seq}
 \end{figure}
 
-We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi_5))$ the simple FTS as before. The product automaton is shown in figure \ref{fig:Sequencing}
+We show why sequencing formulas are ideal for our algorithm in an example using the formula $\diamond (\pi_3 \wedge \diamond \pi_5)$ the simple FTS as before. The product automaton is shown in figure \ref{fig:Sequencing}
 \begin{figure*}
 \centering
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
@@ -223,33 +223,33 @@ We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi
   \node[state,accepting]         (EEE) [right of=DDD] {\small $(\pi_5,q_3)$};
   
 
-  \path %(A) edge     [bend left]          (B)
-        %(B) edge     [bend left]          (A)
-        (A) edge     [bend left]         (C)
-        (C) edge     [bend left]          (A)
-        (C) edge		[bend left] 		(D)
-        (D) edge 		[bend left]      (C)
-        (A) edge               (BB)
-        (BB) edge               (EEE)
+  \path (A) edge     [bend left]          (B)
+        (B) edge     [bend left]          (A)
+        %(A) edge     [bend left]         (C)
+        %(C) edge     [bend left]          (A)
+        %(C) edge		[bend left] 		(D)
+        %(D) edge 		[bend left]      (C)
+        (A) edge               (CC)
+        %(BB) edge               (EEE)
         (BB)	edge			[loop above] (BB)
         (AA)	edge			[loop above] (AA)
         (CC)	edge			[loop above] (CC)
         (DD)	edge			[loop above] (DD)
         (A)	edge			[loop above] (A)
-        (C)	edge			[loop above] (C)
+        (E)	edge			[loop above] (E)
         (D)	edge			[loop above] (D)
         (AAA)	edge			[loop below] (AAA)
         (BBB)	edge			[loop below] (BBB)
         (CCC)	edge			[loop below] (CCC)
         (DDD)	edge			[loop below] (DDD)
         (EEE)	edge			[loop below] (EEE)
-        %(C) edge               (DD)
-        %(B) edge       [bend left]        (E)
-        %(E) edge       [bend left]        (B)
-        %(B) edge       [bend left]        (D)
-        %(D) edge       [bend left]        (B)
-        %(BB) edge 		[bend left] 		(EE)
-        %(EE) edge			[bend left]		(BB)
+        (D) edge               (CC)
+        (B) edge       [bend left]        (E)
+        (E) edge       [bend left]        (B)
+        (B) edge       [bend left]        (D)
+        (D) edge       [bend left]        (B)
+        (BB) edge 			(EEE)
+%        (EE) edge			[bend left]		(BB)
         (DD) edge       [bend left]        (BB)
         (BB) edge        [bend left]       (DD)
         (BB) edge        [bend left]       (AA)
@@ -272,11 +272,14 @@ We show why in an example using the formula $\diamond (\pi_2 \wedge \diamond \pi
         (CCC) edge        [bend left]       (AAA)
         (AAA) edge        [bend left]       (CCC);
 \end{tikzpicture}
-\caption{Product Automaton for $\diamond (\pi_2 \wedge \diamond \pi_5)$ with Simple FTS}
+\caption{Product Automaton for $\diamond (\pi_4 \wedge \diamond \pi_5)$ with Simple FTS}
 \label{fig:Sequencing}
 \end{figure*}
+In both algorithms the search starts at $(\pi_1,q_1)$. In the first step our algorithm looks at the nodes connected to $(\pi_1,q_1)$ i.e.\ $(\pi_2,q_1)$ and $(\pi_3,q_2)$. Our algorithm notices that we are on level 2, and $(\pi_3,q_2)$ is on level 1. Then it finishes this Dijkstra search and starts another Dijkstra search beginning at $(\pi_3,q_2)$. It will then do one step and search $(\pi_1,q_2)$ and $(\pi_4,q_2)$. Then it will do another step and search $(\pi_2,q_2)$. Then in the third step it searches $(\pi_5,q_3)$. It notices $(\pi_5,q_3)$ is an accepting state and finishes the search with the plan being $R_{new} = (\pi_1,q_1)$, $(\pi_3,q_2)$, $(\pi_4,q_2)$,$(\pi_2,q_2)$, $(\pi_5,q_3)$ (It may turn out that the plan returned is actually $R_{new}=(\pi_1,q_1)$, $(\pi_3,q_2)$, $(\pi_4,q_2)$,$(\pi_2,q_2)$, $(\pi_5,q_3)$, but these paths have an equivalent cost and are found out the same time). 
 
-Our algorithm finds $(\pi_4,q_2)$, then starts another Dijkstra search and finds $(\pi_5,q_3)$. Will search through extraneous nodes, for example $(\pi_5,q_1)$. This may not seem like a lot in this example, but when we expand to larger problems the difference becomes significant.
+The accepted algorithm will also start at $(\pi_1,q_1)$ and search $(\pi_2,q_1)$ and $(\pi_3,q_2)$ on the first step. In the next step it will search $(\pi_4,q_1)$, $(\pi_5,q_1)$, $(\pi_1,q_2)$,$(\pi_4,q_2)$. Then it searches $(\pi_2,q_2)$ and then in the next step $(\pi_5,q_3)$. It continues because it has to find the shortest path to \textit{all} accepting nodes. So the next step it searches $(\pi_2,q_3)$, then $(\pi_1,q_3)$ and $(\pi_4,q_3)$ and finally $(\pi_3,q_3)$.
+
+The advantage that our algorithm has over the accepted algorithm is that the accepted algorithm will search through more extraneous nodes, for example $(\pi_5,q_1)$, and that it does not have to find the shortest path to all the accepting nodes. This may not seem like a lot in this example, but when we expand to larger problems the difference becomes significant. 
 
 We now define a workspace to use with our problem. Our workspace is a grid, 25 units across and 25 units up, a total of 625 regions. We say our robot can can move horizontally and vertically, however it cannot move diagonally. Additionally we say that the unit cost of going from any adjacent to another region is 1. The initial position is located at $(0,0)$, region $\pi_1$ is located at (2,24), region $\pi_2$ is located at (12,12), and region $\pi_3$ is located at (20,15) . See figure \ref{fig:workspace}
 
@@ -378,7 +381,12 @@ So, we can see that to get to the accepting node, we have to choose which node t
 
 
 
-When we use our algorithm on a coverage formula, we may not get the optimal path. We will however get an accepting path, and we now show that this path corresponds to the one generated by the nearest neighbour approach to the travelling salesperson problem. We also provide a bound on the distance of our path based on the worst case ratio of the nearest neighbour tour to the optimal tour given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he passes through a given set of cities and then returns back home at the end. More formally, it can be stated as finding the minimum Hamiltonian circuit with the lowest sum of distances between the nodes (cities). This problem has been studied extensively and "give quote about importance". This problem is NP-hard, and thus many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbour algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. If there is a tie in the next closest neighbour, we assume that the next node can be decided arbitrarily. This is exactly what our algorithm does in this situation, the first Dijkstra search finds the closest node, and the we start another search. 
+When we use our algorithm on a coverage formula, we may not get the optimal path. We will however get an accepting path, with a bound on the cost of our path in terms of the cost of the optimal path. 
+
+We first show that this path corresponds to the one generated by the nearest neighbour approach to the travelling salesperson problem. Next we provide the bound on the cost of our path based on the worst case ratio of the nearest neighbour tour to the optimal tour given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. 
+
+\subsubsection*{Travelling Salesperson Problem}
+The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he passes through a given set of cities and then returns back home at the end. More formally, it can be stated as finding the minimum Hamiltonian circuit with the lowest sum of distances between the nodes (cities). This problem has been studied extensively and "give quote about importance". This problem is NP-hard, and thus many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbour algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. If there is a tie in the next closest neighbour, we assume that the next node can be decided arbitrarily. This is exactly what our algorithm does in this situation, the first Dijkstra search finds the closest node, and the we start another search. 
 
 To formulate our problem as a travelling salesman problem we use the idea of a dummy node from Lenstra and Rinnooy Kan's computer wiring example in \cite{lenstra75}. In their example, they are designing a computer interface at the Institute for Nuclear Physical Research in Amsterdam. An interface is made up of several modules, with multiple pins on each module. A given subset of pins has to be interconnnected by wires, and at most two wires can be connected to any pin. For obvious regions, it is desirable to minimize the amount of wire used. They show that this is actually a travelling salesperson problem in disguise. The only difference between this problem and a travelling salesman problem is that in the travelling salesman problem, the salesman must return home at the end. This is not true in this problem. It is also not true in our problem, we only need to pass through $\pi_1$, $\pi_2$ and $\pi_3$, there is no need to return to the starting state after we do this. To formulate this seemingly unrelated problem into a travelling salesperson problem, they set $P$ to be the set of pins to be interconnected, $c_{ij}$ to be the distance between pin $i$ and pin $j$. They then introduce a dummy node $*$ that is a distance 0 from all the other nodes i.e.\ $c_{i*} = c_{*i} = 0$ for all i. Then the corresponding problem is solving the travelling salesperson problem on the set of nodes $N=P \cup \{*\}$. 
 
@@ -543,6 +551,7 @@ figure \ref{fig:optDummy} and has a cost of 129.
 \end{figure}
 
 
+\subsubsection*{Cost Bound}
 
 It has been shown \cite{rosenkrantz74} that for an n-node travelling salesperson problem which satisfies the triangle inequality i.e.\ $d(i,j) = d(j,k) \geq d(i,k)$ for all $i,j,$ and $k$ where $d(i,j)$ is the nonnegative distance between nodes $i$ and $j$, 
 \begin{align*}
@@ -683,7 +692,7 @@ We can check with our previously calculated values for ALG and ACCEPT
 \end{align*}
 We can see that this is still a conservative bound, and emphasize that it is the worst case. Usually the algorithm will preform much better.
 
-
+\subsubsection*{Simulation}
 The actual output from the accepted algorithm is 
 \begin{lstlisting}
 Accepted Algorithm
@@ -723,10 +732,12 @@ full construction and synthesis done within 0.38s
 As we can see our algorithm calculates the path in 0.02 seconds while the accepted algorithm takes 0.08 seconds. We can break down the searches as we did before. 
 
 The accepted algorithm does one Dijkstra search of all 5000 states in the product automaton (625 states in the FTS and eight in the B\"uchi automaton). Even though there are eight states in the B\"uchi automaton, the initial node is still only on level three. Therefore we only do three searches to find an accepting node. The first searches 326, the second 266, and the third 587. Thus our algorithm searches 1179 nodes compared to 5000 by the accepted algorithm and returns a path of cost 62 compared 59.
-\subsection{Recurrence (Liveness)}
-Recurrence is coverage over and over again, and can be expressed as $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight, and it an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
 
-To illustrate our point, we consider the formula $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}
+\subsection{Recurrence (Liveness)}
+Recurrence is coverage over and over again, and can be expressed as $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight \cite{schuppan05}, and an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
+
+\subsubsection*{Tightness}
+A tight B\"uchi automaton is one that accepts the minimum prefix and the minimum suffix. We begin showing that the automaton produced for these formulas by \cite{ltlbuchiwebsite} is not tight. We consider the formula $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}
 
 \begin{figure}
 \centering
@@ -750,7 +761,59 @@ To illustrate our point, we consider the formula $\ssquare(\diamond \pi_1 \land 
 \caption{B\"uchi Automaton for $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 )$ 1}
 \label{fig:gasBuchiRec}
 \end{figure}
-Note: The actual automaton generated has much more edges. For example, there is an edge from $q_4$ to $q_2$ which is labelled $\pi_1 \&\& \pi_2$. It is impossible for us to make this transition because $\pi_i$ for all $i$ is a region in our partition. This is because the requirements of our partition are chosen specially to guarantee that we are never in two regions at once. Thus they are excluded in the interest of the reader. In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{init}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton \ref{fig:gasBuchiRec} the only way to do this is to go to region $\pi_1$. Our algorithm does this, and then starts a new Dijkstra search. In this case the same statement holds for $\pi_2$. Therefore the optimal prefix is to concatenate the optimal paths down from each each level (first to $\pi_1$, etc). Our algorithm does a Dijkstra search at each level so it will return this path as the prefix. The accepted algorithm will also return this prefix. 
+Note: Again, the actual automaton generated has much more edges. %For example, there is an edge from $q_4$ to $q_2$ which is labelled $\pi_1 \&\& \pi_2$. It is impossible for us to make this transition because $\pi_i$ for all $i$ is a region in our partition. This is because the requirements of our partition are chosen specially to guarantee that we are never in two regions at once. Thus they are excluded in the interest of the reader. 
+In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{init}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton \ref{fig:gasBuchiRec} the only way to do this is to go to region $\pi_1$.  In this case the same statement holds for $\pi_2$. It follows that the prefix with the least cost is a concatenation of the shortest paths down from each each level (first to $\pi_1$, etc).
+
+
+This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\ssquare(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state]         (B) [ right of=A] {$q_2$};  
+  \node[state] 		   (C)  [below of=B]  {$q_3$};
+  \node[state,accepting]       (D) [ right of=C] {$q_4$};
+
+  \path (A) edge         node {$\pi_{1}$}   (B)
+        (B) edge       node {$\pi_{2}$}     (D)
+        (A) edge       node [near end] {$\pi_{2}$}  (C)
+        (C) edge     node {$\pi_{1}$}       (D)
+        (A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2$} (A)
+        (B) edge [loop above] node {$\neg \pi_2$} (B)
+        (C) edge [loop below] node {$\neg \pi_1$} (C)
+        (D) edge [bend left] node {$\pi_2$} (C)
+        (D) edge [bend right] node [near end] {$\pi_1$} (B)
+        (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
+\end{tikzpicture}
+\caption{B\"uchi Automaton for $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$ 2}
+\label{fig:otherBuchiRec}
+\end{figure}
+
+In this automaton, $d(q_1) = 2$, $d(q_2) = d(q_3) = 1$, and $d(q_4)= 0$. So, we are starting at the same level i.e. 2, however this time we have two choices about what to do to get down to level 2; we can go to $\pi_1$ or $\pi_2$. Being able to choose is good in the sense that we can now find the optimal path, and bad in the sense that the extra state in the $B\"{u}chi$ automaton increased the size of the product automaton by 33\% (hence increasing the time it takes to search the automaton). This very well illustrates the trade off between the search time and optimally/cost of the resulting run. We propose that this is a good way to think about our algorithm. There is a trade off that sometimes it will not find the optimal run, even if this is possible, though it will be faster. 
+
+\subsubsection*{Suffix}
+The second aspect of this problem that we wish to look at is fact that it does not have a trivial suffix. In the other examples we have looked at, the suffix of the calculated path (with our algorithm and the accepted algorithm) was a single state; that is, the formula could be satisfied by staying in one state indefinitely. In this example, $\pi_1,$ $\pi_2$, and $\pi_3$ must all be visited infinitely often, and thus these states must be in the suffix. 
+
+The applicability of our algorithm to find the suffix has to be considered. For the total run, R, to be accepting, $\Inf(R) \cap \F$ must not be empty. We are specifically looking for runs of the form 
+\begin{align*}
+R &= \langle R_{pre}, R_{suf} \rangle = q_0 q_1 \dots q_f [q_f q_{f+1} \dots q_n]^\omega
+\end{align*}     
+where $q_f \in \F$. Thus when calculating to the suffix we must find the path back to the \textit{same} accepting state. We cannot not just look for any accepting state as we do in the prefix calculation. Our algorithm in general only looks for an accepting state, not a specific accepting state. Thus we have to do a Dijkstra search and if there is a path back to the accepting state it will find it. There is a benefit in this though because our algorithm only has to find the shortest path back to one accepting state, not all of them.
+%We notice how in figure \ref{fig:gasBuchiRec} there is only one arrow to the accepting state, labelled $\pi_5$. This implies that the only way to get down to level 0 is to go to $\pi_5$, and thus go to the accepting state $\langle \pi_5, q_3 \rangle$. There is no self loop on $q_3$, so we leave $q_3$ immediately. This implies that the only reachable accepting state is $\langle \pi_5, q_3 \rangle$. So because there is only one accepting state, our algorithm will find this state again, and thus is appropriate for finding the suffix. 
+
+%In \ref{fig:otherBuchiRec} on the other hand, there are two arrows going to the accepting state and there is no self loop. This implies that there are two reachable accepting states i.e.\ $\langle \pi_3, q_4 \rangle$ and $\langle \pi_5, q_4 \rangle$. This poses a problem to our algorithm that is only guaranteed to reach an accepting state. We thus propose using Dijkstra's search algorithm to find the path from the accepting node back to itself.   
+
+\subsubsection*{Simulation}
+
+
+
+
+
+We have shown previously that given the B\"{u}chi automaton by \cite{ltlbuchiwebsite}, prefix with the least cost is a concatenation of the shortest paths down from each each level (first to $\pi_1$, etc). Our algorithm goes to $\pi_1$ where it can get down a level and then starts a new Dijkstra search. Our algorithm does a Dijkstra search at each level so it will return this path as the prefix. The accepted algorithm will also return this prefix. 
 
 The algorithms produced the same path. 
 \begin{lstlisting}
@@ -784,46 +847,3 @@ new_algorithm_plan done within 0.04s: precost 62.00, sufcost 60.00
 full construction and synthesis done within 0.21s 
 \end{lstlisting}
 As we can see, this is the greatest difference in times out of all the examples so far. But why? This is the first example when the suffix is not trivial. In our algorithm, again we search 326+266+587 = 1179 nodes to find the first accepting node. We then do a Dijkstra search to find the shortest path back to this accepting node. This search searches 1879 nodes, resulting in a total search of 3058 nodes. The accepted algorithm does a search of 1879 to find the accepting nodes, and then a search from every accepting node back to itself. These searches are not trivial any more, so each of these searches through either 1879 or 1880 nodes depending on the accepting node. Seeing as there are 625 accepting nodes, this results in searching 1174996 nodes. This is where the difference comes from. 
-
-This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\ssquare(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
-
-\begin{figure}
-\centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
-                    semithick]
-  \tikzstyle{every state}=[fill=red,draw=black,text=black]
-
-  \node[initial,state] (A)                    {$q_1$};
-  \node[state]         (B) [ right of=A] {$q_2$};  
-  \node[state] 		   (C)  [below of=B]  {$q_3$};
-  \node[state,accepting]       (D) [ right of=C] {$q_4$};
-
-  \path (A) edge         node {$\pi_{1}$}   (B)
-        (B) edge       node {$\pi_{2}$}     (D)
-        (A) edge       node [near end] {$\pi_{2}$}  (C)
-        (C) edge     node {$\pi_{1}$}       (D)
-        (A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2$} (A)
-        (B) edge [loop above] node {$\neg \pi_2$} (B)
-        (C) edge [loop below] node {$\neg \pi_1$} (C)
-        (D) edge [bend left] node {$\pi_2$} (C)
-        (D) edge [bend right] node [near end] {$\pi_1$} (B)
-        (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
-\end{tikzpicture}
-\caption{B\"uchi Automaton for $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$ 2}
-\label{fig:otherBuchiRec}
-\end{figure}
-
-In this automaton, $d(q_1) = 2$, $d(q_2) = d(q_3) = 1$, and $d(q_4)= 0$. So, we are starting at the same level i.e. 2, however this time we have two choices about what to do to get down to level 2; we can go to $\pi_1$ or $\pi_2$. Being able to choose is good in the sense that we can now find the optimal path, and bad in the sense that the extra state in the $B\"{u}chi$ automaton increased the size of the product automaton by 33\% (hence increasing the time it takes to search the automaton). This very well illustrates the trade off between the search time and optimally/cost of the resulting run. We propose that this is a good way to think about our algorithm. There is a trade off that sometimes it will not find the optimal run, even if this is possible, though it will be faster. 
-
-The second aspect of this problem that we wish to look at is fact that it does not have a trivial suffix. In the other examples we have looked at, the suffix of the calculated path (with our algorithm and the accepted algorithm) was a single state; that is, the formula could be satisfied by staying in one state indefinitely. In this example, $\pi_1,$ $\pi_2$, and $\pi_3$ must all be visited infinitely often, and thus these states must be in the suffix. 
-
-The applicability of our algorithm to find the suffix has to be considered. For the total run, R, to be accepting, $\Inf(R) \cap \F$ must not be empty. We are specifically looking for runs of the form 
-\begin{align*}
-R &= \langle R_{pre}, R_{suf} \rangle = q_0 q_1 \dots q_f [q_f q_{f+1} \dots q_n]^\omega
-\end{align*}     
-where $q_f \in \F$. Thus when calculating to the suffix we must find the path back to the \textit{same} accepting state. We cannot not just look for any accepting state as we do in the prefix calculation. Our algorithm in general only looks for an accepting state, not a specific accepting state; however in certain circumstances it can find a specific accepting state. We illustrate this using the same examples above. 
-
-$\ssquare (\diamond \pi_3 \wedge \pi_5)$ 
-We notice how in figure \ref{fig:gasBuchiRec} there is only one arrow to the accepting state, labelled $\pi_5$. This implies that the only way to get down to level 0 is to go to $\pi_5$, and thus go to the accepting state $\langle \pi_5, q_3 \rangle$. There is no self loop on $q_3$, so we leave $q_3$ immediately. This implies that the only reachable accepting state is $\langle \pi_5, q_3 \rangle$. So because there is only one accepting state, our algorithm will find this state again, and thus is appropriate for finding the suffix. 
-
-In \ref{fig:otherBuchiRec} on the other hand, there are two arrows going to the accepting state and there is no self loop. This implies that there are two reachable accepting states i.e.\ $\langle \pi_3, q_4 \rangle$ and $\langle \pi_5, q_4 \rangle$. This poses a problem to our algorithm that is only guaranteed to reach an accepting state. We thus propose using Dijkstra's search algorithm to find the path from the accepting node back to itself.   
