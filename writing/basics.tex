@@ -1,28 +1,28 @@
 \section{Basics}
 
 \subsection{Abstraction of the Workspace}
-In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph (B\"{u}chi automata, which will be defined later) that represents the robot motion. Next is the execution level, which involves finding a path through the graph that satisfies a specification. Lastly, in the implementation level robot controllers are constructed that satisfy the path found in the previous step. 
+In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph that represents the robot motion. Next is the execution level, which involves finding a path through the graph that satisfies a specification. Lastly, in the implementation level controllers are constructed that satisfy the path found in the previous step. 
 
-We assume that we have one robot which is located in a given workspace denote $W_0 \subset \mathbb{R}^n$, which is bounded. To create a graph that represents the robot motion we need to consider the workspace along with the dynamics of the robot. To represent our workspace, which is a subspace of $\mathbb{R}^n$, in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in definition \ref{def:PM}. Any partition can be used as long as it satisfy the bisimulation property, which will be defined later once more notation has been introduced \cite{belta04}. We denote the $\Pi = {\pi_1, \pi_2, \dots, \pi_w}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
+We assume that we have one robot which is located in a given workspace denote $W_0 \subset \mathbb{R}^n$, which is bounded. To represent our workspace (which is a subspace of $\mathbb{R}^n$) in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in definition \ref{def:PM}. Any partition can be used as long as it satisfies the bisimulation property \cite{belta04}, which will be defined later once more notation has been introduced. We denote the $\Pi = {\pi_1, \pi_2, \dots, \pi_w}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
 
 \begin{definition}
 \label{def:PM}
 A partition map, $T: W_0 \rightarrow \Pi$ sends each state $x \in W_0$ to the finite set of equivalence classes $\Pi = {\pi_i}$,  $i = 1,2,\dots ,w$. $T^{-1}(\pi_i)$ is then all the states $x \in W_0$ that are in the equivalence class $\pi_i$ \cite{fainekos05}. 
 \end{definition} 
 
-We now introduce atomic propositions, which will be the building blocks for our task specification. Atomic propositions are boolean variables, and will be used to express properties about the state or the robot or the workspace. We define the following set of atomic propositions $AP_r = {a_{r,i}}$, $i=1,2,\dots,w$ where 
+We now introduce atomic propositions, which will be the building blocks for our task specification. Atomic propositions are boolean variables, and will be used to express properties about the state, the robot or the workspace. We define the following set of atomic propositions $AP_r = \{a_{r,i}\}$, $i=1,2,\dots,w$ where 
 \[\alpha_{r,i} =  \begin{cases}
 \top & \text{if the robot is in region $\pi_i$} \\
 \bot & \text{else}
 \end{cases}
 \]
-which represent the robot's location \cite{guo15}. Other things we want to be able to express are potential tasks, denote $AP_p = {\alpha_{p,i}}$, $i=1,2,\dots,m$. These can be statements such as "there is a ball in region $\pi_I$" or "the robot beeps"
+which represent the robot's location \cite{guo15}. Other things we want to be able to express are potential tasks, denote $AP_p = \{\alpha_{p,i}\}$, $i=1,2,\dots,m$. These can be statements such as "there is a ball in region $\pi_I$" or "the robot beeps"
 We now define the set of all propositions $AP = AP_r \cup AP_p$.
 
 \theoremstyle{definition}
 \begin{definition}
 \label{defCLF}
-The labelling function $L_C:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $x$ \cite{guo15}.
+The continuous labelling function $L_C:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $x$ \cite{guo15}.
 \end{definition} 
 
 We also include a definition of the discrete counterpart 
@@ -32,7 +32,7 @@ We also include a definition of the discrete counterpart
 \label{defDLF}
 The labelling function $L_D:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$ to the set of atomic propositions satisfied by $\pi_i$.
 \end{definition} 
-Note: $2^{AP}$ is the powerset of $AP$, i.e. the set of all subsets of $AP$ include the null set and $AP$.
+Note: $2^{AP}$ is the powerset of $AP$, i.e.\ the set of all subsets of $AP$ include the null set and $AP$.
 
 For example, by definition, $a_{r,i} \in L_D(\pi_i)$. 
 
@@ -54,7 +54,7 @@ There is a discrete transition, $\rightarrow_D \subset \Pi \times \Pi$, from $\p
 We can now define bisimulations
 \theoremstyle{definition}
 \begin{definition}
-\label{defDTransition}
+\label{def:bisim}
 A partition $T:W_0\rightarrow \Pi$ is called a bisimulation \cite{fainekos09} if the following properties hold for all $x,y \in W_0$
 \begin{enumerate}
     \item (Observation Preserving): If $T(x)=T(y)$, then $L_C(x) = L_C(y)$.
@@ -69,13 +69,13 @@ We can now define Finite-State Transition System (FTS), which is how we will rep
 \theoremstyle{definition}
 \begin{definition}
 \label{defFTS}
-An FTS is a tuple $\mathcal{T}_D = (\Pi, \rightarrow_D, \Pi_0, AP,L_D)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_D: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
+An FTS is a tuple $\mathcal{T} = (\Pi, \rightarrow_D, \Pi_0, AP,L_D)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_D: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
 \end{definition}
 
 In this thesis, we will also consider the weighted FTS (WFTS)
 \begin{definition}
-\label{defFTS}
-A WTFS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_C, \Pi_0, AP,L_C,W_C)$ where $\Pi$, $\rightarrow_C$, $\Pi_0$, $AP$, and $L_C$ are defined as in definition \ref{defFTS} and $W_C: \Pi \times \Pi \rightarrow \R^+$ is the weight function i.e.\ the cost of a transition in $\rightarrow_C$. 
+\label{defWFTS}
+A WTFS is a tuple $\mathcal{w}_C = (\Pi, \rightarrow_C, \Pi_0, AP,L_C,W_C)$ where $\Pi$, $\rightarrow_C$, $\Pi_0$, $AP$, and $L_C$ are defined as in definition \ref{defFTS} and $W_C: \Pi \times \Pi \rightarrow \R^+$ is the weight function i.e.\ the cost of a transition in $\rightarrow_C$. 
 \end{definition}
 Note: Any FTS can be written can be converted to an WFTS with the weights of all transitions equalling one.
 
@@ -89,7 +89,7 @@ To define tasks for our robot we must choose a high level language. Temporal log
     \varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2
 \end{align*}
 
-where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL fomulas, $\neg$ and $\lor$ denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $\U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
+where $\top$ is the predicate true, $\alpha \in AP$ is an atomic proposition, $\varphi_1$ and $\varphi_2$ are LTL formulas, $\neg$ and $\lor$ denote the standard Boolean connectives negation and disjunction respectively, X being the "Next" operator. $\U$ is the temporal operator "Until", with $\varphi_1 \mathcal{U} \varphi_2$ meaning $\varphi_1$ is true until $\varphi_2$ becomes true. Given these operators, we can define the following additional prepositional operators:
 \begin{align*}
     \text{Conjunction: }&  \varphi_1  \land \varphi_2 = \neg(\neg \varphi_1 \lor \neg \varphi_2) \\
     \text{Implication: }& \varphi_1 \Rightarrow \varphi_2 = \neg \varphi_1 \lor \varphi_2 \\
@@ -102,7 +102,7 @@ We are also able to derive the following additional temporal operators:
     \text{Always: }& \ssquare \varphi_1 = \neg \diamond \neg \varphi_1
 \end{align*}
 
-There is a growing interest in path and mission planning in robots using temporal logic specifications given the easy extension from natural language to temporal logic \cite{kress07}. We now give examples to illustrate this point and to introduce us to LTL formulas. First, the atomic operators generally capture properties of the robot or the environment i.e. "the robot is in region 1", "the ball is in region 2", "the robot is holding a ball". There are some common tasks converted to LTL formulas given in \citep{fainekos09} 
+There is a growing interest in path and mission planning in robots using temporal logic specifications given the easy extension from natural language to temporal logic \cite{kress07}. We now give examples to illustrate this point and to introduce us to LTL formulas. First, the atomic operators generally capture properties of the robot or the environment i.e. "the robot is in region 1", "the ball is in region 2", "the robot is holding a ball". There are some common tasks converted to LTL formulas given in \cite{fainekos09} 
 \begin{enumerate}
     \item \textbf{Reachability while avoiding regions}: "Go to region $\pi_{n+1}$ while avoiding regions $\pi_1, \pi_2, \dots, \pi_n$" \\ $\neg(\pi_1 \lor \pi_2 \dots \pi_n) \mathcal{U} \pi_{n+1}$ 
     \item \textbf{Sequencing}: "Visit regions $\pi_1, \pi_2, \pi_3$ in that order"\\ 
@@ -153,12 +153,12 @@ It has been shown that given an LTL formula $\varphi$ over $AP$, there exists a 
 \subsection{Product Automata}
 These two structures are then combined to create the product automaton. The product automata is also a B\"{u}chi automata and is defined as follows:
 \begin{definition}
-The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_d(\pi_j))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
+The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T_w} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_d(\pi_j))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
 \end{definition} 
 
 Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' q_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$ \cite{guo15}. 
 
-Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(r) \cap \F' \neq \emptyset$
+Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run, r, is the same as before i.e.\ $\Inf(R) \cap \F' \neq \emptyset$
 
 %\begin{lemma}
 %If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
