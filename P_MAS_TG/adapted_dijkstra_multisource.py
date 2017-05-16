@@ -56,7 +56,7 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
     # use the count c to avoid comparing nodes (may not be able to)
     c = count()
     fringe = []
-
+    next_node = []
     # current level of starting node
     cur_level = G.node[source]['dist']
     if cur_level == 0:
@@ -105,6 +105,7 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
                 push(fringe, (vu_dist, next(c), u))
                 if paths is not None:
                     paths[u] = paths[v] + [u]
+    
     #print next_node
     #print type(next_node)
     return dist, next_node, paths

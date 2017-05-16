@@ -9,7 +9,7 @@ import adapted_dijkstra_multisource as ga
 #===========================================
 #optimal initial synthesis
 #===========================================
-def Garrett_dijkstra_plan_networkX(product, beta=10):
+def new_algorithm_plan(product, beta=10):
 	# requires a full construct of product automaton
 	# used for 'stadic' and 'ready'
 	start = time.time()
@@ -45,8 +45,15 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 			#print len(targ)
 			#print len(path)
 			#print path[targ]
+			if targ == []:
+				print '=================='        
+				print 'No accepting run found in planning!'
+				return None, None
+
 			lev = product.node[targ]['dist']
+			
 			start_node = targ
+
 			print start_node
 			precost = precost+di[targ]
 			if lev == 0:				
@@ -63,6 +70,8 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 	#print 'prod_target'
 	#print prod_target
 	print product.predecessors(prod_target)
+	
+
 	if prod_target in product.predecessors(prod_target):
 		#print 'self_loop'
 		#print 'len(product.predecessors(prod_target))'
@@ -100,7 +109,7 @@ def Garrett_dijkstra_plan_networkX(product, beta=10):
 		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
 		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 		print '=================='
-		print 'Dijkstra_plan_networkX done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
+		print 'new_algorithm_plan done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
 		return run, time.time()-start
 		#print '\n==================\n'
 	print '=================='        

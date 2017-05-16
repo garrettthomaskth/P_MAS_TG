@@ -169,4 +169,13 @@
   pages     = {11--16},
 }
 
+@InProceedings{somenzi00,
+  author       = {Somenzi, Fabio and Bloem, Roderick},
+  title        = {Efficient B{\"u}chi automata from LTL formulae},
+  booktitle    = {International Conference on Computer Aided Verification},
+  year         = {2000},
+  pages        = {248--263},
+  organization = {Springer},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

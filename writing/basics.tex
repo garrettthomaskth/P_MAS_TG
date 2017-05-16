@@ -1,4 +1,5 @@
 \section{Basics}
+
 \subsection{Abstraction of the Workspace}
 In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph (B\"{u}chi automata, which will be defined later) that represents the robot motion. Next is the execution level, which involves finding a path through the graph that satisfies a specification. Lastly, in the implementation level robot controllers are constructed that satisfy the path found in the previous step. 
 
@@ -68,7 +69,7 @@ We can now define Finite-State Transition System (FTS), which is how we will rep
 \theoremstyle{definition}
 \begin{definition}
 \label{defFTS}
-An FTS is a tuple $\mathcal{T}_C = (\Pi, \rightarrow_D, \Pi_0, AP,L_C)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_C: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
+An FTS is a tuple $\mathcal{T}_D = (\Pi, \rightarrow_D, \Pi_0, AP,L_D)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_D: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
 \end{definition}
 
 In this thesis, we will also consider the weighted FTS (WFTS)
@@ -98,7 +99,7 @@ We note quickly that we have the false predicate, $\bot = \neg \top$.
 We are also able to derive the following additional temporal operators:
 \begin{align*}
     \text{Eventuality: }& \diamond \varphi_1 = T U \varphi_1 \\
-    \text{Always: }& \square \varphi_1 = \neg \diamond \neg \varphi_1
+    \text{Always: }& \ssquare \varphi_1 = \neg \diamond \neg \varphi_1
 \end{align*}
 
 There is a growing interest in path and mission planning in robots using temporal logic specifications given the easy extension from natural language to temporal logic \cite{kress07}. We now give examples to illustrate this point and to introduce us to LTL formulas. First, the atomic operators generally capture properties of the robot or the environment i.e. "the robot is in region 1", "the ball is in region 2", "the robot is holding a ball". There are some common tasks converted to LTL formulas given in \citep{fainekos09} 
@@ -107,10 +108,10 @@ There is a growing interest in path and mission planning in robots using tempora
     \item \textbf{Sequencing}: "Visit regions $\pi_1, \pi_2, \pi_3$ in that order"\\ 
     $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ 
     \item \textbf{Coverage}: "Visit regions $\pi_1, \pi_2, \dots, \pi_n$ in any order"\\ $\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n$
-    \item \textbf{Recurrence (Liveness)}: "Visit regions $\pi_1, \dots, \pi_n$ in any order over and over again"\\ $\square(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$      
+    \item \textbf{Recurrence (Liveness)}: "Visit regions $\pi_1, \dots, \pi_n$ in any order over and over again"\\ $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$      
 \end{enumerate}
 Of course more complicated tasks are also expressible in LTL, and atomic propositions need not only refer to the location of the robot. Here is an example given in  \cite{guo15}: "Pick up the red ball, drop it to one of the baskets and then stay in room one" \\
-$\diamond(rball \land \diamond basket) \land \diamond \square r1$ 
+$\diamond(rball \land \diamond basket) \land \diamond \ssquare r1$ 
 
 We now look at what it means to satisfy an LTL formula. We will talk about \textit{words} satisfying LTL formulas, in our case \textit{infinite words}. An infinite word over the alphabet $2^{AP}$ is an infinite sequence $\sigma \in (2^{AP})^\omega$. The $\omega$ superscript means an infinte repatition; that is, $\sigma = S_0 S_1 S_2 \dots$, where $S_k \in 2^{AP}$ for $k=1,2,\dots$ and $S_k$ is the set of atomic propositions that are true at time step $k$ \cite{guo15}. An infinite word $\sigma$ satisfies an LTL formula $\varphi$ based on the LTL semantics.  
 

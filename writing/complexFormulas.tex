@@ -2,12 +2,12 @@
 The formulas in the previous section are common formulas, but are fairly simple. The benefit of using temporal logics is that a wide variety of behaviours can be expressed, including propositions about the robot \textit{and} about the workspace. Up to now, we have not looked at any formulas that include atomic propositions about potential tasks. We will show through examples that the same ideas presented in the previous chapter still hold true for this complex tasks, and show the speed up we get by using our algorithm compared to the accepted algorithm. 
 
 \subsection{Example 1}
-We look at the example from \cite{guo15} which says "eventually pick up the red ball. Once it is done, move to one basket and drop it. At last come back to room one and stay there". This task can be written as the LTL formula $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \square r1$. The B\"uchi automaton corresponding to this formula as translated by \cite{gastin01} is shown in figure \ref{fig:buchiEx1}, with pick being short for pickrball and drop being short for droprball.
+We look at the example from \cite{guo15} which says "eventually pick up the red ball. Once it is done, move to one basket and drop it. At last come back to room one and stay there". This task can be written as the LTL formula $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \ssquare r1$. The B\"uchi automaton corresponding to this formula as translated by \cite{gastin01} is shown in figure \ref{fig:buchiEx1}, with pick being short for pickrball and drop being short for droprball.
 
 \begin{figure*}[!htb]
 \centering
 \includegraphics[scale=0.4]{buchiEx1_1}
-\caption{B\"uchi Automaton Corresponding to $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \square r1$}
+\caption{B\"uchi Automaton Corresponding to $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \smallsquare r1$}
 \label{fig:buchiEx1}
 \end{figure*} 
 
@@ -39,7 +39,7 @@ As we can see, there are many edges in this automaton and edges that have \&\& i
   		(F) edge [loop above] node {$\neg$droprball} (F)
   		(D) edge [loop above] node {$r1$} (D);
 \end{tikzpicture}
-\caption{Simplified B\"uchi Automaton for $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \square r1$ 1}
+\caption{Simplified B\"uchi Automaton for $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \smallsquare r1$ 1}
 \label{fig:ex1SimplifiedBuchi}
 \end{figure} 
 
@@ -69,7 +69,9 @@ the suffix of plan **actions**:
 
 Our algorithm gives 
 \begin{lstlisting}
-Dijkstra_plan_networkX done within 0.03s: precost 66.00, sufcost 0.00
+Our Algorithm
+==================
+new_algorithm_plan done within 0.03s: precost 66.00, sufcost 0.00
 \end{lstlisting}
 while the accepted algorithm gives 
 
@@ -110,14 +112,14 @@ We now look at the same example, except now we have a different workspace. We ch
   		(F) edge [loop above] node {$\neg$basket} (F)
   		(D) edge [loop above] node {$r1$} (D);
 \end{tikzpicture}
-\caption{Simplified B\"uchi Automaton Corresponding to $\varphi = \diamond (\text{rball} \wedge \diamond \text{basket}) \wedge \diamond \square r1$ 2}
+\caption{Simplified B\"uchi Automaton Corresponding to $\varphi = \diamond (\text{rball} \wedge \diamond \text{basket}) \wedge \diamond \smallsquare r1$ 2}
 \label{fig:ex1OverlapSimplifiedBuchi}
 \end{figure} 
 
 In this automaton, we now have $d(q_1)=2$, $d(q_2)=2$, $d(q_3)=2$, $d(q_4)=1$, $d(q_5) = 2$ and $d(q_6)=0$. We see again that rball and basket are not one step away from the initial node, implying that we cannot take the first step rball or rball \&\& basket. This means that we cannot ever go to $q_2$.
 
 \subsection{Example 2}
-We now look at the example taken from \cite{guo15} in which the robot has to pick up and deliver two different balls (rball and gball) to two different baskets, and the robot cannot carry two balls at once. After this is done the robot is to go to r1 and stay there. This task is formalized as $\varphi = \diamond (\text{pickrball} \wedge \diamond (\text{droprball})) \wedge \diamond(\text{pickgball} \wedge \diamond (\text{dropgball})) \wedge \square (\text{pickrball} \rightarrow \textbf{X}(\neg \text{pickgball} \U \text{droprball})) \wedge \square (\text{pickgball} \rightarrow \textbf{X} (\neg \text{pickrball} \U \text{dropgball})) \&\& \diamond \square r1$. This formula formalizes the basket corresponding to rball is in region r2 and the basket corresponding to gball is in r4. The B\"uchi automaton corresponding to this formula is much to large to show. It has 75 states and 797 edges. If the reader is interested, the automaton can be found using the online tool \cite{ltlbuchiwebsite} with the input F(rball \&\& F(basket \&\& r2)) \&\& F(gball \&\& F(basket \&\& r4)) \&\& G(rball -> X(! gball U basket)) \&\& G(gball -> X(! rball U basket)) \&\& F(G(r1)). It is too large for the tool to give a visual representation but it will provide a list of states and edges.  
+We now look at the example taken from \cite{guo15} in which the robot has to pick up and deliver two different balls (rball and gball) to two different baskets, and the robot cannot carry two balls at once. After this is done the robot is to go to r1 and stay there. This task is formalized as $\varphi = \diamond (\text{pickrball} \wedge \diamond (\text{droprball})) \wedge \diamond(\text{pickgball} \wedge \diamond (\text{dropgball})) \wedge \ssquare (\text{pickrball} \rightarrow \textbf{X}(\neg \text{pickgball} \U \text{droprball})) \wedge \ssquare (\text{pickgball} \rightarrow \textbf{X} (\neg \text{pickrball} \U \text{dropgball})) \&\& \diamond \ssquare r1$. This formula formalizes the basket corresponding to rball is in region r2 and the basket corresponding to gball is in r4. The B\"uchi automaton corresponding to this formula is much to large to show. It has 75 states and 797 edges. If the reader is interested, the automaton can be found using the online tool \cite{ltlbuchiwebsite} with the input F(rball \&\& F(basket \&\& r2)) \&\& F(gball \&\& F(basket \&\& r4)) \&\& G(rball -> X(! gball U basket)) \&\& G(gball -> X(! rball U basket)) \&\& F(G(r1)). It is too large for the tool to give a visual representation but it will provide a list of states and edges.  
 
 To analyse the performance of our algorithm on this problem, we are going to break up this problem into the choices that the robot has. The robot has to pick up one of the balls, return it to the corresponding basket, then pick up the second ball and return it to its corresponding basket. Assuming that everything else is done in the optimal way, the only choice that must be made is which ball to pick up first. It seems that our algorithm is would choose the closest ball, however because of the structure of the B\"uchi automaton, it ends up choosing the farther one. This is the output, accepted algorithm first:
 
@@ -137,10 +139,11 @@ the suffix of plan **actions**:
 ['None', 'None']
 full construction and synthesis done within 77.56s 
 \end{lstlisting}
-and
+and our algorithm
 \begin{lstlisting}
+Our Algorithm
 ==================
-Dijkstra_plan_networkX done within 0.50s: precost 118.00, sufcost 0.00
+new_algorithm_plan done within 0.50s: precost 118.00, sufcost 0.00
 ------------------------------
 the prefix of plan **states**:
 [((0, 0, 1), 'None'), ((1, 0, 1), 'None'), ((1, 1, 1), 'None'), ((2, 1, 1), 'None'), ((2, 2, 1), 'None'), ((3, 2, 1), 'None'), ((3, 3, 1), 'None'), ((4, 3, 1), 'None'), ((5, 3, 1), 'None'), ((6, 3, 1), 'None'), ((7, 3, 1), 'None'), ((8, 3, 1), 'None'), ((8, 4, 1), 'None'), ((9, 4, 1), 'None'), ((10, 4, 1), 'None'), ((11, 4, 1), 'None'), ((12, 4, 1), 'None'), ((13, 4, 1), 'None'), ((14, 4, 1), 'None'), ((15, 4, 1), 'None'), ((16, 4, 1), 'None'), ((16, 5, 1), 'None'), ((16, 6, 1), 'None'), ((17, 6, 1), 'None'), ((18, 6, 1), 'None'), ((19, 6, 1), 'None'), ((19, 7, 1), 'None'), ((19, 8, 1), 'None'), ((19, 8, 1), 'pickgball'), ((19, 9, 1), 'None'), ((18, 9, 1), 'None'), ((18, 10, 1), 'None'), ((17, 10, 1), 'None'), ((16, 10, 1), 'None'), ((15, 10, 1), 'None'), ((14, 10, 1), 'None'), ((13, 10, 1), 'None'), ((12, 10, 1), 'None'), ((11, 10, 1), 'None'), ((10, 10, 1), 'None'), ((9, 10, 1), 'None'), ((8, 10, 1), 'None'), ((7, 10, 1), 'None'), ((6, 10, 1), 'None'), ((5, 10, 1), 'None'), ((4, 10, 1), 'None'), ((3, 10, 1), 'None'), ((2, 10, 1), 'None'), ((2, 10, 1), 'dropgball'), ((2, 11, 1), 'None'), ((2, 12, 1), 'None'), ((2, 13, 1), 'None'), ((2, 14, 1), 'None'), ((3, 14, 1), 'None'), ((4, 14, 1), 'None'), ((5, 14, 1), 'None'), ((5, 15, 1), 'None'), ((6, 15, 1), 'None'), ((7, 15, 1), 'None'), ((8, 15, 1), 'None'), ((9, 15, 1), 'None'), ((9, 15, 1), 'pickrball'), ((8, 15, 1), 'None'), ((7, 15, 1), 'None'), ((7, 14, 1), 'None'), ((7, 14, 1), 'droprball'), ((8, 14, 1), 'None'), ((8, 15, 1), 'None'), ((9, 15, 1), 'None'), ((10, 15, 1), 'None'), ((11, 15, 1), 'None'), ((12, 15, 1), 'None'), ((12, 16, 1), 'None'), ((13, 16, 1), 'None'), ((14, 16, 1), 'None'), ((15, 16, 1), 'None'), ((16, 16, 1), 'None'), ((17, 16, 1), 'None'), ((18, 16, 1), 'None'), ((19, 16, 1), 'None'), ((20, 16, 1), 'None'), ((21, 16, 1), 'None'), ((22, 16, 1), 'None'), ((22, 16, 1), 'None')]
@@ -156,7 +159,7 @@ full construction and synthesis done within 71.61s
 as we can see, we obtain the same path in both cases. This speaks to the difficulty of analyzing the plans our algorithm produces because we cannot always predict it. We are also not able to provide an error bound for a generic complex formulas because of this unpredictability. In an analysis of speed, our algorithm does the search faster, however by a fairly small margin. In either case, the actual search takes up less than a hundredth of the total time.
 
 \subsection{Example 2 Modified}
-We now look at a modified version of example two. Say the robot has to pick up and deliver two different balls (rball and gball) to two different baskets, and the robot cannot carry two balls at once and that is it. There is no need to go to r1, or do anything after the balls are returned to their respective baskets. This task is formalized as $\varphi = \diamond (\text{pickrball} \wedge \diamond (\text{droprball})) \wedge \diamond(\text{pickgball} \wedge \diamond (\text{dropgball})) \wedge \square (\text{pickrball} \rightarrow \textbf{X}(\neg \text{pickgball} \U \text{droprball})) \wedge \square (\text{pickgball} \rightarrow \textbf{X} (\neg \text{pickrball} \U \text{dropgball}))$. This version seems easier than original example. The B\"uchi automaton for this formula would seem to agree; it is smaller, with 38 nodes and 308 edges. However, here is the out put from both algorithms:
+We now look at a modified version of example two. Say the robot has to pick up and deliver two different balls (rball and gball) to two different baskets, and the robot cannot carry two balls at once and that is it. There is no need to go to r1, or do anything after the balls are returned to their respective baskets. This task is formalized as $\varphi = \diamond (\text{pickrball} \wedge \diamond (\text{droprball})) \wedge \diamond(\text{pickgball} \wedge \diamond (\text{dropgball})) \wedge \ssquare (\text{pickrball} \rightarrow \textbf{X}(\neg \text{pickgball} \U \text{droprball})) \wedge \ssquare (\text{pickgball} \rightarrow \textbf{X} (\neg \text{pickrball} \U \text{dropgball}))$. This version seems easier than original example. The B\"uchi automaton for this formula would seem to agree; it is smaller, with 38 nodes and 308 edges. However, here is the out put from both algorithms:
 
 \begin{lstlisting}
 Accepted Algorithm
@@ -176,7 +179,9 @@ full construction and synthesis done within 963.61s
 \end{lstlisting}
 and from our algorithm
 \begin{lstlisting}
-Dijkstra_plan_networkX done within 0.39s: precost 101.00, sufcost 0.00
+Our Algorithm
+==================
+new_algorithm_plan done within 0.39s: precost 101.00, sufcost 0.00
 ------------------------------
 the prefix of plan **states**:
 [((0, 0, 1), 'None'), ((1, 0, 1), 'None'), ((1, 1, 1), 'None'), ((1, 2, 1), 'None'), ((2, 2, 1), 'None'), ((2, 3, 1), 'None'), ((3, 3, 1), 'None'), ((4, 3, 1), 'None'), ((5, 3, 1), 'None'), ((6, 3, 1), 'None'), ((7, 3, 1), 'None'), ((7, 4, 1), 'None'), ((8, 4, 1), 'None'), ((9, 4, 1), 'None'), ((10, 4, 1), 'None'), ((11, 4, 1), 'None'), ((12, 4, 1), 'None'), ((12, 5, 1), 'None'), ((12, 6, 1), 'None'), ((13, 6, 1), 'None'), ((13, 7, 1), 'None'), ((13, 8, 1), 'None'), ((14, 8, 1), 'None'), ((15, 8, 1), 'None'), ((16, 8, 1), 'None'), ((17, 8, 1), 'None'), ((18, 8, 1), 'None'), ((19, 8, 1), 'None'), ((19, 8, 1), 'pickgball'), ((18, 8, 1), 'None'), ((17, 8, 1), 'None'), ((17, 9, 1), 'None'), ((17, 10, 1), 'None'), ((16, 10, 1), 'None'), ((15, 10, 1), 'None'), ((14, 10, 1), 'None'), ((13, 10, 1), 'None'), ((12, 10, 1), 'None'), ((11, 10, 1), 'None'), ((10, 10, 1), 'None'), ((9, 10, 1), 'None'), ((8, 10, 1), 'None'), ((7, 10, 1), 'None'), ((6, 10, 1), 'None'), ((5, 10, 1), 'None'), ((4, 10, 1), 'None'), ((3, 10, 1), 'None'), ((2, 10, 1), 'None'), ((2, 10, 1), 'dropgball'), ((2, 11, 1), 'None'), ((2, 12, 1), 'None'), ((2, 13, 1), 'None'), ((3, 13, 1), 'None'), ((4, 13, 1), 'None'), ((5, 13, 1), 'None'), ((5, 14, 1), 'None'), ((6, 14, 1), 'None'), ((6, 15, 1), 'None'), ((7, 15, 1), 'None'), ((8, 15, 1), 'None'), ((9, 15, 1), 'None'), ((9, 15, 1), 'pickrball'), ((9, 14, 1), 'None'), ((8, 14, 1), 'None'), ((7, 14, 1), 'None'), ((7, 14, 1), 'droprball'), ((7, 14, 1), 'None')]
@@ -200,7 +205,7 @@ Each accepting node in the B\"uchi automaton has a self loop however, the labels
 
 
 \subsection{Other Examples}
-As we have seen, due to the complexity of the B\"uchi automata it can be very hard to analyse the performance of our algorithm compared to the accepted algorithm with respect to cost for more complex formulas. We therefore provide the results of runs for various formulas in table \ref{table}. The formulas are run on the workspace in figure \ref{fig:workspace2}. 
+As we have seen, due to the complexity of the B\"uchi automata it can be very hard to analyse the performance of our algorithm compared to the accepted algorithm with respect to cost for more complex formulas. We therefore provide the results of runs for various formulas in table \ref{table}. We use formulas from the table in \cite{somenzi00} to try to show a comprehensive experimentation. The formulas are run on the workspace in figure \ref{fig:workspace2}. 
 
 \begin{landscape}
 \begin{table}[]
@@ -208,7 +213,7 @@ As we have seen, due to the complexity of the B\"uchi automata it can be very ha
 \small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Formula & Accepted Cost & Accepted Time & Our Cost & Our Time \\ \hline
+Formula & \makecell{Accepted Cost \\ prefix, suffix} & Accepted Time & \makecell{Our Cost \\ prefix, suffix} & Our Time \\ \hline
      '(!r223 U r445) || (!r268 U r435)'  &         27      &      0.04         &      27   &     0.01     \\ \hline
       '!r62 U(!r266 U r422)'  &         38.00      &       0.05        &     38     &     0.02     \\ \hline
        '[]<> r0 -> []<> r317' &         1      &       5.06        &    1      &    0.00     \\ \hline

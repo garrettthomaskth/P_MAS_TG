@@ -94,4 +94,10 @@ Viktor Schuppan and Armin Biere.
 \newblock In {\em International Conference on Tools and Algorithms for the
   Construction and Analysis of Systems}, pages 493--509. Springer, 2005.
 
+\bibitem{somenzi00}
+Fabio Somenzi and Roderick Bloem.
+\newblock Efficient b{\"u}chi automata from ltl formulae.
+\newblock In {\em International Conference on Computer Aided Verification},
+  pages 248--263. Springer, 2000.
+
 \end{thebibliography}

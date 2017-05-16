@@ -33,7 +33,7 @@ class ltl_planner(object):
 			#print 'HELALKDSOS DOHISD HU S'
 			# Garrett
 			print 'Garrett'
-			self.run, plantime = Garrett_dijkstra_plan_networkX(self.product, self.beta)
+			self.run, plantime = new_algorithm_plan(self.product, self.beta)
 			#print '###'
 			#print '###'
 		elif style == 'ready':
