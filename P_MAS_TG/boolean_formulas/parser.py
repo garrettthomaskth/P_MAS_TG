@@ -42,11 +42,18 @@ class SymbolExpression(Expression):
 
     #Garrett       
     def symCheck(self):
-        #return 1
-        if self.symbol[0] == 'r':
+        if self.symbol[1] == 'r':
             return 1
         else:
             return 0
+
+    def symCheck2(self):
+        if self.symbol[1] != 'r':
+            return 1
+        else:
+            return 0
+        #return 1
+
 
 class NotSymbolExpression(Expression):
     def __init__(self, name):
@@ -76,6 +83,9 @@ class NotSymbolExpression(Expression):
     def symCheck(self):
         return 0
 
+    def symCheck2(self):
+        return 0
+
 class TrueExpression(Expression):
     name = "TRUE"
     def __init__(self):
@@ -99,6 +109,8 @@ class TrueExpression(Expression):
 
     #Garrett       
     def symCheck(self):
+        return 0
+    def symCheck2(self):
         return 0
 
 class NotExpression(Expression):
@@ -140,6 +152,10 @@ class NotExpression(Expression):
         #may have to change to check double negative symbolic
         return 0
 
+    def symCheck2(self):
+        #may have to change to check double negative symbolic
+        return 0
+
 class BinExpression(Expression):
     def __init__(self, left, right):
         self.left = left
@@ -174,6 +190,9 @@ class ORExpression(BinExpression):
     def symCheck(self):
         return min(self.left.symCheck(), self.right.symCheck())
 
+    def symCheck2(self):
+        return min(self.left.symCheck2(), self.right.symCheck2())
+
 class ANDExpression(BinExpression):
     name = "AND"
     def __repr__(self):
@@ -188,6 +207,8 @@ class ANDExpression(BinExpression):
     #Garrett
     def symCheck(self):
         return self.left.symCheck() + self.right.symCheck()
+    def symCheck2(self):
+        return self.left.symCheck2() + self.right.symCheck2()
 
 class Parser(object):
     def __init__(self, formula):

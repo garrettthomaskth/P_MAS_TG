@@ -18,8 +18,6 @@ def new_algorithm_plan(product, beta=10):
 	cycle = {}
 	line = {}
 	# 
-	
-	
 	# 
 	# Find the shortest path
 	# to each accepting state
@@ -27,24 +25,15 @@ def new_algorithm_plan(product, beta=10):
 	for prod_init in product.graph['initial']:
 		# Find prefix
 		lev = product.node[prod_init]['dist']
-		print prod_init
 		start_node = prod_init
 		precost = 0
 		prefix = [start_node]
-		#targ = start_node
 		if lev == 0:
 			lev = 1
 		while lev > 0:
-			#print 'lev'
-			#print lev
+
 			di,targ,path = ga.adapted_dijkstra_multisource(product,start_node)
-			#print 'di'
-			#print len(di)
-			#print pre
-			#print len(di)
-			#print len(targ)
-			#print len(path)
-			#print path[targ]
+
 			if targ == []:
 				print '=================='        
 				print 'No accepting run found in planning!'
@@ -57,8 +46,8 @@ def new_algorithm_plan(product, beta=10):
 			print start_node
 			precost = precost+di[targ]
 			if lev == 0:				
-				prefix.extend(path[targ][1:])#-2])
-				#prefix.extend(compute_path_from_pre(pre, targ)[1:])
+				prefix.extend(path[targ][1:])
+
 			# [1:-1] because first is the starting node and last is the same node as second to last
 			else:
 				prefix.extend(path[targ][1:-1])

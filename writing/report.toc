@@ -13,11 +13,11 @@
 \contentsline {subsection}{\numberline {0.3.2}Sequencing}{18}{subsection.0.3.2}
 \contentsline {subsection}{\numberline {0.3.3}Coverage}{24}{subsection.0.3.3}
 \contentsline {subsection}{\numberline {0.3.4}Recurrence (Liveness)}{38}{subsection.0.3.4}
-\contentsline {subsubsection}{Simulation}{40}{section*.8}
 \contentsline {section}{\numberline {0.4}More Complex Formulas}{44}{section.0.4}
 \contentsline {subsection}{\numberline {0.4.1}Example 1}{44}{subsection.0.4.1}
 \contentsline {subsection}{\numberline {0.4.2}Example 1 Overlapping Regions}{48}{subsection.0.4.2}
-\contentsline {subsection}{\numberline {0.4.3}Example 2}{49}{subsection.0.4.3}
-\contentsline {subsection}{\numberline {0.4.4}Example 2 Modified}{53}{subsection.0.4.4}
-\contentsline {subsection}{\numberline {0.4.5}Other Examples}{57}{subsection.0.4.5}
-\contentsline {section}{\numberline {0.5}Appendix}{59}{section.0.5}
+\contentsline {subsection}{\numberline {0.4.3}Example 2}{51}{subsection.0.4.3}
+\contentsline {subsection}{\numberline {0.4.4}Example 2 Modified}{55}{subsection.0.4.4}
+\contentsline {subsection}{\numberline {0.4.5}Other Examples}{59}{subsection.0.4.5}
+\contentsline {section}{\numberline {0.5}Conclusion and Future Work}{63}{section.0.5}
+\contentsline {section}{\numberline {0.6}Appendix}{65}{section.0.6}

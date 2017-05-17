@@ -45,15 +45,17 @@ asdf = ['r','b']
 for i in range(0,N):
   for j in range(0,N):
     if j == 9 and i == 15:
-      regions[(j,i,1)] = set(['r'+str(k),'rball']) #, 'pick'])
-    elif j ==7 and i == 14:
-      regions[(j,i,1)] = set(['r'+str(k),'basket1'])#, 'drop'])
+      #regions[(j,i,1)] = set(['r'+str(k),'rball']) #, 'pick'])
+      regions[(j,i,1)] = set(['r'+str(k),'rball','basket1'])
+    #elif j ==7 and i == 14:
+    #elif j == 9 and i == 15:
+      #regions[(j,i,1)] = set(['r'+str(k),'basket1'])#, 'drop'])
     elif j == 19 and i == 8:
       regions[(j,i,1)] = set(['r'+str(k),'gball'])#, 'pick'])
     elif j == 2 and i == 10:
       regions[(j,i,1)] = set(['r'+str(k),'basket2'])#, 'drop'])
     else:
-      regions[(j,i,1)] = set(['r'+str(k),asdf[j%2]])
+      regions[(j,i,1)] = set(['r'+str(k)])
     ap.add('r'+str(k))
     if i>0 and ((i-1,j,1),(i,j,1)) not in edges and ((i,j,1),(i-1,j,1)) not in edges:
       edges.append(((i-1,j,1),(i,j,1)))
@@ -81,11 +83,11 @@ robot_motion.add_un_edges(edges, unit_cost = 1)
 ############# no action model
 action = dict()
 ############# with action
-#action = { 'pickrball': (10, 'rball', set(['pickrball'])),
-#           'droprball': (10, 'basket1', set(['droprball'])),           
+action = { 'pickrball': (10, 'rball', set(['pickrball'])),
+           'droprball': (10, 'basket1', set(['droprball'])),           
 #           'pickgball': (10, 'gball', set(['pickgball'])),
 #           'dropgball': (10, 'basket2', set(['dropgball']))
-#}
+}
 
 
 robot_action = ActionModel(action)
@@ -116,10 +118,11 @@ robot_model = MotActModel(robot_motion, robot_action)
 #hard_task = '<> (r312 &&  <>( r395 && <>r602)) '
 #hard_task = '<> r1 && <> r600 || <>r7'
 #hard_task = '!(r300 || r400 || r5) U r445'
-#hard_task = '<>(pickrball && <> droprball) && <>[] r448'
+hard_task = '<>(pickrball && <> droprball) && <>[] r448'
 #####hard_task = '<>((pickrball && rball) && <> (droprball && basket1)) && <>((pickgball && gball) && <> (dropgball && basket2)) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
-#hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
+#hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'
 #hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r422 '
+#hard_task = '<>(pickrball  && <> (droprball && X([]!pickrball && []! droprball))) && <>(pickgball  && <>(dropgball && X([]!pickgball && []!dropgball))) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r462 '
 #hard_task = '(!r223 U r445) || (!r268 U r435)'
 #hard_task = '!r62 U(!r266 U r422)'
 #hard_task = '!(!r62 U(!r266 U r422))'
@@ -132,7 +135,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 #hard_task = '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' 
 #hard_task = '<> pickrball && [](pickrball -> <> droprball) && ((X pickrball U X droprball) || !X( pickrball U droprball))'  #no
 #hard_task = ' <> r124 && <> !r124'
-hard_task = '[](r23 || X [] r436) && [] (r80 || X [] ! r227)'
+#hard_task = '[](r23 || X [] r436) && [] (r80 || X [] ! r227)'
 soft_task = None#'([]! b)'
 
 

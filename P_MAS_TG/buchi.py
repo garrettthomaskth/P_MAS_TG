@@ -25,7 +25,7 @@ def buchi_from_ltl(formula,Type):
         guard_expr = parse_guard(guard_formula)
 
         garrett_no_double = True
-        if guard_expr.symCheck() < 2 and garrett_no_double:
+        if guard_expr.symCheck() < 2 and garrett_no_double and guard_expr.symCheck2() < 2:
             buchi.add_edge(ef, et, guard=guard_expr, guard_formula=guard_formula)
         elif not garrett_no_double:
             buchi.add_edge(ef, et, guard=guard_expr, guard_formula=guard_formula)

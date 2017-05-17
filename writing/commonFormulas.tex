@@ -287,6 +287,7 @@ We now define a workspace to use with our problem. Our workspace is a grid, 25 u
 \centering
 \includegraphics[scale=1]{workspace.eps}
 \label{fig:workspace}
+\caption{Workspace 1}
 \end{figure}
 
 We run both algorithms with the formula of $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$. The output from the accepted algorithm is
@@ -334,7 +335,7 @@ The level of the initial node is three, so our algorithm does three Dijkstra sea
 
 
 \subsection{Coverage}
-A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in that order, and is of the form $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \pi_n$. We show the B\"uchi automaton corresponding to the formula $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \pi_3$ in figure \ref{fig:buchCov}
+A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in that order, and is of the form $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$. We show the B\"uchi automaton corresponding to the formula $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$ in figure \ref{fig:buchCov}
 
 \begin{figure}
 \centering
@@ -415,7 +416,7 @@ We can represent the relationship between the regions in our graph with the foll
 \label{fig:completeGraph}
 \end{figure}
 
-For the distances, we use the so called \textit{Manhattan distance}, i.e.\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that our algorithm, and the nearest neighbour, will take is shown in figure \ref{fig:pathOnComplete}. The cost of this path is 62.
+For the distances, we use the so called \textit{Manhattan distance},\\ i.e.\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that our algorithm, and the nearest neighbour, will take is shown in figure \ref{fig:pathOnComplete}. The cost of this path is 62.
 
 \begin{figure}
 \centering
@@ -564,7 +565,7 @@ Our values do indeed satisfy this inequality
 \text{NEARNEIBR} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL} \\
 132 &\leq (\frac{1}{2} \lceil \log(5) \rceil + \frac{1}{2})129 \\
 132 &\leq (2)129 \\
-132 \leq 258 
+132 &\leq 258 
 \end{align*}
 We also see that it is very conservative worst case bound and we will likely do much better.
 
@@ -734,10 +735,10 @@ As we can see our algorithm calculates the path in 0.02 seconds while the accept
 The accepted algorithm does one Dijkstra search of all 5000 states in the product automaton (625 states in the FTS and eight in the B\"uchi automaton). Even though there are eight states in the B\"uchi automaton, the initial node is still only on level three. Therefore we only do three searches to find an accepting node. The first searches 326, the second 266, and the third 587. Thus our algorithm searches 1179 nodes compared to 5000 by the accepted algorithm and returns a path of cost 62 compared 59.
 
 \subsection{Recurrence (Liveness)}
-Recurrence is coverage over and over again, and can be expressed as $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight \cite{schuppan05}, and an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
+Recurrence is coverage over and over again, and can be expressed as $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight \cite{schuppan05}, and an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
 
 \subsubsection*{Tightness}
-A tight B\"uchi automaton is one that accepts the minimum prefix and the minimum suffix. We begin showing that the automaton produced for these formulas by \cite{ltlbuchiwebsite} is not tight. We consider the formula $\ssquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}
+A tight B\"uchi automaton is one that accepts the minimum prefix and the minimum suffix. We begin showing that the automaton produced for these formulas by \cite{ltlbuchiwebsite} is not tight. We consider the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}
 
 \begin{figure}
 \centering
@@ -765,7 +766,7 @@ Note: Again, the actual automaton generated has much more edges. %For example, t
 In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{init}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton \ref{fig:gasBuchiRec} the only way to do this is to go to region $\pi_1$.  In this case the same statement holds for $\pi_2$. It follows that the prefix with the least cost is a concatenation of the shortest paths down from each each level (first to $\pi_1$, etc).
 
 
-This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\ssquare(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
+This path however is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} not a tight B\"{u}chi automaton \cite{schuppan05}. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of this optimality property is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton which is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
 
 \begin{figure}
 \centering

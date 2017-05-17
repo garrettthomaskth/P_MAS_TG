@@ -2,7 +2,7 @@
 from buchi import mission_to_buchi
 from product import ProdAut
 from ts import distance, reach_waypoint
-from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal, improve_plan_given_history, Garrett_dijkstra_plan_networkX
+from discrete_plan import dijkstra_plan_networkX, dijkstra_plan_optimal, improve_plan_given_history, new_algorithm_plan
 from adapted_dijkstra_multisource import adapted_dijkstra_multisource
 import time
 class ltl_planner(object):
@@ -28,12 +28,12 @@ class ltl_planner(object):
 			#print 'graph_construction_time'
 			#print time.time() - graph_construction_time
 
-			#print 'Accepted'
-			#self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
+			print 'Accepted'
+			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
 			#print 'HELALKDSOS DOHISD HU S'
 			# Garrett
-			print 'Garrett'
-			self.run, plantime = new_algorithm_plan(self.product, self.beta)
+			#print 'Garrett'
+			#self.run, plantime = new_algorithm_plan(self.product, self.beta)
 			#print '###'
 			#print '###'
 		elif style == 'ready':

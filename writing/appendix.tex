@@ -6,6 +6,7 @@ from itertools import count
 import networkx as nx
 from networkx.utils import generate_unique_node
 import warnings as _warnings
+from networkx import dijkstra_predecessor_and_distance
 
 def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
     """Uses Dijkstra's algorithm to find shortest weighted paths
@@ -57,10 +58,11 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
     # use the count c to avoid comparing nodes (may not be able to)
     c = count()
     fringe = []
-
+    next_node = []
     # current level of starting node
     cur_level = G.node[source]['dist']
-
+    if cur_level == 0:
+        cur_level = 1
     #for source in sources:
     seen[source] = 0
     push(fringe, (0, next(c), source))
@@ -70,8 +72,22 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
             continue  # already searched this node.
         dist[v] = d
         if G.node[v]['dist'] < cur_level:
-            next_node = v
-            break
+            if cur_level == 1:
+                if v in G.predecessors(v):
+                    print 'self loop'
+                    next_node = v
+                    break
+                loop_pre, loop_dist = dijkstra_predecessor_and_distance(G, v)
+                if v in loop_dist.keys():
+
+                    if loop_dist[v] != 0:
+                        print 'not self loop'
+                        next_node = v
+                        break 
+            else:
+                next_node = v
+                break
+
         for u, e in G_succ[v].items():
             cost = weight(v, u, e)
             if cost is None:
@@ -89,7 +105,92 @@ def adapted_dijkstra_multisource(G, source, cutoff=None, target=None):
                 push(fringe, (vu_dist, next(c), u))
                 if paths is not None:
                     paths[u] = paths[v] + [u]
-    print next_node
-    print type(next_node)
+    
     return dist, next_node, paths
+\end{lstlisting}
+
+
+\begin{lstlisting} [language=Python]
+def new_algorithm_plan(product, beta=10):
+	# requires a full construct of product automaton
+	# used for 'stadic' and 'ready'
+	start = time.time()
+	runs = {}
+	loop = {}
+	cycle = {}
+	line = {}
+	# 
+	# 
+	# Find the shortest path
+	# to each accepting state
+	#
+	for prod_init in product.graph['initial']:
+		# Find prefix
+		lev = product.node[prod_init]['dist']
+		start_node = prod_init
+		precost = 0
+		prefix = [start_node]
+		if lev == 0:
+			lev = 1
+		while lev > 0:
+
+			di,targ,path = ga.adapted_dijkstra_multisource(product,start_node)
+
+			if targ == []:
+				print '=================='        
+				print 'No accepting run found in planning!'
+				return None, None
+
+			lev = product.node[targ]['dist']
+			
+			start_node = targ
+
+			print start_node
+			precost = precost+di[targ]
+			if lev == 0:				
+				prefix.extend(path[targ][1:])
+
+			else:
+				prefix.extend(path[targ][1:-1])
+
+	prod_target = targ
+
+	
+
+	if prod_target in product.predecessors(prod_target):
+
+		loop[prod_target] = (product.edge[prod_target][prod_target]["weight"], [prod_target, prod_target])
+
+		
+   	else:
+
+		loop_pre, loop_dist = dijkstra_predecessor_and_distance(product, prod_target)
+
+		for target_pred in product.predecessors_iter(prod_target):
+
+			if target_pred in loop_dist:
+				cycle[target_pred] = product.edge[target_pred][prod_target]["weight"] + loop_dist[target_pred]
+				
+		if cycle:
+			opti_pred = min(cycle, key = cycle.get)
+			suffix = compute_path_from_pre(loop_pre, opti_pred)
+			loop[prod_target] = (cycle[opti_pred], suffix)
+
+
+	for target in loop.iterkeys():
+		if target == targ:
+			line[target] = precost+beta*loop[target][0]
+		if line:
+			runs[(prod_init, targ)] = (prefix, precost, loop[targ][1], loop[targ][0])
+
+	if runs:
+		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
+		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
+		print '=================='
+		print 'new_algorithm_plan done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
+		return run, time.time()-start
+
+	print '=================='        
+	print 'No accepting run found in optimal planning!'
+        return None, None
 \end{lstlisting}
