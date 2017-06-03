@@ -43,7 +43,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{enumitem}
-\title{Thesis}
+\title{A Greedy Algorithm to address the State-Space Explosion Problem arising in Control Planning Synthesis under LTL Specifications}
 \author{Garrett Thomas}
 
 %\theoremstyle{definition}
@@ -88,13 +88,24 @@
 
 \lstset{breaklines=true}
 \begin{document}
-
-\maketitle
+\renewcommand{\thepage}{\roman{page}}
+%\maketitle
+\thispagestyle{empty}
+\input{title}
+\newpage
 \tableofcontents
 \newpage
 \listoffigures
 \newpage
 \FloatBarrier
+\input{abstract}
+\newpage
+\FloatBarrier
+\input{acknowledgements}
+\newpage
+\FloatBarrier
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
 \input{background}
 \newpage
 \FloatBarrier

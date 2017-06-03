@@ -1,0 +1,56 @@
+N = 25;
+close all
+hold on
+
+initX = 0;
+initY = 0;
+
+init = [0,0];
+a = [9,15];
+b = [7,14];
+c = [19,8];
+d = [2,10];
+e = [23,17];
+
+
+plot(init(1)+0.5,init(2)+0.5, 'b*')
+plot(a(1)+0.5,a(2)+0.5, 'r*')
+plot(b(1)+0.5,b(2)+0.5, 'y*')
+plot(c(1)+0.5,c(2)+0.5, 'g*')
+plot(d(1)+0.5,c(2)+0.5, 'm*')
+plot(e(1)+0.5,e(2)+0.5, 'k*')
+
+
+for i = 0:N
+    plot(repmat(i,1,N+1),0:N,'b')
+    plot(0:N,repmat(i,1,N+1),'b')
+end
+
+legend('initial', 'rball', 'basket1','gball', 'basket2','r1','Location','NorthWest')
+
+itoa = sum(abs(init-a));
+itob = sum(abs(init-b));
+itoc = sum(abs(init-c));
+
+atob = sum(abs(a-b));
+atoc = sum(abs(a-c));
+
+btoc = sum(abs(b-c));
+
+
+paths = [itoa + atob + btoc
+itoa + atoc + btoc
+itob + atob + atoc
+itob + btoc + atoc
+itoc + atoc + atob
+itoc + btoc + atob]
+
+
+itoa + atob + btoc
+itoa + atoc + btoc
+
+itob + atob + atoc
+itob + btoc + atoc
+
+itoc + atoc + atob
+itoc + btoc + atob

@@ -10,7 +10,7 @@ We assume that we have one robot which is located in a given workspace denote $W
 A partition map, $T: W_0 \rightarrow \Pi$ sends each state $x \in W_0$ to the finite set of equivalence classes $\Pi = {\pi_i}$,  $i = 1,2,\dots ,w$. $T^{-1}(\pi_i)$ is then all the states $x \in W_0$ that are in the equivalence class $\pi_i$ \cite{fainekos05}. 
 \end{definition} 
 
-We now introduce atomic propositions, which will be the building blocks for our task specification. Atomic propositions are boolean variables, and will be used to express properties about the state, the robot or the workspace. We define the following set of atomic propositions $AP_r = \{a_{r,i}\}$, $i=1,2,\dots,w$ where 
+We now introduce atomic propositions, which will be the building blocks for our task specification. Atomic propositions are boolean variables, and will be used to express properties about the state, the robot or the workspace. We define the following set of atomic propositions $AP_r = \{\alpha_{r,i}\}$, $i=1,2,\dots,w$ where 
 \[\alpha_{r,i} =  \begin{cases}
 \top & \text{if the robot is in region $\pi_i$} \\
 \bot & \text{else}
@@ -34,7 +34,7 @@ The labelling function $L_D:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$
 \end{definition} 
 Note: $2^{AP}$ is the powerset of $AP$, i.e.\ the set of all subsets of $AP$ include the null set and $AP$.
 
-For example, by definition, $a_{r,i} \in L_D(\pi_i)$. 
+For example, by definition, $\alpha_{r,i} \in L_D(\pi_i)$. 
 
 To define a graph that represents our environment, we must also consider the dynamics of the robot. The dynamics are relevant because they define the relationship between the various regions. The relationship we refer to is known as a transition. We define a transition between two points in $W_0$ as follows
 \theoremstyle{definition}
@@ -127,15 +127,15 @@ The semantics of LTL are defined as follows:
 (\sigma,k) \models \varphi_1 \mathcal{U} \varphi_2 \hspace{0.3cm}\text{ if }\hspace{0.3cm}& \exists k' \in [k,+\inf ], \hspace{0.1cm} (\sigma ,k') \models \varphi_2 \text{ and } \\ &\forall k'' \in (k,k'), \hspace{0.1cm} (\sigma, k'') \models \varphi_1 
 \end{align*}
 \end{definition}
-Where $(\sigma,k)$  refers to $\sigma$ at time step $k$. So an infinite word $\sigma$ is said to said to satisfy formula $\varphi$ if $(\sigma,0) \models \varphi$. For the ease of reading we will refer to $(\sigma,0)$ as $\sigma$. 
+Where $(\sigma,k)$  refers to $\sigma$ at time step $k$. So an infinite word $\sigma$ is said to satisfy formula $\varphi$ if $(\sigma,0) \models \varphi$. For the ease of reading we will refer to $(\sigma,0)$ as $\sigma$. 
 
-There is a connection between these infinite words and the FTS described earlier that is crucial in motion planning technique. Given an infinite path $\tau$ of an FTS, we have that the trace of the path, $\trace(\tau)$, is an infinite word over the alphabet $2^{AP}$. Given the LTL semantics, we now have the ability to verify if a path satisfies an LTL formula! We will say an infinite path $\tau$ \textit{satisfies} $\varphi$ if its trace satisfies $\varphi$, i.e.\ $\tau \models \varphi$ if $trace(\tau) \models \varphi$. A path satisfying $\varphi$ will be referred to as a \textit{plan} for $\varphi$.
+There is a connection between these infinite words and the FTS described earlier that is crucial in motion planning technique. Given an infinite path $\tau$ of an FTS, we have that the trace of the path, $\trace(\tau)$, is an infinite word over the alphabet $2^{AP}$. Given the LTL semantics, we now have the ability to verify if a path satisfies an LTL formula! We will say an infinite path $\tau$ \textit{satisfies} $\varphi$ if its trace satisfies $\varphi$, i.e.\ $\tau \models \varphi$ if $trace(\tau) \models \varphi$. A path satisfying $\varphi$ will be referred to as a \textit{plan} for $\varphi$. We will use 'plan' and 'accepting path' interchangeably.
 
 
 
 
 \subsection{B\"{u}chi Automata}
-We now know if a path of an FTS satisfies a given LTL formula, however we are interested in \textit{generating} paths that satisfy a given formula, which requires a significantly more amout of work! We are going to need a finite representation of a given LTL formula, that we can search. This representation is a Nondeterministic B\"{u}chi automaton (NBA). 
+We now know if a path of an FTS satisfies a given LTL formula, however we are interested in \textit{generating} paths that satisfy a given formula, which requires significantly more work! We are going to need a finite representation of a given LTL formula, that we can search. This representation is a Nondeterministic B\"{u}chi automaton (NBA). 
 \begin{definition}
 \label{defNBA}
 An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
@@ -144,7 +144,7 @@ An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
 \end{align*}
 where $\Q$ is a finite set of states, $\Q_0 \subseteq \Q$ is the set of initial states, $2^{AP}$ is the alphabet, $\delta: \Q \times 2^{AP} \rightarrow 2^\Q$ is a transition relation, and $\mathcal{F} \subseteq \Q$ is the set of accepting states
 \end{definition} 
-An infinite run of an NBA is an infinite sequence or states, $r=q_0 q_1 \dots$, where that starts from an initial state i.e.\ $q_0 \in Q_0$ and $q_{k+1} \in \delta(q_k, S)$ for some $S \in 2^{AP}$, for $k = 0,1,\dots$. The requirements for a run $r$ to be accepting is $\Inf(r) \cap \F \neq \emptyset$, where $\Inf(r)$ is the set of states that appear in $r$ infinitely often \cite{guo15}. 
+An infinite run of an NBA is an infinite sequence of states, $r=q_0 q_1 \dots$, that starts from an initial state i.e.\ $q_0 \in Q_0$ and $q_{k+1} \in \delta(q_k, S)$ for some $S \in 2^{AP}$, for $k = 0,1,\dots$. The requirements for a run $r$ to be accepting is $\Inf(r) \cap \F \neq \emptyset$, where $\Inf(r)$ is the set of states that appear in $r$ infinitely often \cite{guo15}. 
 
 Now to tie together the concept of words and runs on an NBA. An infinite word $\sigma = S_0 S_1 \dots$ corresponds to $r_\sigma = q_0 q_1 \dots$ where $q_0 \in Q_0$ and $q_{i+1} \in \delta(q_i,S_i)$
 
@@ -174,7 +174,7 @@ Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run
 %Assume R is an accepting run of $\A_p$. Given the definition of an accepting run of $\A_p$, there exists an accepting state $q_f' \in \F'$ that appears in R infinitely many times. 
 
 
-Our problem is now to find an accepting run of $\A_p$. This can be a difficult task, given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities. We also want to have some sort of measure of optimality, making the problem harder. To accomplish this, we are going to restrict our search to plans with a finite representation. This limits the plans that we can calculate, however it is much easier to deal paths that admit a finite representation. Specifically, we are going to be looking for paths in the prefix-suffix structure i.e.\
+Our problem is now to find an accepting run of $\A_p$. This can be a difficult task, given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities. We also want to have some sort of measure of optimality, making the problem harder. To accomplish this, we are going to restrict our search to plans with a finite representation. This limits the plans that we can calculate, however it is much easier to deal with paths that admit a finite representation. Specifically, we are going to be looking for paths in the prefix-suffix structure i.e.\
 \begin{align*}
 \tau = \langle \tau_{pre}, \tau_{suf} \rangle = \tau_{pre} [\tau_{suf}]^\omega
 \end{align*}
@@ -199,7 +199,7 @@ As we can see, our path is a sequence of states, $q_0',q_1',\dots,q_n'$ in $\A_p
 \Cost (R, \A_p) &= \sum_{i=0}^{f-1} W_p(q_i,q_{i+1}) + \gamma \sum_{i=f}^{n-1} W_p(q_i,q_{i+1}) \\
 &= \sum_{i=0}^{f-1} W_c(\pi_i,\pi_{i+1}) + \gamma \sum_{i=f}^{n-1} W_c(\pi_i, \pi_{i+1})
 \end{align*}
-where $\gamma \geq 0$ is the relative weighting of the transient response (prefix) cost and steady response (suffix) cost \cite{guo15}. In \cite{fainekos09} they say that they search for the path with the least amount of transitions and say this is the optimal path. This is an example converting a FTS to a WFTS by setting the weight of every transition to one.
+where $\gamma \geq 0$ is the relative weighting of the transient response (prefix) cost and steady response (suffix) cost \cite{guo15}. We will be using $\gamma = 1$, meaning we give the same weight to transitions in the prefix as in the suffix. In \cite{fainekos09} they say that they search for the path with the least amount of transitions and say this is the optimal path. This is an example converting a FTS to a WFTS by setting the weight of every transition to one.
  
 
 

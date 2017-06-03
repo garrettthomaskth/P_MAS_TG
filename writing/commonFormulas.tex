@@ -1,4 +1,4 @@
-\section{Algorithm Performance with Specific Behaviours}
+\section{Algorithm Performance with Common Formulas}
 To show how our algorithm differs with the current accepted algorithm, we illustrate examples using the FTS in figure \ref{fig:ftsEx}
 
 \begin{figure}
@@ -200,27 +200,27 @@ This behaviour is ideal for our algorithm. Sequencing is the behaviour of visiti
 We show why sequencing formulas are ideal for our algorithm in an example using the formula $\diamond (\pi_3 \wedge \diamond \pi_5)$ the simple FTS as before. The product automaton is shown in figure \ref{fig:Sequencing}
 \begin{figure*}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
-  \node[initial,state] (A)                    {\small $(\pi_1,q_1)$};
-  \node[state]         (B) [ right of=A] {\small $(\pi_2,q_1)$};
-  \node[state]         (C) [right of=B] {\small $(\pi_3,q_1)$};
-  \node[state]         (D) [right of=C] {\small $(\pi_4,q_1)$};
-  \node[state]         (E) [right of=D] {\small $(\pi_5,q_1)$};
+  \node[initial,state] (A)                    {\footnotesize $(\pi_1,q_1)$};
+  \node[state]         (B) [ right of=A] {\footnotesize $(\pi_2,q_1)$};
+  \node[state]         (C) [right of=B] {\footnotesize $(\pi_3,q_1)$};
+  \node[state]         (D) [right of=C] {\footnotesize $(\pi_4,q_1)$};
+  \node[state]         (E) [right of=D] {\footnotesize $(\pi_5,q_1)$};
   
-  \node[state] 		   (AA)  [below of=A]  {\small $(\pi_1,q_2)$};
-  \node[state]         (BB) [ right of=AA] {\small $(\pi_2,q_2)$};
-  \node[state]         (CC) [right of=BB] {\small $(\pi_3,q_2)$};
-  \node[state]         (DD) [right of=CC] {\small $(\pi_4,q_2)$};
-  \node[state]         (EE) [right of=DD] {\small $(\pi_5,q_2)$};
+  \node[state] 		   (AA)  [below of=A]  {\footnotesize $(\pi_1,q_2)$};
+  \node[state]         (BB) [ right of=AA] {\footnotesize $(\pi_2,q_2)$};
+  \node[state]         (CC) [right of=BB] {\footnotesize $(\pi_3,q_2)$};
+  \node[state]         (DD) [right of=CC] {\footnotesize $(\pi_4,q_2)$};
+  \node[state]         (EE) [right of=DD] {\footnotesize $(\pi_5,q_2)$};
   
-  \node[state,accepting] 		   (AAA)  [below of=AA]  {\small $(\pi_1,q_3)$};
-  \node[state,accepting]         (BBB) [ right of=AAA] {\small $(\pi_2,q_3)$};
-  \node[state,accepting]         (CCC) [right of=BBB] {\small $(\pi_3,q_3)$};
-  \node[state,accepting]         (DDD) [right of=CCC] {\small $(\pi_4,q_3)$};
-  \node[state,accepting]         (EEE) [right of=DDD] {\small $(\pi_5,q_3)$};
+  \node[state,accepting] 		   (AAA)  [below of=AA]  {\footnotesize $(\pi_1,q_3)$};
+  \node[state,accepting]         (BBB) [ right of=AAA] {\footnotesize $(\pi_2,q_3)$};
+  \node[state,accepting]         (CCC) [right of=BBB] {\footnotesize $(\pi_3,q_3)$};
+  \node[state,accepting]         (DDD) [right of=CCC] {\footnotesize $(\pi_4,q_3)$};
+  \node[state,accepting]         (EEE) [right of=DDD] {\footnotesize $(\pi_5,q_3)$};
   
 
   \path (A) edge     [bend left]          (B)
@@ -564,7 +564,6 @@ Our values do indeed satisfy this inequality
 \begin{align*}
 \text{NEARNEIBR} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL} \\
 132 &\leq (\frac{1}{2} \lceil \log(5) \rceil + \frac{1}{2})129 \\
-132 &\leq (2)129 \\
 132 &\leq 258 
 \end{align*}
 We also see that it is very conservative worst case bound and we will likely do much better.
@@ -687,8 +686,8 @@ Plugging into the travelling salesman bound, we get
 
 We can check with our previously calculated values for ALG and ACCEPT
 \begin{align*}
-\text{ALG} + 2\max_{i,j} c_{i,j} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j} \\ 
-62 + 2 (35) &\leq (\frac{1}{2} 3 + \frac{1}{2})(59+2(35)) \\
+\text{ALG} + 2\max_{i,j} c_{i,j} &\leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j}) \\ 
+62 + 2 (35) &\leq (\frac{3}{2} + \frac{1}{2})(59+70) \\
 132 &\leq 258
 \end{align*}
 We can see that this is still a conservative bound, and emphasize that it is the worst case. Usually the algorithm will preform much better.
@@ -776,18 +775,18 @@ This path however is in general not truly optimal. It is because the B\"{u}chi a
 
   \node[initial,state] (A)                    {$q_1$};
   \node[state]         (B) [ right of=A] {$q_2$};  
-  \node[state] 		   (C)  [below of=B]  {$q_3$};
+  \node[state] 		   (C)  [below of=A]  {$q_3$};
   \node[state,accepting]       (D) [ right of=C] {$q_4$};
 
   \path (A) edge         node {$\pi_{1}$}   (B)
-        (B) edge       node {$\pi_{2}$}     (D)
-        (A) edge       node [near end] {$\pi_{2}$}  (C)
+        (B) edge       node [swap] {$\pi_{2}$}    (D)
+        (A) edge       node [swap] {$\pi_{2}$}  (C)
         (C) edge     node {$\pi_{1}$}       (D)
         (A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2$} (A)
         (B) edge [loop above] node {$\neg \pi_2$} (B)
         (C) edge [loop below] node {$\neg \pi_1$} (C)
         (D) edge [bend left] node {$\pi_2$} (C)
-        (D) edge [bend right] node [near end] {$\pi_1$} (B)
+        (D) edge [bend right] node [swap] {$\pi_1$} (B)
         (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
 \end{tikzpicture}
 \caption{B\"uchi Automaton for $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$ 2}
