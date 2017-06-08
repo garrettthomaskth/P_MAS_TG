@@ -1,1 +1,6 @@
 \section{Introduction}
+The use of \textit{model checking} in control planning synthesis is a recent and exciting research area. This is however not what it was originally designed for. Model checking was designed to as a method for \textit{formal verification}. When designing one wants to make sure that it does what it is supposed to do, and there are no bugs in the program which will cause unexpected behaviors. These bugs can have disasterous effects, such as the explosion of the Ariane 5 rocket in 1996, which was caused by an exception being thrown when a 64-bit floating point number was converted to a 16-bit signed integer \cite{clarke99}. 
+
+Simulation and testing a useful tools for finding these bugs, however they do not ensure that there are no bugs. One can only be sure that there are no bugs given the input that was simulated or tested. Formal verification on the other hand offers a guarantee of the correctness of the program. Model checking is an approach to formal verification which decides if a model of the program satisfies some behavior. These behaviors can be given as a temporal logic formula, commonly linear temporal logic (LTL) or computation tree logic (CTL). 
+
+%which can be used for model checking, however we choose to only focus on LTL formulas. 
