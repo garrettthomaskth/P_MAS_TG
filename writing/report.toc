@@ -1,24 +1,36 @@
 \select@language {english}
-\contentsline {section}{\numberline {0.1}Introduction}{1}{section.0.1}
-\contentsline {section}{\numberline {0.2}Basics}{2}{section.0.2}
-\contentsline {subsection}{\numberline {0.2.1}Abstraction of the Workspace}{2}{subsection.0.2.1}
-\contentsline {subsection}{\numberline {0.2.2}Linear Temporal Logic (LTL)}{4}{subsection.0.2.2}
-\contentsline {subsection}{\numberline {0.2.3}B\"{u}chi Automata}{6}{subsection.0.2.3}
-\contentsline {subsection}{\numberline {0.2.4}Product Automata}{7}{subsection.0.2.4}
-\contentsline {subsection}{\numberline {0.2.5}Cost of a Run}{8}{subsection.0.2.5}
-\contentsline {section}{\numberline {0.3}Search Algorithms}{10}{section.0.3}
-\contentsline {subsection}{\numberline {0.3.1}Accepted Algorithm}{10}{subsection.0.3.1}
-\contentsline {subsection}{\numberline {0.3.2}Our Algorithm}{11}{subsection.0.3.2}
-\contentsline {section}{\numberline {0.4}Algorithm Performance with Common Formulas}{14}{section.0.4}
-\contentsline {subsection}{\numberline {0.4.1}Reachability while avoiding regions}{14}{subsection.0.4.1}
-\contentsline {subsection}{\numberline {0.4.2}Sequencing}{18}{subsection.0.4.2}
-\contentsline {subsection}{\numberline {0.4.3}Coverage}{24}{subsection.0.4.3}
-\contentsline {subsection}{\numberline {0.4.4}Recurrence (Liveness)}{38}{subsection.0.4.4}
-\contentsline {section}{\numberline {0.5}More Complex Formulas}{44}{section.0.5}
-\contentsline {subsection}{\numberline {0.5.1}Example 1}{44}{subsection.0.5.1}
-\contentsline {subsection}{\numberline {0.5.2}Example 1 Overlapping Regions}{48}{subsection.0.5.2}
-\contentsline {subsection}{\numberline {0.5.3}Example 2}{51}{subsection.0.5.3}
-\contentsline {subsection}{\numberline {0.5.4}Example 2 Modified}{55}{subsection.0.5.4}
-\contentsline {subsection}{\numberline {0.5.5}Other Examples}{59}{subsection.0.5.5}
-\contentsline {section}{\numberline {0.6}Conclusion and Future Work}{63}{section.0.6}
-\contentsline {section}{\numberline {0.7}Appendix}{65}{section.0.7}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Problem}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Outline}{2}{section.1.2}
+\contentsline {chapter}{\numberline {2}Theoretical Background}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Abstraction of the Workspace}{4}{section.2.1}
+\contentsline {section}{\numberline {2.2}Linear Temporal Logic (LTL)}{7}{section.2.2}
+\contentsline {section}{\numberline {2.3}B\"{u}chi Automata}{9}{section.2.3}
+\contentsline {section}{\numberline {2.4}Product Automata}{9}{section.2.4}
+\contentsline {section}{\numberline {2.5}Cost of a Run}{10}{section.2.5}
+\contentsline {chapter}{\numberline {3}Search Algorithms}{12}{chapter.3}
+\contentsline {section}{\numberline {3.1}Accepted Algorithm}{12}{section.3.1}
+\contentsline {section}{\numberline {3.2}Our Algorithm}{13}{section.3.2}
+\contentsline {chapter}{\numberline {4}Algorithm Performance with Common Formulas}{16}{chapter.4}
+\contentsline {section}{\numberline {4.1}Reachability while avoiding regions}{17}{section.4.1}
+\contentsline {section}{\numberline {4.2}Sequencing}{19}{section.4.2}
+\contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{25}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Cost Bound}{29}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Simulation}{35}{subsection.4.3.3}
+\contentsline {section}{\numberline {4.4}Recurrence (Liveness)}{35}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Tightness}{36}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Suffix}{37}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Simulation}{38}{subsection.4.4.3}
+\contentsline {chapter}{\numberline {5}More Complex Formulas}{39}{chapter.5}
+\contentsline {section}{\numberline {5.1}Example 1}{39}{section.5.1}
+\contentsline {section}{\numberline {5.2}Example 1 Overlapping Regions}{42}{section.5.2}
+\contentsline {section}{\numberline {5.3}Example 2}{43}{section.5.3}
+\contentsline {section}{\numberline {5.4}Example 2 Modified}{44}{section.5.4}
+\contentsline {section}{\numberline {5.5}Other Examples}{46}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{49}{chapter.6}
+\contentsline {chapter}{\numberline {7}Appendix}{51}{chapter.7}
+\contentsline {subsubsection}{Example 2 Accepted Algorithm Path}{61}{section*.12}
+\contentsline {subsubsection}{Example 2 Our Algorithm Path}{62}{section*.13}
+\contentsline {subsubsection}{Example 2 Modified Accepted Algorithm Path}{64}{section*.14}
+\contentsline {subsubsection}{Example 2 Modified Our Algorithm Path}{64}{section*.15}

@@ -1,23 +1,31 @@
-\BOOKMARK [1][-]{section.0.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.0.2}{Basics}{}% 2
-\BOOKMARK [2][-]{subsection.0.2.1}{Abstraction of the Workspace}{section.0.2}% 3
-\BOOKMARK [2][-]{subsection.0.2.2}{Linear Temporal Logic \(LTL\)}{section.0.2}% 4
-\BOOKMARK [2][-]{subsection.0.2.3}{B\374chi Automata}{section.0.2}% 5
-\BOOKMARK [2][-]{subsection.0.2.4}{Product Automata}{section.0.2}% 6
-\BOOKMARK [2][-]{subsection.0.2.5}{Cost of a Run}{section.0.2}% 7
-\BOOKMARK [1][-]{section.0.3}{Search Algorithms}{}% 8
-\BOOKMARK [2][-]{subsection.0.3.1}{Accepted Algorithm}{section.0.3}% 9
-\BOOKMARK [2][-]{subsection.0.3.2}{Our Algorithm}{section.0.3}% 10
-\BOOKMARK [1][-]{section.0.4}{Algorithm Performance with Common Formulas}{}% 11
-\BOOKMARK [2][-]{subsection.0.4.1}{Reachability while avoiding regions}{section.0.4}% 12
-\BOOKMARK [2][-]{subsection.0.4.2}{Sequencing}{section.0.4}% 13
-\BOOKMARK [2][-]{subsection.0.4.3}{Coverage}{section.0.4}% 14
-\BOOKMARK [2][-]{subsection.0.4.4}{Recurrence \(Liveness\)}{section.0.4}% 15
-\BOOKMARK [1][-]{section.0.5}{More Complex Formulas}{}% 16
-\BOOKMARK [2][-]{subsection.0.5.1}{Example 1}{section.0.5}% 17
-\BOOKMARK [2][-]{subsection.0.5.2}{Example 1 Overlapping Regions}{section.0.5}% 18
-\BOOKMARK [2][-]{subsection.0.5.3}{Example 2}{section.0.5}% 19
-\BOOKMARK [2][-]{subsection.0.5.4}{Example 2 Modified}{section.0.5}% 20
-\BOOKMARK [2][-]{subsection.0.5.5}{Other Examples}{section.0.5}% 21
-\BOOKMARK [1][-]{section.0.6}{Conclusion and Future Work}{}% 22
-\BOOKMARK [1][-]{section.0.7}{Appendix}{}% 23
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Problem}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Outline}{chapter.1}% 3
+\BOOKMARK [0][-]{chapter.2}{Theoretical Background}{}% 4
+\BOOKMARK [1][-]{section.2.1}{Abstraction of the Workspace}{chapter.2}% 5
+\BOOKMARK [1][-]{section.2.2}{Linear Temporal Logic \(LTL\)}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.3}{B\374chi Automata}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.4}{Product Automata}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.5}{Cost of a Run}{chapter.2}% 9
+\BOOKMARK [0][-]{chapter.3}{Search Algorithms}{}% 10
+\BOOKMARK [1][-]{section.3.1}{Accepted Algorithm}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.2}{Our Algorithm}{chapter.3}% 12
+\BOOKMARK [0][-]{chapter.4}{Algorithm Performance with Common Formulas}{}% 13
+\BOOKMARK [1][-]{section.4.1}{Reachability while avoiding regions}{chapter.4}% 14
+\BOOKMARK [1][-]{section.4.2}{Sequencing}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.3}{Coverage}{chapter.4}% 16
+\BOOKMARK [2][-]{subsection.4.3.1}{Travelling Salesperson Problem}{section.4.3}% 17
+\BOOKMARK [2][-]{subsection.4.3.2}{Cost Bound}{section.4.3}% 18
+\BOOKMARK [2][-]{subsection.4.3.3}{Simulation}{section.4.3}% 19
+\BOOKMARK [1][-]{section.4.4}{Recurrence \(Liveness\)}{chapter.4}% 20
+\BOOKMARK [2][-]{subsection.4.4.1}{Tightness}{section.4.4}% 21
+\BOOKMARK [2][-]{subsection.4.4.2}{Suffix}{section.4.4}% 22
+\BOOKMARK [2][-]{subsection.4.4.3}{Simulation}{section.4.4}% 23
+\BOOKMARK [0][-]{chapter.5}{More Complex Formulas}{}% 24
+\BOOKMARK [1][-]{section.5.1}{Example 1}{chapter.5}% 25
+\BOOKMARK [1][-]{section.5.2}{Example 1 Overlapping Regions}{chapter.5}% 26
+\BOOKMARK [1][-]{section.5.3}{Example 2}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.4}{Example 2 Modified}{chapter.5}% 28
+\BOOKMARK [1][-]{section.5.5}{Other Examples}{chapter.5}% 29
+\BOOKMARK [0][-]{chapter.6}{Conclusion and Future Work}{}% 30
+\BOOKMARK [0][-]{chapter.7}{Appendix}{}% 31

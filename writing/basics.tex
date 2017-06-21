@@ -1,6 +1,6 @@
-\section{Basics}
+\chapter{Theoretical Background}
 In this chapter we provide the theoretical background that is needed to understand control planning synthesis and linear temporal logic. 
-\subsection{Abstraction of the Workspace}
+\section{Abstraction of the Workspace}
 In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph that represents the robot motion. Next is the execution level, which involves finding a path through the graph that satisfies a specification. Lastly, in the implementation level controllers are constructed that satisfy the path found in the previous step. 
 
 We assume that we have one robot which is located in a given workspace denote $W_0 \subset \mathbb{R}^n$, which is bounded. To represent our workspace (which is a subspace of $\mathbb{R}^n$) in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in definition \ref{def:PM}. Any partition can be used as long as it satisfies the bisimulation property \cite{belta04}, which will be defined later once more notation has been introduced. We denote the $\Pi = {\pi_1, \pi_2, \dots, \pi_w}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
@@ -32,9 +32,7 @@ We also include a definition of the discrete counterpart
 \label{defDLF}
 The labelling function $L_D:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$ to the set of atomic propositions satisfied by $\pi_i$.
 \end{definition} 
-Note: $2^{AP}$ is the powerset of $AP$, i.e.\ the set of all subsets of $AP$ include the null set and $AP$.
-
-For example, by definition, $\alpha_{r,i} \in L_D(\pi_i)$. 
+Note: $2^{AP}$ is the powerset of $AP$, i.e.\ the set of all subsets of $AP$ include the null set and $AP$. For example, by definition, $\alpha_{r,i} \in L_D(\pi_i)$. 
 
 To define a graph that represents our environment, we must also consider the dynamics of the robot. The dynamics are relevant because they define the relationship between the various regions. The relationship we refer to is known as a transition. We define a transition between two points in $W_0$ as follows
 \theoremstyle{definition}
@@ -82,7 +80,7 @@ Note: Any FTS can be written can be converted to an WFTS with the weights of all
 We use the FTS which represents our workspace to search for paths that are doable for our robot. When we search for a path, from one state we will only consider states which have a transition from our current state, because these are the only states the robot can move to. When talking about FTS, it can be helpful to use the notation $\Pre(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_D \pi_i\}$ to define the the predecessors of the state $\pi_i$ and $\Post(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_D \pi_i\}$ to define the the successors of the state $\pi_i$. In this thesis, we will deal with infinite paths. An infinite path is an infinite sequence of states $\tau = \pi_1 \pi_2 \dots$ such that $\pi_i \in \Pi_0$ and $\pi_i \in $ Post($\pi_{i-1}) \hspace{0.2cm} \forall i > 0$. The trace of a path is the sequence of sets of atomic propositions that are true in the states along a path i.e.\ trace($\tau$) = $L_D(\pi_1)L_D(\pi_2) \dots$.  
 
 
-\subsection{Linear Temporal Logic (LTL)}
+\section{Linear Temporal Logic (LTL)}
 To define tasks for our robot we must choose a high level language. Temporal logics are especially suited for defining robot tasks because of their ability to express not only fomulas constructed of atomic propositions and standard boolean connectives (conjunction, disjunction, and negation), but also temporal specifications e.g.\ $\alpha$ is true at some point of time. The particular temporal logic we will be using is known as linear temporal logic (LTL) \cite{clarke99}. LTL formulas are defined over a set of atomic propositions $AP$ according to the following grammar:
 
 \begin{align*}
@@ -134,7 +132,7 @@ There is a connection between these infinite words and the FTS described earlier
 
 
 
-\subsection{B\"{u}chi Automata}
+\section{B\"{u}chi Automata}
 We now know if a path of an FTS satisfies a given LTL formula, however we are interested in \textit{generating} paths that satisfy a given formula, which requires significantly more work! We are going to need a finite representation of a given LTL formula, that we can search. This representation is a Nondeterministic B\"{u}chi automaton (NBA). 
 \begin{definition}
 \label{defNBA}
@@ -150,7 +148,7 @@ Now to tie together the concept of words and runs on an NBA. An infinite word $\
 
 It has been shown that given an LTL formula $\varphi$ over $AP$, there exists a NBA over $2^{AP}$ corresponding to $\varphi$, denoted $A_\varphi$ \cite{baier08}. When we say an NBA corresponds to an LTL formula, we mean that the set of words that correspond to accepting runs of the NBA is the same as the set of words accepted by the LTL formula.  
 
-\subsection{Product Automata}
+\section{Product Automata}
 These two structures are then combined to create the product automaton. The product automata is also a B\"{u}chi automata and is defined as follows:
 \begin{definition}
 The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal{T_w} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_d(\pi_j))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, the set of initial states: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}$, the set of accepting states; $W_p: Q' \times Q' \rightarrow \R^+$ is the weight function: $W_p(\langle \pi_i, q_m \rangle , \langle \pi_j, q_n \rangle ) = W_c (\pi_i, \pi_j)$, where $\langle \pi_j, q_n \rangle \in \delta' ( \langle \pi_i, q_m \rangle )$
@@ -180,7 +178,7 @@ Our problem is now to find an accepting run of $\A_p$. This can be a difficult t
 \end{align*}
 The prefix, $\tau_{pre}$, is the path from an initial node to an accepting node. The suffix, $\tau_{suf}$, is going to be a path from the same accepting node back to itself. So the full path is going to be the prefix and then the suffix repeated infinitely many times (which is the meaning of the $\omega$ superscript). Thus, the accepting node appears infinitely many times in $\tau$ which makes $\tau$ accepting. Plans of this form are much easier to deal with because, while they are still infinite plans, they have a finite representation which is easier to deal with.
 
-\subsection{Cost of a Run}
+\section{Cost of a Run}
 As we said before, we want to have a way to measure the optimality of a run. We introduce the concept of the \textit{cost} of a run to satisfy this requirement. We are focusing on the accepting runs of $\A_p$ with the prefix-suffix structure
 \begin{align*}
 R &= \langle R_{pre}, R_{suf} \rangle = q_0' q_1' \dots q_f' [q_f' q_{f+1}' \dots q_n']^\omega \\
