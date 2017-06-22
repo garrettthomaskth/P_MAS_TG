@@ -1,0 +1,89 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{bm}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+%\usepackage{circuitikz}
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{placeins}
+\usepackage{subfigure}
+\usepackage{tabu}
+%\usepackage{fullpage}
+\usepackage[squaren]{SIunits}
+\usepackage{graphicx}
+%\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{eurosym}
+%\usepackage{chemist}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{commath}
+\usepackage{dsfont}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+%\usepackage[section]{placeins}
+\usepackage{pdflscape}
+\usepackage{MnSymbol}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\begin{document}
+\tabulinesep=1.2mm
+\begin{center}
+\hrule
+\begin{tabular}{c}
+\\[0.005cm]
+\Large{Written Opposition}\\[0.3cm] %THIS IS THE TITLE
+Presenter: Oskar Eliasson \\
+Opponent: Garrett Thomas, 920527-6133   \\[0.2cm]
+%$\text{6}^{\text{th}}$ November 2016\\[0.2cm] %THIS IS THE DATE
+\end{tabular}
+\hrule
+\end{center}
+
+\section{Impressions and Comments}
+I found the thesis very interesting and thorough. I was impressed that by the scope of the experiments. Oskar included experiments with both a horizontal door opening system and a vertical window opening system. This was impressive because a new model had to be derived for both systems. I was also impressed to see that he implemented a supervised learning algorithm to classify if the door was shut or not. This machine learning seemed like a lot of work with done in addition to the estimation section about the Kalman filter. I also liked how it we actually implemented the systems with real inertial motion units.
+
+One thing that could be improved upon is the equipment used. It would be nice to see a more sophisticated method for measuring the angle of the door and using a spin table to calibrate the gyroscope to see how accurate the results could be. That being said, I understand that this equipment might not be readily available. 
+
+
+\section{Questions for Opposition}
+\begin{enumerate}
+\item Why place the IMU in the door handle? It seems that there may be more movement there and the material of the handle could prevent possible magnetometer usage.
+
+\item The magnetometer has flaws/drawbacks, but so do the other sensors. Do you think there are ways to overcome these, and this would be useful future work?
+
+\item The time it takes for the door to close depends on the speed the door is closed and the angle we start from, thus resulting in spectrograms of different length. Can you explain how these different lengths are dealt with in the supervised learning or if they are not why it is not important?
+
+\item It says in the model we take the angular velocity to be constant. Can you explain if this model is applicable when the door stops.
+
+\item You note in the paper by Olivares et al, the Kalman Filter, LMS and RMS were compared and RMS was the best. How did you decide to use a Kalman Filter?
+
+\item In equation 3.13, why is it important to distinguish what part of the acceleration comes from gravity and what part doesn't?
+
+\item On page 33, it says from the spectrograms there were five different distinguishable states and distinct differences between the two types of door movement, and this is what motivated the spectrogram classification method. What are these states and what do they correspond to?
+
+\item Some results are very accurate like the 30 degree angle results errors are usually less than one degree. Do you think it is possible to increase the accuracy of the results by for example using a spin table to calibrate, or using a magnetometer and be able to tell if the door is closed by the angle offset from 0 degrees and be able to skip the K-nn classification?
+
+\item Did you experiment with different weightings of the accelerometer and gyroscope readings to see what error was causing the most harm and which sensor was the most useful? 
+
+\item Standby mode is briefly mentioned as a possibility to save energy. Are there any possible problems with calibrating the sensors and then putting them in standby mode?
+\end{enumerate}
+\end{document}
