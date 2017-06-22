@@ -11,7 +11,13 @@
 % notice. 
 
 \documentclass{beamer}
+\usepackage{amsmath,bm}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{graphicx}
 
+\newcommand{\ssquare}{\text{\scalebox{0.6}{$\square$}}}
+\newcommand{\U}{\bm{\mathcal{U}}}
 % There are many different themes available for Beamer. A comprehensive
 % list with examples is given here:
 % http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
@@ -113,47 +119,123 @@ Examiner: Professor Dimos V. Dimarogonas}
 
 \subsection{Formal Methods Based Control}
 
-\begin{frame}{First Slide Title}{}
+\begin{frame}{Linear Temporal Logic}
   \begin{itemize}
   \item {
-    My first point.
+    We will be using \textbf{Linear Temporal Logic (LTL)}, defined recursively as
+    $\varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2$
+    \pause
   }
   \item {
-    My second point.
+    Why?LTL formulas are versatile; LTL allows us to encode statements about the robot and workspace, and also how events relate to each other in the time domain. \\
+    Ex. from \cite{guo15} $ \varphi= \diamond(\text{rball} \land \diamond \text{basket}) \land \diamond \ssquare \text{r1}$ \\
+    "Eventually pick up the red ball and put it in one of the baskets. Then go home to r1" \\
+     \centering\includegraphics[scale=0.3]{ltlExampleWorkspace}\par
   }
   \end{itemize}
 \end{frame}
 
-\subsection{Second Subsection}
+\begin{frame}{LTL Motion and Task Planning}
+	\begin{itemize}	
+	\item {
+		LTL Motion and task planning is done in three Steps \cite{belta07}
+		\pause
+	}
+	\item<2->{
+		Specification: Create a graph (the \textit{product automaton}) based on the workspace, robot motion, and LTL formula such that all paths in this graph satisfy the specification.
+	}
+	\item<3->{
+		Execution: Find a discrete path in this graph using an optimality criterion.*
+	}
+	\item<4->{
+		Implementation: Calculate the continuous controllers such that the continuous path will satisfy the discrete path.
+	}
+	\end{itemize}	
+	
+\end{frame}
+\subsection{The Product Automaton}
 
 % You can reveal the parts of a slide one at a time
 % with the \pause command:
-\begin{frame}{Second Slide Title}
+\begin{frame}{Finite-State Transition System}
   \begin{itemize}
-  \item {
-    First item.
+  \item<1->{
+    The product automaton is the of a \textit{finite-state transition system} and a \textit{B\"uchi automaton}
     \pause % The slide will pause after showing the first item
   }
-  \item {   
-    Second item.
-  }
-  % You can also specify when the content should appear
-  % by using <n->:
-  \item<3-> {
-    Third item.
-  }
-  \item<4-> {
-    Fourth item.
-  }
-  % or you can use the \uncover command to reveal general
-  % content (not just \items):
-  \item<5-> {
-    Fifth item. \uncover<6->{Extra text in the fifth item.}
-  }
   \end{itemize}
+    \begin{block}{Finite-State Transition System (FTS)}
+	\small An FTS is a tuple $\mathcal{T} = (\Pi, \rightarrow, \Pi_0, AP,L_D)$ where $\Pi$ is the set of states, $\rightarrow \subseteq \Pi \times \Pi$ is the transitions, $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP$ is the set of atomic propositions, and $L: \Pi \rightarrow 2^{AP}$ is the labelling function (goes from a state to the set of atomic propositions that are true in that state).
+	\end{block}
+  
+    
+%  \item<5-> {
+%    Fifth item. \uncover<6->{Extra text in the fifth item.}
+%  }
+  \begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    { $\pi_1$};
+  \node[state]         (B) [ right of=A] { $\pi_2$};
+  \node[state]         (C) [below of=A] { $\pi_3$};
+  \node[state]         (D) [right of=C] { $\pi_4$};
+  \node[state]         (E) [right of=B] { $\pi_5$};
+
+  \path (A) edge     [bend left]        (B)
+  		(B) edge     [bend left]           (A)
+		(A) edge     [bend left]         (C)
+  		(C) edge     [bend left]           (A)
+  		(C) edge     [bend left]         (D)
+  		(D) edge     [bend left]           (C)
+  		(B) edge     [bend left]           (D)
+  		(D) edge     [bend left]           (B)
+  		(B) edge     [bend left]           (E)
+  		(E) edge     [bend left]           (B)
+        (A) edge [loop above]   (A)
+        (B) edge [loop above]   (B)
+        (C) edge [loop left]  (C)
+        (D) edge [loop right]  (D)
+        (E) edge [loop above]  (E);
+\end{tikzpicture}
+
+\label{fig:ftsEx}
+\end{figure}
 \end{frame}
 
-\section{Second Main Section}
+\begin{frame}{B\"uchi Automaton}
+\begin{block}{B\"uchi Automaton}
+	\small A B\"uchi automaton is a tuple $\mathcal{A}_\varphi = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F})$ where $\mathcal{Q}$ is a finite set of states, $\mathcal{Q}_0 \subseteq \mathcal{Q}$ is the set of initial states, $2^{AP}$ is the alphabet, $\delta: \mathcal{Q} \times 2^{AP} \rightarrow 2^\mathcal{Q}$ is a transition relation, and $\mathcal{F} \subseteq \mathcal{Q}$ is the set of accepting states.
+	\end{block}
+
+	\begin{itemize}
+	\item {
+	A path on a B\"uchi automaton is accepting if it passes through an accepting state infinitely many times.
+	}
+	\item {
+	For any LTL formula $\varphi$ over $AP$, there exists a B\"uchi automaton over $2^{AP}$ corresponding to $\varphi$ \cite{baier08}
+	}
+	\end{itemize}
+	Reachability while avoiding regions $\varphi = \neg(\pi_3 \lor \pi_4) \U \pi_5$
+	
+	\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.3cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state,accepting]         (B) [right of=A] {$q_2$};
+
+  \path (A) edge              node {$\pi_{5}$} (B)
+  		(A) edge [loop above] node {$\neg( \pi_3 \lor \pi_4) $} (A)
+  		(B) edge [loop above] node {$1$} (B);
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+
 
 \subsection{Another Subsection}
 
@@ -225,6 +307,12 @@ Here is an example of an example block.
     \newblock {\em Journal of This and That}, 2(1):50--100,
     2000.
   \end{thebibliography}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+        \frametitle{References}
+        \bibliographystyle{amsalpha}
+        \bibliography{../writing/bibliography}
 \end{frame}
 
 \end{document}

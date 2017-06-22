@@ -67,13 +67,22 @@ We can now define Finite-State Transition System (FTS), which is how we will rep
 \theoremstyle{definition}
 \begin{definition}
 \label{defFTS}
-An FTS is a tuple $\mathcal{T} = (\Pi, \rightarrow_D, \Pi_0, AP,L_D)$ where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_D: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
+An FTS, $\mathcal{T}$, is defined by a tuple 
+\begin{align*}
+\mathcal{T} = (\Pi, \rightarrow_D, \Pi_0, AP,L_D)
+\end{align*}
+where $\Pi$ is the set of states, $\rightarrow_D \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_D$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_D \pi_j$. Note: $\pi_i \rightarrow_D \pi_i, \hspace{0.2cm} \forall 1,2,\dots w$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_D: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
 \end{definition}
+
 
 In this thesis, we will also consider the weighted FTS (WFTS)
 \begin{definition}
 \label{defWFTS}
-A WTFS is a tuple $\mathcal{w}_C = (\Pi, \rightarrow_C, \Pi_0, AP,L_C,W_C)$ where $\Pi$, $\rightarrow_C$, $\Pi_0$, $AP$, and $L_C$ are defined as in definition \ref{defFTS} and $W_C: \Pi \times \Pi \rightarrow \R^+$ is the weight function i.e.\ the cost of a transition in $\rightarrow_C$. 
+A WTFS, $\mathcal{w}_C$ is a tuple 
+\begin{align}
+\mathcal{w}_C = (\Pi, \rightarrow_C, \Pi_0, AP,L_C,W_C)
+\end{align}
+where $\Pi$, $\rightarrow_C$, $\Pi_0$, $AP$, and $L_C$ are defined as in definition \ref{defFTS} and $W_C: \Pi \times \Pi \rightarrow \R^+$ is the weight function i.e.\ the cost of a transition in $\rightarrow_C$. 
 \end{definition}
 Note: Any FTS can be written can be converted to an WFTS with the weights of all transitions equalling one.
 
@@ -136,7 +145,7 @@ There is a connection between these infinite words and the FTS described earlier
 We now know if a path of an FTS satisfies a given LTL formula, however we are interested in \textit{generating} paths that satisfy a given formula, which requires significantly more work! We are going to need a finite representation of a given LTL formula, that we can search. This representation is a Nondeterministic B\"{u}chi automaton (NBA). 
 \begin{definition}
 \label{defNBA}
-An NBA $\mathcal{A}_\varphi$ is defined by a five-tuple:
+An NBA $\mathcal{A}_\varphi$ is defined by a tuple:
 \begin{align*}
 \mathcal{A}_\varphi = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F})
 \end{align*}

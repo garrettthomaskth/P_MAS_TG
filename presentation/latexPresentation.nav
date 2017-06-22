@@ -6,42 +6,45 @@
 \headcommand {\sectionentry {1}{Problem and Motivation}{3}{Problem and Motivation}{0}}
 \headcommand {\beamer@sectionpages {1}{2}}
 \headcommand {\beamer@subsectionpages {1}{2}}
-\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Formal Methods Control}}\headcommand {\beamer@subsectionpages {3}{2}}
-\headcommand {\slideentry {1}{1}{1}{3/3}{Formal Methods Control}{0}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Formal Methods Based Control}}\headcommand {\beamer@subsectionpages {3}{2}}
+\headcommand {\slideentry {1}{1}{1}{3/3}{Formal Methods Based Control}{0}}
 \headcommand {\beamer@framepages {3}{3}}
-\headcommand {\slideentry {1}{1}{2}{4/4}{Formal Methods Control}{0}}
-\headcommand {\beamer@framepages {4}{4}}
-\headcommand {\beamer@subsectionentry {0}{1}{2}{5}{Second Subsection}}\headcommand {\beamer@subsectionpages {3}{4}}
-\headcommand {\slideentry {1}{2}{1}{5/5}{Second Subsection}{0}}
-\headcommand {\beamer@framepages {5}{5}}
-\headcommand {\slideentry {1}{2}{2}{6/11}{Second Subsection}{0}}
-\headcommand {\beamer@framepages {6}{11}}
-\headcommand {\sectionentry {2}{Second Main Section}{12}{Second Main Section}{0}}
-\headcommand {\beamer@sectionpages {3}{11}}
-\headcommand {\beamer@subsectionpages {5}{11}}
-\headcommand {\beamer@subsectionentry {0}{2}{1}{12}{Another Subsection}}\headcommand {\beamer@subsectionpages {12}{11}}
-\headcommand {\slideentry {2}{1}{1}{12/12}{Another Subsection}{0}}
-\headcommand {\beamer@framepages {12}{12}}
-\headcommand {\slideentry {2}{1}{2}{13/13}{Another Subsection}{0}}
-\headcommand {\beamer@framepages {13}{13}}
-\headcommand {\sectionentry {3}{Summary}{14}{Summary}{0}}
-\headcommand {\beamer@sectionpages {12}{13}}
-\headcommand {\beamer@subsectionpages {12}{13}}
-\headcommand {\slideentry {3}{0}{1}{14/14}{}{0}}
-\headcommand {\beamer@framepages {14}{14}}
-\headcommand {\partentry {\translate {Appendix}}{1}}
-\headcommand {\beamer@partpages {1}{14}}
-\headcommand {\beamer@sectionpages {14}{14}}
-\headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\beamer@appendixpages {15}}
-\headcommand {\sectionentry {4}{\translate {Appendix}}{15}{\translate {Appendix}}{1}}
-\headcommand {\beamer@sectionpages {15}{14}}
-\headcommand {\beamer@subsectionpages {15}{14}}
-\headcommand {\beamer@subsectionentry {1}{4}{1}{15}{For Further Reading}}\headcommand {\beamer@subsectionpages {15}{14}}
-\headcommand {\slideentry {4}{1}{1}{15/15}{For Further Reading}{1}}
+\headcommand {\slideentry {1}{1}{2}{4/5}{Formal Methods Based Control}{0}}
+\headcommand {\beamer@framepages {4}{5}}
+\headcommand {\slideentry {1}{1}{3}{6/9}{Formal Methods Based Control}{0}}
+\headcommand {\beamer@framepages {6}{9}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{10}{The Product Automaton}}\headcommand {\beamer@subsectionpages {3}{9}}
+\headcommand {\slideentry {1}{2}{1}{10/10}{The Product Automaton}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {1}{2}{2}{11/12}{The Product Automaton}{0}}
+\headcommand {\beamer@framepages {11}{12}}
+\headcommand {\slideentry {1}{2}{3}{13/14}{The Product Automaton}{0}}
+\headcommand {\beamer@framepages {13}{14}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{15}{Another Subsection}}\headcommand {\beamer@subsectionpages {10}{14}}
+\headcommand {\slideentry {1}{3}{1}{15/15}{Another Subsection}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@partpages {15}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\beamer@sectionpages {15}{15}}
-\headcommand {\beamer@documentpages {15}}
-\headcommand {\def \inserttotalframenumber {10}}
+\headcommand {\slideentry {1}{3}{2}{16/16}{Another Subsection}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\sectionentry {2}{Summary}{17}{Summary}{0}}
+\headcommand {\beamer@sectionpages {3}{16}}
+\headcommand {\beamer@subsectionpages {15}{16}}
+\headcommand {\slideentry {2}{0}{1}{17/17}{}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\partentry {\translate {Appendix}}{1}}
+\headcommand {\beamer@partpages {1}{17}}
+\headcommand {\beamer@sectionpages {17}{17}}
+\headcommand {\beamer@subsectionpages {17}{17}}
+\headcommand {\beamer@appendixpages {18}}
+\headcommand {\sectionentry {3}{\translate {Appendix}}{18}{\translate {Appendix}}{1}}
+\headcommand {\beamer@sectionpages {18}{17}}
+\headcommand {\beamer@subsectionpages {18}{17}}
+\headcommand {\beamer@subsectionentry {1}{3}{1}{18}{For Further Reading}}\headcommand {\beamer@subsectionpages {18}{17}}
+\headcommand {\slideentry {3}{1}{1}{18/18}{For Further Reading}{1}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\slideentry {3}{1}{2}{19/19}{For Further Reading}{1}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\beamer@partpages {18}{19}}
+\headcommand {\beamer@subsectionpages {18}{19}}
+\headcommand {\beamer@sectionpages {18}{19}}
+\headcommand {\beamer@documentpages {19}}
+\headcommand {\def \inserttotalframenumber {13}}
