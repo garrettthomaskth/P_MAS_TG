@@ -186,4 +186,24 @@
   volume    = {6},
 }
 
+@Article{kloetzer08,
+  author    = {Kloetzer, Marius and Belta, Calin},
+  title     = {A fully automated framework for control of linear systems from temporal logic specifications},
+  journal   = {IEEE Transactions on Automatic Control},
+  year      = {2008},
+  volume    = {53},
+  number    = {1},
+  pages     = {287--297},
+  publisher = {IEEE},
+}
+
+@InProceedings{smith2010,
+  author       = {Smith, Stephen L and Tumova, Jana and Belta, Calin and Rus, Daniela},
+  title        = {Optimal path planning under temporal logic constraints},
+  booktitle    = {Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International Conference on},
+  year         = {2010},
+  pages        = {3288--3293},
+  organization = {IEEE},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

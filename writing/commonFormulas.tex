@@ -64,7 +64,7 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
   		(A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2 \wedge \dots \wedge \neg \pi_{n+1}$} (A)
   		(B) edge [loop above] node {$1$} (B);
 \end{tikzpicture}
-\caption{B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$}
+\caption{B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 \lor \dots \lor \pi_n) \U \pi_{n+1}$}
 \label{fig:ReachAvoid}
 \end{figure}
 
@@ -125,7 +125,7 @@ As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. For our example, we will look at th
 Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
 Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in figure \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general form of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm to find an accepting node. However, we do gain a slightly faster run time because we do not have to do a Dijkstra search for every accepting node. We simply do one, and because there $q_2$ in automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple FTS has a self loop, every accepting state in the product automaton will have a self loop.
 
-The search of a loop from every accepting node back to itself requires a lot of time. We can illustrate this in an example. We have a workspace partitioned into $25 \times 25 = 625$ equally sized squares
+The search of a loop from every accepting node back to itself requires time. We can illustrate this in an example. We have a workspace partitioned into $25 \times 25 = 625$ equally sized squares
 
 
 

@@ -2,4 +2,10 @@
 \beamer@sectionintoc {1}{Problem and Motivation}{3}{0}{1}
 \beamer@subsectionintoc {1}{1}{Formal Methods Based Control}{3}{0}{1}
 \beamer@subsectionintoc {1}{2}{The Product Automaton}{10}{0}{1}
-\beamer@subsectionintoc {1}{3}{Another Subsection}{15}{0}{1}
+\beamer@subsectionintoc {1}{3}{Execution: Path Finding}{15}{0}{1}
+\beamer@sectionintoc {2}{Our Contribution}{17}{0}{2}
+\beamer@subsectionintoc {2}{1}{B\"uchi Distance and Algorithm}{17}{0}{2}
+\beamer@sectionintoc {3}{Performance on Common Formulas}{23}{0}{3}
+\beamer@subsectionintoc {3}{1}{Workspace}{23}{0}{3}
+\beamer@subsectionintoc {3}{2}{Reachability While Avoiding Regions}{25}{0}{3}
+\beamer@subsectionintoc {3}{3}{Sequencing}{27}{0}{3}
