@@ -206,4 +206,13 @@
   organization = {IEEE},
 }
 
+@Article{giannakopoulou02,
+  author    = {Giannakopoulou, Dimitra and Lerda, Flavio},
+  title     = {From states to transitions: Improving translation of LTL formulae to B{\"u}chi automata},
+  journal   = {Formal Techniques for Networked and Distributed Sytems—FORTE 2002},
+  year      = {2002},
+  pages     = {308--326},
+  publisher = {Springer},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

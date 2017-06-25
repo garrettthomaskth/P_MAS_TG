@@ -19,14 +19,19 @@
 \newcommand{\ssquare}{\text{\scalebox{0.6}{$\square$}}}
 \newcommand{\U}{\bm{\mathcal{U}}}
 
-
+\usepackage{listings}
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
-
+\usepackage{makecell}
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
 \makeatother
+
+
+\usepackage{epstopdf}
+\usepackage{epsfig}
+
 
 \floatname{algorithm}{Procedure}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -121,6 +126,15 @@ Examiner: Professor Dimos V. Dimarogonas}
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+
 \AtBeginSubsection[]
 {
   \begin{frame}<beamer>{Outline}
@@ -324,6 +338,14 @@ Examiner: Professor Dimos V. Dimarogonas}
 \end{figure}
 \end{frame}
 
+\begin{frame}{State-Space Explosion Problem}
+\begin{itemize}
+\item State-space explosion problem is the is the combinatorial explosion of the number of states in the product automaton.
+\item Number of states in B\"uchi automaton can be exponential in the size of the LTL formula \cite{giannakopoulou02} and $|\Q'| = |\Pi|\cdot |\Q|$ 
+\item State-space explosion problem is the bottle neck of formal methods based control synthesis.
+\end{itemize}
+\end{frame}
+
 \subsection{Execution: Path Finding}
 \begin{frame}{Accepted Algorithm}
 \begin{itemize}
@@ -450,6 +472,15 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Code}
+\begin{itemize}
+\item The code for the accepted algorithm is from the P\_MAS\_TG GitHub Repository \cite{pMasGit}.
+\item The code for our algorithm is a modified version of code from P\_MAS\_TG.
+\item All computations were done on a 2.5 GHz MacBook Pro and used Python 2.7.5.
+\end{itemize}
+
+
+\end{frame}
 \section{Performance on Common Formulas}
 \subsection{Workspace}
 \begin{frame}{Workspace}
@@ -462,7 +493,7 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \end{frame}
 
 \subsection{Reachability While Avoiding Regions}
-\begin{frame}
+\begin{frame}[fragile]
 \begin{figure}
 \centering
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.2cm,
@@ -479,8 +510,36 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \caption{B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$}
 \end{figure}
 \centering $d_p(q_1)=1$ and $d_p(q_2)=0$
+
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Accepted Algorithm
+==================
+plan done within 0.02s: precost 37.00, sufcost 0.00
+...
+full construction and synthesis done within 0.11s
+\end{lstlisting}
+\endgroup
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Our Algorithm
+==================
+plan done within 0.01s: precost 37.00, sufcost 0.00
+...
+full construction and synthesis done within 0.10s 
+\end{lstlisting}
+\endgroup
+%%% CHECK THIS OUR ALGORITHM SAID .32s
+
+
+
 \end{frame}
 
+\begin{frame}{Animation}
+asdf
+\end{frame}
 
 \subsection{Sequencing}
 
@@ -510,8 +569,304 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
   		(C) edge              node {$\pi_{3}$} (D)
   		(D) edge [loop above] node {$1$} (D);
 \end{tikzpicture}
-\caption{B\"uchi Automaton Corresponding to $  \diamond(\pi_3 \land \diamond \pi_5)$}
+%\caption{B\"uchi Automaton Corresponding to $  \diamond(\pi_1 \land \diamond (\pi_2 \land \diamond \pi_3))$}
 \end{figure}
+\begin{itemize}
+	\item {
+	$d_p(q_1)=3$, $d_p(q_2)=2$, $d_p(q_3)=1$, $d_p(q_4)=0$
+	}	
+	\item {
+	Only one path down $\rightarrow$ Both algorithms calculate the same path!
+	}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Simulation}
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Accepted Algorithm
+==================
+plan done within 0.04s: precost 62.00, sufcost 0.00
+...
+full construction and synthesis done within 0.19s 
+\end{lstlisting}
+\endgroup
+Our algorithm computed the same path, with an output of
+
+\begin{lstlisting}
+Our Algorithm
+==================
+plan done within 0.02s: precost 62.00, sufcost 0.00
+...
+full construction and synthesis done within 0.17s 
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Nodes Searched}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.17]{../writing/ourPlot}
+\label{fig:animOur}
+\caption{Nodes searched with our Algorithm}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.17]{../writing/acceptedPlot}
+\label{fig:animAccept}
+\caption{Nodes searched with the accepted Algorithm}
+\end{figure}
+\end{frame}
+\subsection{Coverage}
+\begin{frame}{Coverage}
+\begin{itemize}
+\item $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$.
+\item A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in any order. Ex. $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \pi_3$
+\end{itemize}
+\pause
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+                    semithick,scale=0.5, every node/.style={transform shape}]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state] (C)                    [below of=A]{$q_3$};
+  \node[state] (D)                    [right of=C]{$q_4$};
+  \node[state]         (B) [left of=C] {$q_2$};
+  \node[state] (E) 					[below of=B]{$q_5$};
+   \node[state] (F) 					[below of=C]{$q_6$};
+   \node[state] (G) 					[below of=D]{$q_7$};
+   \node[accepting,state] (H) 					[below of=F]{$q_8$};
+  
+
+  \path (A) edge              node {$\pi_{1}$} (B)
+   (A) edge              node {$\pi_{2}$} (C)
+   (A) edge              node {$\pi_{3}$} (D)
+   (B) edge              node {$\pi_{2}$} (E)
+   (B) edge              node [near start] {$\pi_{3}$} (F)
+   (C) edge              node [near end] {$\pi_{1}$} (E)
+   (E) edge              node {$\pi_{3}$} (H)
+   (F) edge              node {$\pi_{2}$} (H)
+   (G) edge              node {$\pi_{1}$} (H)
+   (D) edge              node {$\pi_{2}$} (G)
+   (A) edge      [loop above]        node {$\neg (\pi_1 \lor \pi_{2} \lor\pi_3)$} (A)
+   (B) edge      [loop left]        node {$\neg (\pi_{2} \lor \pi_3)$} (B)
+   (C) edge      [loop below]        node {$\neg( \pi_1 \lor \pi_3)$} (C)
+   (D) edge      [loop right]        node {$\neg (\pi_1 \lor \pi_{2}) $} (A)
+   (E) edge      [loop left]        node {$\neg  \pi_3$} (E)
+   (F) edge      [loop above]        node {$\neg  \pi_2$} (F)
+   (G) edge      [loop right]        node {$\neg  \pi_1$} (G)
+   (H) edge      [loop below]        node {$1$} (H)
+   (D) edge              node [near start] {$\pi_{1}$} (F)
+   (C) edge              node [near start] {$\pi_{3}$} (G);
+\end{tikzpicture}
+%\caption{B\"uchi Automaton Corresponding to $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Coverage}
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+                    semithick,scale=0.3, every node/.style={transform shape}]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state] (C)                    [below of=A]{$q_3$};
+  \node[state] (D)                    [right of=C]{$q_4$};
+  \node[state]         (B) [left of=C] {$q_2$};
+  \node[state] (E) 					[below of=B]{$q_5$};
+   \node[state] (F) 					[below of=C]{$q_6$};
+   \node[state] (G) 					[below of=D]{$q_7$};
+   \node[accepting,state] (H) 					[below of=F]{$q_8$};
+  
+
+  \path (A) edge              node {$\pi_{1}$} (B)
+   (A) edge              node {$\pi_{2}$} (C)
+   (A) edge              node {$\pi_{3}$} (D)
+   (B) edge              node {$\pi_{2}$} (E)
+   (B) edge              node [near start] {$\pi_{3}$} (F)
+   (C) edge              node [near end] {$\pi_{1}$} (E)
+   (E) edge              node {$\pi_{3}$} (H)
+   (F) edge              node {$\pi_{2}$} (H)
+   (G) edge              node {$\pi_{1}$} (H)
+   (D) edge              node {$\pi_{2}$} (G)
+   (A) edge      [loop above]        node {$\neg (\pi_1 \lor \pi_{2} \lor\pi_3)$} (A)
+   (B) edge      [loop left]        node {$\neg (\pi_{2} \lor \pi_3)$} (B)
+   (C) edge      [loop below]        node {$\neg( \pi_1 \lor \pi_3)$} (C)
+   (D) edge      [loop right]        node {$\neg (\pi_1 \lor \pi_{2}) $} (A)
+   (E) edge      [loop left]        node {$\neg  \pi_3$} (E)
+   (F) edge      [loop above]        node {$\neg  \pi_2$} (F)
+   (G) edge      [loop right]        node {$\neg  \pi_1$} (G)
+   (H) edge      [loop below]        node {$1$} (H)
+   (D) edge              node [near start] {$\pi_{1}$} (F)
+   (C) edge              node [near start] {$\pi_{3}$} (G);
+\end{tikzpicture}
+%\caption{B\"uchi Automaton Corresponding to $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$}
+\end{figure}
+\begin{itemize}
+\item Now we have "choices" that have to be made!
+\item Choices $\rightarrow$ we lose optimality. The path our algorithm finds will likely cost more than the path calculated by the accepted algorithm. However our path is computed faster.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Coverage}
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Accepted Algorithm
+==================
+plan done within 0.08s: precost 59.00, sufcost 0.00
+...
+full construction and synthesis done within 0.43s 
+\end{lstlisting}
+\endgroup
+and our algorithm is 
+
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Our Algorithm
+==================
+plan done within 0.02s: precost 62.00, sufcost 0.00
+...
+full construction and synthesis done within 0.38s 
+\end{lstlisting}
+\endgroup
+\end{frame}
+
+\begin{frame}{Cost Bound}
+\begin{itemize}
+\item The travelling salesperson problem: "Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?"
+\item It has been shown \cite{rosenkrantz74} that for an n-node travelling salesperson problem which satisfies the triangle inequality
+\begin{align*}
+\text{NEARNEIBR} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL}
+\end{align*}
+\item \cite{lenstra75} shows how to formulate seeming unrelated problems as travelling salesperson problems by introducing a dummy node.
+\item We introduce a dummy node * which is $\max_{i,j} c_{i,j}$ where $c_{i,j}$ is the cost from $\pi_i$ to $\pi_j$.
+\item Then our bound is  
+\begin{align*}
+\text{GREEDY} + 2\max_{i,j} c_{i,j} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j}) \\ 
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\subsection{Recurrence (Liveness)}
+\begin{frame}{Recurrence (Liveness)}
+\begin{figure}
+\centering
+\begin{itemize}
+\item Recurrence: "Visit $\pi_1$, $\pi_2$, $\dots$, $\pi_n$ infinitely many times."
+\end{itemize}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state] (B)                    [right of=A]{$q_2$};
+  \node[state,accepting] (C)                    [right of=B]{$q_3$};
+
+  \path (A) edge              node {$\pi_{1}$} (B)
+  		(A) edge [loop above] node {$\neg \pi_1$} (A)
+  		(B) edge [loop above] node {$\neg \pi_2$} (B)
+  		(B) edge              node {$\pi_{2}$} (C)
+  		(C) edge [bend left=45] node {$\neg \pi_1$} (A)
+  		(C) edge  [bend left] node {$\pi_{1}$} (B);
+%  		(D) edge [bend right] node {$\neg \pi_1$} (A)
+ % 		(D) edge [bend left] node {$\pi_1$} (B);
+\end{tikzpicture}
+\caption{B\"uchi Automaton for $\ssquare(\diamond \pi_1 \land \diamond \pi_2 )$ 1}
+\label{fig:gasBuchiRec}
+\end{figure}
+\begin{itemize}
+\item \small Automaton from LTL2BA. Note: Not tight.
+\pause
+\item For the first time we have a formula that has a \textbf{non-trivial suffix}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Case Study}
+\begin{itemize}
+\item Remember that the accepted algorithm computes the suffix from \textbf{every} accepting state. That implies a lot of work for this formula.
+\end{itemize}
+\pause
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Accepted Algorithm
+==================
+plan done within 16.17s: precost 62.00, sufcost 60.00
+------------------------------
+...
+full construction and synthesis done within 16.35s 
+\end{lstlisting}
+\endgroup
+while our algorithm did it in
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Our Algorithm
+==================
+plan done within 0.04s: precost 62.00, sufcost 60.00
+------------------------------
+...
+full construction and synthesis done within 0.21s 
+\end{lstlisting}
+\endgroup
+\end{frame}
+
+\section{More Complex Formulas}
+\subsection{Study of Various Formulas}
+\begin{frame}{Analysis}
+\begin{itemize}
+\item More complex formulas prove difficult to analyze because the B\"uchi automaton becomes very big and cannot be visualized. 
+\item Took formulas from \cite{somenzi00} to show extensive and non-biased experimentation.
+\end{itemize}
+\begin{table}[]
+\centering
+\small
+\scalebox{0.6}{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Formula & \makecell{Accepted Cost \\ prefix, suffix} & Accepted Time & \makecell{Our Cost \\ prefix, suffix} & Our Time \\ \hline
+     '(!r223 U r445) $||$ (!r268 U r435)'  &         27 ,0     &      0.04         &      27,0   &     0.01     \\ \hline
+      '!r62 U(!r266 U r422)'  &         38.00 ,0     &       0.05        &     38,0     &     0.02     \\ \hline
+       '[]$<>$ r0 $->$ []$<>$ r317' &         1,0      &       5.06        &    1,0      &    0.00     \\ \hline
+       '[]$<>$ r0 $<->$ []$<>$ r317'  & 1,0		&		10.70		& 1,0 	&  0.00 \\ \hline 
+      '!($<><>$ r498 $<->$ r541)' &	42.00	&	0.03	&	42.00	&	0.02	\\		\hline
+      '!([]$<>$ r3 $->$ []$<>$r591)' &	 3.00, 0	&	5.06 	&	3.00, 0 	&	0.00	\\		\hline
+      '!([]$<>$ r3 $<->$ []$<>$r591)' &	 3.00, 0	&	10.31	&	39, 0	&	0.01	\\		\hline
+      '!r532 R (!r432 || r321)' &	 0,0	&	4.97 	&	0,0	&	0.01 	\\		\hline
+     \makecell{ '$<>$ r114 \&\& [](r114 $-> <>$ r12) \&\& \\((X r114 U X r12) $||$ !X( r114 U r12))' }&	24.00	&	0.08 	&	24.00	&	0.01	\\		\hline
+   \makecell{ '$<>$ pickrball \&\& [](pickrball $-> <>$ droprball) \\ \&\& ((X pickrball U X droprball) $||$ !X( pickrball U droprball))' } &	47.00,0	&	28.87	&	47.00,0	&	0.03	\\		\hline
+      ' $<>$ r124 \&\& $<>$ !r124' &	28.00,0	&	0.05 	&	28.00,0	&	0.01	\\		\hline
+%      &		&		&		&		\\		\hline
+ %     &		&		&		&		\\		\hline
+  %    &		&		&		&		\\		\hline
+\end{tabular}}
+\caption{Comparison of Accepted Algorithm with Our Algorithm on Various Examples}
+\label{table}
+\end{table}
+\end{frame}
+
+
+\section{Conclusions}
+\begin{frame}{Benefits}
+\begin{itemize}
+\item Works very well on reachability while avoiding regions, sequencing, and recurrence (when the automaton is not tight). Guaranteed to get the same path faster!
+\item Saves a lot of time when the formula does not have a trivial suffix.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Drawbacks}
+\begin{itemize}
+\item Hard to analyze the performance on more complex formulas.
+\item When there is a trivial suffix, the majority of the time is spent on constructing the graph and the search is usually quick. Future work could be to use this algorithm for on-the-fly construction. 
+\end{itemize}
+
+
 \end{frame}
 
 

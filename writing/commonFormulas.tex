@@ -332,7 +332,7 @@ The level of the initial node is three, so our algorithm does three Dijkstra sea
 
 
 \section{Coverage}
-A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in that order, and is of the form $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$. We show the B\"uchi automaton corresponding to the formula $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$ in figure \ref{fig:buchCov}
+A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in any order, and is of the form $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$. We show the B\"uchi automaton corresponding to the formula $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$ in figure \ref{fig:buchCov}
 
 \begin{figure}
 \centering
@@ -718,7 +718,7 @@ As we can see our algorithm calculates the path in 0.02 seconds while the accept
 The accepted algorithm does one Dijkstra search of all 5000 states in the product automaton (625 states in the FTS and eight in the B\"uchi automaton). Even though there are eight states in the B\"uchi automaton, the initial node is still only on level three. Therefore we only do three searches to find an accepting node. The first searches 326, the second 266, and the third 587. Thus our algorithm searches 1179 nodes compared to 5000 by the accepted algorithm and returns a path of cost 62 compared 59.
 
 \section{Recurrence (Liveness)}
-Recurrence is coverage over and over again, and can be expressed as $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight \cite{schuppan05}, and an accepting path for it does cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
+Recurrence is coverage over and over again, and can be expressed as $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight \cite{schuppan05}, and an accepting path for it cannot stay in one state (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
 
 \subsection{Tightness}
 A tight B\"uchi automaton is one that accepts the minimum prefix and the minimum suffix. We begin showing that the automaton produced for these formulas by \cite{ltlbuchiwebsite} is not tight. We consider the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}
