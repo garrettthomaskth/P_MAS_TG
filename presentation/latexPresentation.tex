@@ -10,7 +10,13 @@
 % modify this file as you see fit and even to delete this copyright
 % notice. 
 
+
 \documentclass{beamer}
+
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+\setbeamertemplate{navigation symbols}{}  
 \usepackage{amsmath,bm}
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata}
@@ -31,7 +37,7 @@
 
 \usepackage{epstopdf}
 \usepackage{epsfig}
-
+\usepackage{multimedia}
 
 \floatname{algorithm}{Procedure}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -83,20 +89,20 @@
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
-\title{A Discrete B\"uchi Automata Distance for Formal Methods Based Control}
+\title[B\"uchi Automata Distance]{A Discrete B\"uchi Automata Distance for Formal Methods Based Control}
 
 % A subtitle is optional and this may be deleted
 %\subtitle{Optional Subtitle}
 
 %\author{F.~Author\inst{1} \and S.~Another\inst{2}}
-\author{Garrett Thomas \\
-Supervisor: Lars Lindemann \\
+\author[Garrett Thomas]{{\Large Garrett Thomas} \\
+\small Supervisor: Lars Lindemann \\
 Examiner: Professor Dimos V. Dimarogonas}
 % - Give the names in the same order as the appear in the paper.
 % - Use the \inst{?} command only if the authors have different
 %   affiliation.
 
-\institute[Royal Institute of Technology, KTH] % (optional, but mostly needed)
+\institute[KTH] % (optional, but mostly needed)
 {
   %\inst{1}%
   Automatic Control Department \\
@@ -135,12 +141,12 @@ Examiner: Professor Dimos V. Dimarogonas}
 }
 
 
-\AtBeginSubsection[]
-{
-  \begin{frame}<beamer>{Outline}
-    \tableofcontents[currentsection,currentsubsection]
-  \end{frame}
-}
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
 
 % Let's get started
 \begin{document}
@@ -161,6 +167,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 \subsection{Formal Methods Based Control}
 
 \begin{frame}{Linear Temporal Logic}
+
   \begin{itemize}
   \item {
     We will be using \textbf{Linear Temporal Logic (LTL)}, defined recursively as
@@ -168,7 +175,7 @@ Examiner: Professor Dimos V. Dimarogonas}
     \pause
   }
   \item {
-    Why?LTL formulas are versatile; LTL allows us to encode statements about the robot and workspace, and also how events relate to each other in the time domain. \\
+    Why?LTL formulas are versatile%; LTL allows us to encode statements about the robot and workspace, and also how events relate to each other in the time domain. \\
     Ex. from \cite{guo15} $ \varphi= \diamond(\text{rball} \land \diamond \text{basket}) \land \diamond \ssquare \text{r1}$ \\
     "Eventually pick up the red ball and put it in one of the baskets. Then go home to r1" \\
      \centering\includegraphics[scale=0.3]{ltlExampleWorkspace}\par
@@ -183,7 +190,10 @@ Examiner: Professor Dimos V. Dimarogonas}
 		\pause
 	}
 	\item<2->{
-		Specification: Create a graph (the \textit{product automaton}) based on the workspace, robot motion, and LTL formula such that all paths in this graph satisfy the specification.
+		Specification: Create a graph (the \textit{product automaton}) 
+		\begin{itemize}
+			\item Workspace, robot motion, and LTL formula
+		\end{itemize}
 	}
 	\item<3->{
 		Execution: Find a discrete path in this graph using an optimality criterion.*
@@ -201,7 +211,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 \begin{frame}{Finite-State Transition System}
   \begin{itemize}
   \item<1->{
-    The product automaton is the of a \textit{finite-state transition system} and a \textit{B\"uchi automaton}
+    The product automaton is the combination of a \textit{finite-state transition system} and a \textit{B\"uchi automaton}
     \pause % The slide will pause after showing the first item
   }
   \end{itemize}
@@ -256,6 +266,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 	For any LTL formula $\varphi$ over $AP$, there exists a B\"uchi automaton over $2^{AP}$ corresponding to $\varphi$ \cite{baier08}
 	}
 	\end{itemize}
+	\pause
 	Reachability while avoiding regions $\varphi = \neg \pi_4 \U \pi_5$
 	
 	\begin{figure}
@@ -268,7 +279,7 @@ Examiner: Professor Dimos V. Dimarogonas}
   \node[state,accepting]         (B) [right of=A] {$q_2$};
 
   \path (A) edge              node {$\pi_{5}$} (B)
-  		(A) edge [loop above] node {$\neg \pi_4 $} (A)
+  		(A) edge [loop above] node {$\neg \pi_4 \land \neg \pi_5$} (A)
   		(B) edge [loop above] node {$1$} (B);
 \end{tikzpicture}
 \end{figure}
@@ -340,7 +351,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 
 \begin{frame}{State-Space Explosion Problem}
 \begin{itemize}
-\item State-space explosion problem is the is the combinatorial explosion of the number of states in the product automaton.
+\item State-space explosion problem is the combinatorial explosion of the number of states in the product automaton.
 \item Number of states in B\"uchi automaton can be exponential in the size of the LTL formula \cite{giannakopoulou02} and $|\Q'| = |\Pi|\cdot |\Q|$ 
 \item State-space explosion problem is the bottle neck of formal methods based control synthesis.
 \end{itemize}
@@ -350,7 +361,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 \begin{frame}{Accepted Algorithm}
 \begin{itemize}
 \item {
-	We prefer a prefix, suffix structure $R = \langle R_{pre}, R_{suf} \rangle = q_0' q_1' \dots {\color{red} q_f'} [ {\color{red} q_f'} q_{f+1}' \dots q_n']^\omega$ 
+	We prefer a prefix, suffix structure $R = \langle R_{pre}, R_{suf} \rangle = q_0' q_1' \dots {\color{red} q_f'} [ q_{f+1}' q_{f+2}' \dots q_n' {\color{red} q_f'}]^\omega$ 
 }
 \end{itemize}
 Here is the algorithm currently used in the literature \cite{guo15},\cite{fainekos09},\cite{kloetzer08},\cite{smith2010}
@@ -434,7 +445,7 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 
 
 
-\begin{frame}{Our Algorithm}
+\begin{frame}{Greedy Algorithm}
 \begin{itemize}
 \item {
 	Motivation for our algorithm: $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}\}$  
@@ -475,18 +486,18 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \begin{frame}{Code}
 \begin{itemize}
 \item The code for the accepted algorithm is from the P\_MAS\_TG GitHub Repository \cite{pMasGit}.
-\item The code for our algorithm is a modified version of code from P\_MAS\_TG.
+\item The code for the greedy algorithm is a modified version of code from P\_MAS\_TG.
 \item All computations were done on a 2.5 GHz MacBook Pro and used Python 2.7.5.
 \end{itemize}
 
 
 \end{frame}
 \section{Performance on Common Formulas}
-\subsection{Workspace}
+
 \begin{frame}{Workspace}
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.7]{../writing/workspace.eps}
+\includegraphics[scale=0.7]{workspace2.eps}
 \label{fig:workspace}
 \caption{Workspace 1}
 \end{figure}
@@ -524,7 +535,7 @@ full construction and synthesis done within 0.11s
 \begingroup
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
-Our Algorithm
+Greedy Algorithm
 ==================
 plan done within 0.01s: precost 37.00, sufcost 0.00
 ...
@@ -538,12 +549,12 @@ full construction and synthesis done within 0.10s
 \end{frame}
 
 \begin{frame}{Animation}
-asdf
+\movie[height = 0.6\textwidth, width = 0.8\textwidth, poster, showcontrols]{}{greedy.mp4} 
 \end{frame}
 
 \subsection{Sequencing}
 
-\begin{frame}
+\begin{frame}{Sequencing}
 \begin{itemize}
 	\item {
 	We look at the sequencing formula $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$
@@ -571,6 +582,7 @@ asdf
 \end{tikzpicture}
 %\caption{B\"uchi Automaton Corresponding to $  \diamond(\pi_1 \land \diamond (\pi_2 \land \diamond \pi_3))$}
 \end{figure}
+
 \begin{itemize}
 	\item {
 	$d_p(q_1)=3$, $d_p(q_2)=2$, $d_p(q_3)=1$, $d_p(q_4)=0$
@@ -594,35 +606,51 @@ full construction and synthesis done within 0.19s
 \endgroup
 Our algorithm computed the same path, with an output of
 
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
-Our Algorithm
+Greedy Algorithm
 ==================
 plan done within 0.02s: precost 62.00, sufcost 0.00
 ...
 full construction and synthesis done within 0.17s 
 \end{lstlisting}
+\endgroup
 \end{frame}
 
 \begin{frame}{Nodes Searched}
+\begin{columns}
+  
+  \begin{column}{0.5\textwidth}
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.17]{../writing/ourPlot}
-\label{fig:animOur}
-\caption{Nodes searched with our Algorithm}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=0.17]{../writing/acceptedPlot}
+\includegraphics[scale=0.3]{macceptedPlot}
 \label{fig:animAccept}
-\caption{Nodes searched with the accepted Algorithm}
+\caption{Nodes with accepted algorithm}
 \end{figure}
+\end{column}
+
+
+  \begin{column}{0.5\textwidth}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.32]{mourPlot}
+\label{fig:animOur}
+\caption{Nodes with greedy algorithm}
+\end{figure}
+\end{column}
+
+
+\end{columns}
+
 \end{frame}
+
+
 \subsection{Coverage}
 \begin{frame}{Coverage}
 \begin{itemize}
 \item $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$.
-\item A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in any order. Ex. $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \pi_3$
+\item A coverage formula represents the statement visit $\pi_1, \pi_2, \dots, \pi_n$ in any order. Ex. $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$
 \end{itemize}
 \pause
 \begin{figure}
@@ -728,7 +756,7 @@ and our algorithm is
 \begingroup
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
-Our Algorithm
+Greedy Algorithm
 ==================
 plan done within 0.02s: precost 62.00, sufcost 0.00
 ...
@@ -744,7 +772,7 @@ full construction and synthesis done within 0.38s
 \begin{align*}
 \text{NEARNEIBR} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL}
 \end{align*}
-\item \cite{lenstra75} shows how to formulate seeming unrelated problems as travelling salesperson problems by introducing a dummy node.
+\item \cite{lenstra75} shows how to formulate seemingly unrelated problems as travelling salesperson problems by introducing a dummy node.
 \item We introduce a dummy node * which is $\max_{i,j} c_{i,j}$ where $c_{i,j}$ is the cost from $\pi_i$ to $\pi_j$.
 \item Then our bound is  
 \begin{align*}
@@ -807,7 +835,7 @@ while our algorithm did it in
 \begingroup
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
-Our Algorithm
+Greedy Algorithm
 ==================
 plan done within 0.04s: precost 62.00, sufcost 60.00
 ------------------------------
@@ -822,31 +850,31 @@ full construction and synthesis done within 0.21s
 \begin{frame}{Analysis}
 \begin{itemize}
 \item More complex formulas prove difficult to analyze because the B\"uchi automaton becomes very big and cannot be visualized. 
-\item Took formulas from \cite{somenzi00} to show extensive and non-biased experimentation.
+%\item Took formulas from \cite{somenzi00} to show extensive and non-biased experimentation.
 \end{itemize}
 \begin{table}[]
 \centering
 \small
-\scalebox{0.6}{
+\scalebox{0.65}{
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Formula & \makecell{Accepted Cost \\ prefix, suffix} & Accepted Time & \makecell{Our Cost \\ prefix, suffix} & Our Time \\ \hline
-     '(!r223 U r445) $||$ (!r268 U r435)'  &         27 ,0     &      0.04         &      27,0   &     0.01     \\ \hline
-      '!r62 U(!r266 U r422)'  &         38.00 ,0     &       0.05        &     38,0     &     0.02     \\ \hline
-       '[]$<>$ r0 $->$ []$<>$ r317' &         1,0      &       5.06        &    1,0      &    0.00     \\ \hline
-       '[]$<>$ r0 $<->$ []$<>$ r317'  & 1,0		&		10.70		& 1,0 	&  0.00 \\ \hline 
-      '!($<><>$ r498 $<->$ r541)' &	42.00	&	0.03	&	42.00	&	0.02	\\		\hline
-      '!([]$<>$ r3 $->$ []$<>$r591)' &	 3.00, 0	&	5.06 	&	3.00, 0 	&	0.00	\\		\hline
-      '!([]$<>$ r3 $<->$ []$<>$r591)' &	 3.00, 0	&	10.31	&	39, 0	&	0.01	\\		\hline
-      '!r532 R (!r432 || r321)' &	 0,0	&	4.97 	&	0,0	&	0.01 	\\		\hline
-     \makecell{ '$<>$ r114 \&\& [](r114 $-> <>$ r12) \&\& \\((X r114 U X r12) $||$ !X( r114 U r12))' }&	24.00	&	0.08 	&	24.00	&	0.01	\\		\hline
-   \makecell{ '$<>$ pickrball \&\& [](pickrball $-> <>$ droprball) \\ \&\& ((X pickrball U X droprball) $||$ !X( pickrball U droprball))' } &	47.00,0	&	28.87	&	47.00,0	&	0.03	\\		\hline
-      ' $<>$ r124 \&\& $<>$ !r124' &	28.00,0	&	0.05 	&	28.00,0	&	0.01	\\		\hline
+Formula & \makecell{Accepted Cost \\ (prefix, suffix)} & \makecell{Accepted \\Time} & \makecell{Greedy Cost \\ (prefix, suffix)} & \makecell{Greedy \\ Time} \\ \hline
+     '(!r223 U r445) $||$ (!r268 U r435)'  &         27, 0     &      0.04         &      27, 0   &     0.01     \\ \hline
+      '!r62 U(!r266 U r422)'  &         38, 0     &       0.05        &     38, 0     &     0.02     \\ \hline
+       '[]$<>$ r0 $->$ []$<>$ r317' &         1, 0      &       5.06        &    1, 0      &    0.00     \\ \hline
+       '[]$<>$ r0 $<->$ []$<>$ r317'  & 1, 0		&		10.70		& 1, 0 	&  0.00 \\ \hline 
+      '!($<><>$ r498 $<->$ r541)' &	42, 0	&	0.03	&	42, 0	&	0.02	\\		\hline
+      '!([]$<>$ r3 $->$ []$<>$r591)' &	 3, 0	&	5.06 	&	3, 0 	&	0.00	\\		\hline
+      '!([]$<>$ r3 $<->$ []$<>$r591)' &	 3, 0	&	10.31	&	39, 0	&	0.01	\\		\hline
+      '!r532 R (!r432 $||$ r321)' &	 0, 0	&	4.97 	&	0, 0	&	0.01 	\\		\hline
+     \makecell{ '$<>$ r114 \&\& [](r114 $-> <>$ r12) \&\& \\((X r114 U X r12) $||$ !X( r114 U r12))' }&	24, 0	&	0.08 	&	24, 0	&	0.01	\\		\hline
+   \makecell{ '$<>$ pickrball \&\& [](pickrball $-> <>$ droprball) \&\& \\ ((X pickrball U X droprball) $||$ !X( pickrball U droprball))' } &	47, 0	&	28.87	&	47, 0	&	0.03	\\		\hline
+      ' $<>$ r124 \&\& $<>$ !r124' &	28, 0	&	0.05 	&	28, 0	&	0.01	\\		\hline
 %      &		&		&		&		\\		\hline
  %     &		&		&		&		\\		\hline
   %    &		&		&		&		\\		\hline
 \end{tabular}}
-\caption{Comparison of Accepted Algorithm with Our Algorithm on Various Examples}
+\caption{Comparison of Accepted Algorithm with Greedy Algorithm}
 \label{table}
 \end{table}
 \end{frame}

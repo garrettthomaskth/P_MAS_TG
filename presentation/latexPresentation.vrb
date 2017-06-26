@@ -1,0 +1,28 @@
+\frametitle{Case Study}
+\begin{itemize}
+\item Remember that the accepted algorithm computes the suffix from \textbf{every} accepting state. That implies a lot of work for this formula.
+\end{itemize}
+\pause
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Accepted Algorithm
+==================
+plan done within 16.17s: precost 62.00, sufcost 60.00
+------------------------------
+...
+full construction and synthesis done within 16.35s
+\end{lstlisting}
+\endgroup
+while our algorithm did it in
+\begingroup
+\fontsize{9pt}{12pt}\selectfont
+\begin{lstlisting}
+Greedy Algorithm
+==================
+plan done within 0.04s: precost 62.00, sufcost 60.00
+------------------------------
+...
+full construction and synthesis done within 0.21s
+\end{lstlisting}
+\endgroup

@@ -1,0 +1,66 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{FGKGP09}
+
+\bibitem[BBE{\etalchar{+}}07]{belta07}
+Calin Belta, Antonio Bicchi, Magnus Egerstedt, Emilio Frazzoli, Eric Klavins,
+  and George~J Pappas, \emph{Symbolic planning and control of robot motion
+  [grand challenges of robotics]}, IEEE Robotics \& Automation Magazine
+  \textbf{14} (2007), no.~1, 61--70.
+
+\bibitem[BKL08]{baier08}
+Christel Baier, Joost-Pieter Katoen, and Kim~Guldstrand Larsen,
+  \emph{Principles of model checking}, MIT press, 2008.
+
+\bibitem[FGKGP09]{fainekos09}
+Georgios~E Fainekos, Antoine Girard, Hadas Kress-Gazit, and George~J Pappas,
+  \emph{Temporal logic motion planning for dynamic robots}, Automatica
+  \textbf{45} (2009), no.~2, 343--352.
+
+\bibitem[GL02]{giannakopoulou02}
+Dimitra Giannakopoulou and Flavio Lerda, \emph{From states to transitions:
+  Improving translation of ltl formulae to b{\"u}chi automata}, Formal
+  Techniques for Networked and Distributed Sytems—FORTE 2002 (2002),
+  308--326.
+
+\bibitem[Guo15a]{guo15}
+Meng Guo, \emph{Hybrid control of multi-robot systems under complex temporal
+  tasks}, Ph.D. thesis, KTH Royal Institute of Technology, 2015.
+
+\bibitem[Guo15b]{pMasGit}
+Meng Guo, \emph{P-mas-tg}, \url{https://github.com/MengGuo/P_MAS_TG}, 2015.
+
+\bibitem[KB08]{kloetzer08}
+Marius Kloetzer and Calin Belta, \emph{A fully automated framework for control
+  of linear systems from temporal logic specifications}, IEEE Transactions on
+  Automatic Control \textbf{53} (2008), no.~1, 287--297.
+
+\bibitem[LK75]{lenstra75}
+Jan~K Lenstra and AHG~Rinnooy Kan, \emph{Some simple applications of the
+  travelling salesman problem}, Journal of the Operational Research Society
+  \textbf{26} (1975), no.~4, 717--733.
+
+\bibitem[RSL74]{rosenkrantz74}
+Daniel~J Rosenkrantz, Richard~Edwin Stearns, and Philip~M Lewis,
+  \emph{Approximate algorithms for the traveling salesperson problem},
+  Switching and Automata Theory, 1974., IEEE Conference Record of 15th Annual
+  Symposium on, IEEE, 1974, pp.~33--42.
+
+\bibitem[SB00]{somenzi00}
+Fabio Somenzi and Roderick Bloem, \emph{Efficient b{\"u}chi automata from ltl
+  formulae}, International Conference on Computer Aided Verification, Springer,
+  2000, pp.~248--263.
+
+\bibitem[STBR10]{smith2010}
+Stephen~L Smith, Jana Tumova, Calin Belta, and Daniela Rus, \emph{Optimal path
+  planning under temporal logic constraints}, Intelligent Robots and Systems
+  (IROS), 2010 IEEE/RSJ International Conference on, IEEE, 2010,
+  pp.~3288--3293.
+
+\end{thebibliography}

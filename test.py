@@ -83,11 +83,11 @@ robot_motion.add_un_edges(edges, unit_cost = 1)
 ############# no action model
 action = dict()
 ############# with action
-action = { 'pickrball': (10, 'rball', set(['pickrball'])),
-           'droprball': (10, 'basket1', set(['droprball'])),           
+#action = { 'pickrball': (10, 'rball', set(['pickrball'])),
+#           'droprball': (10, 'basket1', set(['droprball'])),           
 #           'pickgball': (10, 'gball', set(['pickgball'])),
 #           'dropgball': (10, 'basket2', set(['dropgball']))
-}
+#}
 
 
 robot_action = ActionModel(action)
@@ -113,12 +113,18 @@ robot_model = MotActModel(robot_motion, robot_action)
 # +-----+-----+-----+
 
 ########## soft and hard
+#pi1 = r602
+#Reach While Avoiding
+
+#hard_task = '!(r312 || r602) U r395)) '
+
+
 #hard_task = '[](<> r312 &&  <> r395 && <>r602)'
 #hard_task = '<> r312 &&  <> r395 && <>r602 '
 #hard_task = '<> (r312 &&  <>( r395 && <>r602)) '
 #hard_task = '<> r1 && <> r600 || <>r7'
 #hard_task = '!(r300 || r400 || r5) U r445'
-hard_task = '<>(pickrball && <> droprball) && <>[] r448'
+#hard_task = '<>(pickrball && <> droprball) && <>[] r448'
 #####hard_task = '<>((pickrball && rball) && <> (droprball && basket1)) && <>((pickgball && gball) && <> (dropgball && basket2)) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
 #hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'
 #hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r422 '
@@ -132,7 +138,7 @@ hard_task = '<>(pickrball && <> droprball) && <>[] r448'
 #hard_task = '!([]<> r3 -> []<>r591)'
 #hard_task = '!([]<> r3 <-> []<>r591)'
 #hard_task = '!r532 R (!r432 || r321)'
-#hard_task = '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' 
+hard_task = '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' 
 #hard_task = '<> pickrball && [](pickrball -> <> droprball) && ((X pickrball U X droprball) || !X( pickrball U droprball))'  #no
 #hard_task = ' <> r124 && <> !r124'
 #hard_task = '[](r23 || X [] r436) && [] (r80 || X [] ! r227)'
@@ -188,7 +194,6 @@ for node in robot_planner.product.graph['buchi'].node:
 print 'number of accepting nodes'
 print a
 print 'number of buchi nodes'
-
 print 'len(colB)'
 print len(colB)
 
