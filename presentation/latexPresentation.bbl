@@ -41,22 +41,6 @@ Marius Kloetzer and Calin Belta, \emph{A fully automated framework for control
   of linear systems from temporal logic specifications}, IEEE Transactions on
   Automatic Control \textbf{53} (2008), no.~1, 287--297.
 
-\bibitem[LK75]{lenstra75}
-Jan~K Lenstra and AHG~Rinnooy Kan, \emph{Some simple applications of the
-  travelling salesman problem}, Journal of the Operational Research Society
-  \textbf{26} (1975), no.~4, 717--733.
-
-\bibitem[RSL74]{rosenkrantz74}
-Daniel~J Rosenkrantz, Richard~Edwin Stearns, and Philip~M Lewis,
-  \emph{Approximate algorithms for the traveling salesperson problem},
-  Switching and Automata Theory, 1974., IEEE Conference Record of 15th Annual
-  Symposium on, IEEE, 1974, pp.~33--42.
-
-\bibitem[SB00]{somenzi00}
-Fabio Somenzi and Roderick Bloem, \emph{Efficient b{\"u}chi automata from ltl
-  formulae}, International Conference on Computer Aided Verification, Springer,
-  2000, pp.~248--263.
-
 \bibitem[STBR10]{smith2010}
 Stephen~L Smith, Jana Tumova, Calin Belta, and Daniela Rus, \emph{Optimal path
   planning under temporal logic constraints}, Intelligent Robots and Systems

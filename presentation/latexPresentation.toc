@@ -1,15 +1,15 @@
 \beamer@endinputifotherversion {3.36pt}
 \beamer@sectionintoc {1}{Problem and Motivation}{3}{0}{1}
 \beamer@subsectionintoc {1}{1}{Formal Methods Based Control}{4}{0}{1}
-\beamer@subsectionintoc {1}{2}{The Product Automaton}{10}{0}{1}
-\beamer@subsectionintoc {1}{3}{Execution: Path Finding}{16}{0}{1}
-\beamer@sectionintoc {2}{Our Contribution}{17}{0}{2}
-\beamer@subsectionintoc {2}{1}{B\"uchi Distance and Algorithm}{18}{0}{2}
-\beamer@sectionintoc {3}{Performance on Common Formulas}{24}{0}{3}
-\beamer@subsectionintoc {3}{1}{Reachability While Avoiding Regions}{26}{0}{3}
-\beamer@subsectionintoc {3}{2}{Sequencing}{28}{0}{3}
-\beamer@subsectionintoc {3}{3}{Coverage}{31}{0}{3}
-\beamer@subsectionintoc {3}{4}{Recurrence (Liveness)}{36}{0}{3}
-\beamer@sectionintoc {4}{More Complex Formulas}{40}{0}{4}
-\beamer@subsectionintoc {4}{1}{Study of Various Formulas}{41}{0}{4}
-\beamer@sectionintoc {5}{Conclusions}{42}{0}{5}
+\beamer@subsectionintoc {1}{2}{The Product Automaton}{11}{0}{1}
+\beamer@subsectionintoc {1}{3}{Execution: Path Finding}{18}{0}{1}
+\beamer@sectionintoc {2}{Our Contribution}{18}{0}{2}
+\beamer@subsectionintoc {2}{1}{B\"uchi Distance and Algorithm}{19}{0}{2}
+\beamer@sectionintoc {3}{Performance on Common Formulas}{28}{0}{3}
+\beamer@subsectionintoc {3}{1}{Reachability While Avoiding Regions}{30}{0}{3}
+\beamer@subsectionintoc {3}{2}{Sequencing}{32}{0}{3}
+\beamer@subsectionintoc {3}{3}{Coverage}{35}{0}{3}
+\beamer@subsectionintoc {3}{4}{Recurrence (Liveness)}{41}{0}{3}
+\beamer@sectionintoc {4}{More Complex Formulas}{45}{0}{4}
+\beamer@subsectionintoc {4}{1}{Study of Various Formulas}{46}{0}{4}
+\beamer@sectionintoc {5}{Conclusions}{47}{0}{5}

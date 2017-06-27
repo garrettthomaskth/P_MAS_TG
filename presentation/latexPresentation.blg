@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: latexPresentation.aux
 The style file: amsalpha.bst
 Database file #1: ../writing/bibliography.bib
-You've used 11 entries,
+You've used 8 entries,
             2624 wiz_defined-function locations,
-            628 strings with 6342 characters,
-and the built_in function-call counts, 4846 in all, are:
-= -- 462
-> -- 244
+            609 strings with 5787 characters,
+and the built_in function-call counts, 3397 in all, are:
+= -- 315
+> -- 181
 < -- 2
-+ -- 87
-- -- 85
-* -- 390
-:= -- 775
-add.period$ -- 11
-call.type$ -- 11
-change.case$ -- 74
-chr.to.int$ -- 10
-cite$ -- 11
-duplicate$ -- 191
-empty$ -- 359
-format.name$ -- 97
-if$ -- 991
++ -- 66
+- -- 64
+* -- 282
+:= -- 558
+add.period$ -- 8
+call.type$ -- 8
+change.case$ -- 55
+chr.to.int$ -- 7
+cite$ -- 8
+duplicate$ -- 129
+empty$ -- 245
+format.name$ -- 73
+if$ -- 677
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 21
-newline$ -- 44
-num.names$ -- 33
-pop$ -- 84
+missing$ -- 15
+newline$ -- 35
+num.names$ -- 24
+pop$ -- 64
 preamble$ -- 1
-purify$ -- 85
+purify$ -- 63
 quote$ -- 0
-skip$ -- 166
+skip$ -- 103
 stack$ -- 0
-substring$ -- 293
-swap$ -- 35
+substring$ -- 191
+swap$ -- 18
 text.length$ -- 2
 text.prefix$ -- 2
 top$ -- 0
-type$ -- 84
+type$ -- 60
 warning$ -- 0
-while$ -- 50
-width$ -- 13
-write$ -- 131
+while$ -- 33
+width$ -- 10
+write$ -- 96

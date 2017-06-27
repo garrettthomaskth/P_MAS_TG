@@ -89,7 +89,7 @@
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
-\title[B\"uchi Automata Distance]{A Discrete B\"uchi Automata Distance for Formal Methods Based Control}
+\title[Master's Thesis Presentation]{A Discrete B\"uchi Automata Distance for Formal Methods Based Control}
 
 % A subtitle is optional and this may be deleted
 %\subtitle{Optional Subtitle}
@@ -106,7 +106,13 @@ Examiner: Professor Dimos V. Dimarogonas}
 {
   %\inst{1}%
   Automatic Control Department \\
-  Royal Institute of Technology, KTH}
+  Royal Institute of Technology, KTH
+%  \begin{figure}[!htb]
+%\centering
+%\includegraphics[scale=0.2]{../writing/kth_logo}
+%\end{figure} 
+%\large June $28^{\text{th}}$, 2017
+}
   %\and
   %\inst{2}%
   %Department of Theoretical Philosophy\\
@@ -174,12 +180,15 @@ Examiner: Professor Dimos V. Dimarogonas}
     $\varphi ::= \top | \alpha | \neg \varphi_1 | \varphi_1  \lor \varphi_2 | \textbf{X} \varphi_1 | \varphi_1 \bm{\mathcal{U}} \varphi_2$
     \pause
   }
-  \item {
-    Why?LTL formulas are versatile%; LTL allows us to encode statements about the robot and workspace, and also how events relate to each other in the time domain. \\
-    Ex. from \cite{guo15} $ \varphi= \diamond(\text{rball} \land \diamond \text{basket}) \land \diamond \ssquare \text{r1}$ \\
-    "Eventually pick up the red ball and put it in one of the baskets. Then go home to r1" \\
+  %\item {
+    %Why?LTL formulas are versatile%; LTL allows us to encode statements about the robot and workspace, and also how events relate to each other in the time domain. \\
+	\begin{exampleblock}{Ex. from \cite{guo15}}
+$ \varphi= \diamond(\text{rball} \land \diamond \text{basket}) \land \diamond \ssquare \text{r1}$ \\
+    "Eventually pick up the red ball and put it in one of the baskets. Then go home to r1"
+\end{exampleblock}    
+
      \centering\includegraphics[scale=0.3]{ltlExampleWorkspace}\par
-  }
+  %}
   \end{itemize}
 \end{frame}
 
@@ -196,7 +205,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 		\end{itemize}
 	}
 	\item<3->{
-		Execution: Find a discrete path in this graph using an optimality criterion.*
+		Execution: Find a discrete path in this graph using an optimality criterion.
 	}
 	\item<4->{
 		Implementation: Calculate the continuous controllers such that the continuous path will satisfy the discrete path.
@@ -204,6 +213,29 @@ Examiner: Professor Dimos V. Dimarogonas}
 	\end{itemize}	
 	
 \end{frame}
+
+\begin{frame}{LTL Motion and Task Planning}
+	\begin{itemize}	
+	\item {
+		LTL Motion and task planning is done in three Steps \cite{belta07}
+
+	}
+	\item{
+		Specification: Create a graph (the \textit{product automaton}) 
+		\begin{itemize}
+			\item Workspace, robot motion, and LTL formula
+		\end{itemize}
+	}
+	\item{
+			\textbf{\color{red}Execution: Find a discrete path in this graph using an optimality criterion.}
+	}
+	\item{
+		Implementation: Calculate the continuous controllers such that the continuous path will satisfy the discrete path.
+	}
+	\end{itemize}	
+	
+\end{frame}
+
 \subsection{The Product Automaton}
 
 % You can reveal the parts of a slide one at a time
@@ -287,7 +319,7 @@ Examiner: Professor Dimos V. Dimarogonas}
 
 \begin{frame}{Product Automaton}
 \begin{block}{Product Automaton}
-	\small $\mathcal{A}_p = \mathcal{T}_w \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', W_p)$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_d(\pi_j))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}\}$ 
+	\small $\mathcal{A}_p = \mathcal{T}_w \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}')$, where $Q' = \Pi \times Q = \{ \langle \pi, q \rangle \in Q' | \forall \pi \in \Pi, \hspace{0.2cm} \forall q \in Q \}$; $\delta': Q' \rightarrow 2^{Q'}$. $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_d(\pi_j))$; $Q_0' = \{ \langle \pi , q \rangle | \pi \in \Pi_0, \hspace{0.2cm} q_0 \in Q_0\}$, $\mathcal{F}' = \{ \langle \pi, q \rangle | \pi \in \Pi, q \in \mathcal{F}\}$ 
 	\end{block}
 
 	\begin{itemize}
@@ -349,15 +381,6 @@ Examiner: Professor Dimos V. Dimarogonas}
 \end{figure}
 \end{frame}
 
-\begin{frame}{State-Space Explosion Problem}
-\begin{itemize}
-\item State-space explosion problem is the combinatorial explosion of the number of states in the product automaton.
-\item Number of states in B\"uchi automaton can be exponential in the size of the LTL formula \cite{giannakopoulou02} and $|\Q'| = |\Pi|\cdot |\Q|$ 
-\item State-space explosion problem is the bottle neck of formal methods based control synthesis.
-\end{itemize}
-\end{frame}
-
-\subsection{Execution: Path Finding}
 \begin{frame}{Accepted Algorithm}
 \begin{itemize}
 \item {
@@ -380,6 +403,18 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \end{algorithm}
 \end{frame}
 
+
+\begin{frame}{State-Space Explosion Problem}
+\begin{itemize}
+\item State-space explosion problem is the combinatorial explosion of the number of states in the product automaton.
+\item Number of states in B\"uchi automaton can be exponential in the size of the LTL formula \cite{giannakopoulou02} and $|\Q'| = |\Pi|\cdot |\Q|$ 
+\item State-space explosion problem is the bottle neck of formal methods based control synthesis.
+\end{itemize}
+\end{frame}
+
+\subsection{Execution: Path Finding}
+
+
 % Placing a * after \section means it will not show in the
 % outline or table of contents.
 \section{Our Contribution}
@@ -391,25 +426,19 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
     \pause
     }
   \end{itemize}
-  Ex. Sequencing $  \diamond(\pi_3 \land \diamond \pi_5)$
-  \begin{figure}
+  Ex. Reachability While Avoiding Regions $\neg \pi_4 \U \pi_5$
+  	\begin{figure}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.3cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
   \node[initial,state] (A)                    {$q_1$};
-  %\node[state] (B)                    [right of=A]{$q_2$};
-  \node[state] (B)                    [right of=A]{$q_2$};
-  \node[state,accepting]         (C) [right of=B] {$q_3$};
+  \node[state,accepting]         (B) [right of=A] {$q_2$};
 
-  \path (A) edge              node {$\pi_{3}$} (B)
-  		(A) edge [loop above] node {$\neg \pi_3$} (A)
-  		(B) edge [loop above] node {$\neg \pi_5$} (B)
-  		(B) edge              node {$\pi_{5}$} (C)
-  		(C) edge [loop above] node {$1$} (C);
-%  		(C) edge              node {$\pi_{3}$} (D)
- % 		(D) edge [loop above] node {$1$} (D);
+  \path (A) edge              node {$\pi_{5}$} (B)
+  		(A) edge [loop above] node {$\neg \pi_4 \land \neg \pi_5$} (A)
+  		(B) edge [loop above] node {$1$} (B);
 \end{tikzpicture}
 \end{figure}
 \pause
@@ -419,15 +448,15 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
-  \node[initial,state] (A)                    {$2$};
+  %\node[state] (A)                    {$2$};
   %\node[state] (B)                    [right of=A]{$q_2$};
-  \node[state] (B)                    [right of=A]{$1$};
-  \node[state,accepting]         (C) [right of=B] {$0$};
+  \node[initial,state] (A)                    [right of=A]{$1$};
+  \node[state,accepting]         (B) [right of=B] {$0$};
 
-  \path (A) edge               (B)
+  \path (A) edge               (B);
   		%(A) edge [loop above] node {$\neg \pi_3$} (A)
   		%(B) edge [loop above] node {$\neg \pi_5$} (B)
-  		(B) edge              (C);
+  		%(B) edge              (C);
   		%(C) edge [loop above] node {$1$} (C);
 %  		(C) edge              node {$\pi_{3}$} (D)
  % 		(D) edge [loop above] node {$1$} (D);
@@ -441,6 +470,199 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \small Note: Transitions with \&\& are removed from LTL2BA because regions do not overlap
 
 \end{frame}
+
+\begin{frame}{B\"uchi Distance Measure Cont.} 
+\begin{block}{B\"uchi Automaton with Distance}
+\small A B\"uchi automaton with distance $\mathcal{A}_{\varphi,d} = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F},d)$ where $\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F}$ are defined as before and $d:\Q \rightarrow \mathbb{Z}$ is defined as 
+$d(q_n) = \min_i \{ | q_i \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \text{ for some } S_k \in 2^{AP} \text{ and } k = 0,1,\dots, i-1 \}$
+%which is the length of the number of transitions in the shortest path from $q_n$ to an accepting state.
+\end{block}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
+                    semithick,scale=0.55, every node/.style={transform shape}]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$q_1$};
+  \node[state]         (B) [ right of=A] {$q_2$};  
+  \node[state] 		   (C)  [below of=A]  {$q_3$};
+  \node[state,accepting]       (D) [ right of=C] {$q_4$};
+
+  \path (A) edge         node {$\pi_{1}$}   (B)
+        (B) edge       node [swap] {$\pi_{2}$}    (D)
+        (A) edge       node [swap] {$\pi_{2}$}  (C)
+        (C) edge     node {$\pi_{1}$}       (D)
+        (A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2$} (A)
+        (B) edge [loop above] node {$\neg \pi_2$} (B)
+        (C) edge [loop below] node {$\neg \pi_1$} (C)
+        (D) edge [bend left] node {$\pi_2$} (C)
+        (D) edge [bend right] node [swap] {$\pi_1$} (B)
+        (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
+\end{tikzpicture}
+%\caption{B\"uchi Automaton for $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$ 2}
+%\label{fig:otherBuchiRec}
+\end{figure}
+
+\end{column}
+
+
+
+\begin{column}{0.5\textwidth}
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm,
+                    semithick,scale=0.55, every node/.style={transform shape}]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$2$};
+  \node[state]         (B) [ right of=A] {$1$};  
+  \node[state] 		   (C)  [below of=A]  {$1$};
+  \node[state,accepting]       (D) [ right of=C] {$0$};
+
+  \path (A) edge         node {$\pi_{1}$}   (B)
+        (B) edge       node [swap] {$\pi_{2}$}    (D)
+        (A) edge       node [swap] {$\pi_{2}$}  (C)
+        (C) edge     node {$\pi_{1}$}       (D)
+        (A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2$} (A)
+        (B) edge [loop above] node {$\neg \pi_2$} (B)
+        (C) edge [loop below] node {$\neg \pi_1$} (C)
+        (D) edge [bend left] node {$\pi_2$} (C)
+        (D) edge [bend right] node [swap] {$\pi_1$} (B)
+        (D) edge node{$\neg \pi_1 \wedge \neg \pi_2$} (A);
+\end{tikzpicture}
+%\caption{B\"uchi Automaton for $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$ 2}
+%\label{fig:otherBuchiRec}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{B\"uchi Distance in Product Automaton} 
+\begin{block}{Product Automaton with Distance}
+Product automaton with distance, $\mathcal{A}_{p,d} = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', d_p)$, defined similarly, with $d_p(q') = d(q'|\Q)$
+\end{block}
+\begin{figure}
+	
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
+                    semithick,scale=0.6, every node/.style={transform shape}]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {$(\pi_1,q_1)$};
+  \node[state]         (B) [ right of=A] {$(\pi_2,q_1)$};
+  \node[state]         (C) [right of=B] {$(\pi_3,q_1)$};
+  \node[state]         (D) [right of=C] {$(\pi_4,q_1)$};
+  \node[state]         (E) [right of=D] {$(\pi_5,q_1)$};
+  
+  \node[state,accepting] 		   (AA)  [below of=A]  {$(\pi_1,q_2)$};
+  \node[state,accepting]         (BB) [ right of=AA] {$(\pi_2,q_2)$};
+  \node[state,accepting]         (CC) [right of=BB] {$(\pi_3,q_2)$};
+  \node[state,accepting]         (DD) [right of=CC] {$(\pi_4,q_2)$};
+  \node[state,accepting]         (EE) [right of=DD] {$(\pi_5,q_2)$};  
+
+  \path (A) edge     [bend left]          (B)
+        (B) edge     [bend left]          (A)
+        (A) edge     [bend left]         (C)
+        (C) edge     [bend left]          (A)
+        %(C) edge     [bend left]          (D)
+        %(D) edge     [bend left]          (C)
+		%(B) edge     [bend left]          (D)
+        %(D) edge     [bend left]          (B)
+        (B) edge               (EE)
+        (DD) edge       [bend left]        (BB)
+        (BB) edge        [bend left]       (DD)
+        (BB) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (BB)
+        (BB) edge        [bend left]       (EE)
+        (EE) edge        [bend left]       (BB)
+        (DD) edge       [bend left]        (CC)
+        (CC) edge        [bend left]       (DD)
+        (CC) edge        [bend left]       (DD)
+        (DD) edge        [bend left]       (CC)
+        (CC) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (CC)
+        (A) edge [loop above]  (A)
+        (B) edge [loop above]  (B)
+        (C) edge [loop above]   (C)
+        %(D) edge [loop above]   (D)
+        (AA) edge [loop below]  (AA)
+        (BB) edge [loop below]  (BB)
+        (CC) edge [loop below]  (CC)
+        (DD) edge [loop below]   (DD)
+        (EE) edge [loop below]   (EE);
+\end{tikzpicture}
+
+\end{figure}
+\end{frame}
+
+
+
+
+\begin{frame}{B\"uchi Distance in Product Automaton} 
+\begin{block}{Product Automaton with Distance}
+Product automaton with distance, $\mathcal{A}_{p,d} = \mathcal{T} \otimes \mathcal{A}_\varphi = (Q', \delta', Q_0', \mathcal{F}', d_p)$, defined similarly, with $d_p(q') = d(q'|\Q)$
+\end{block}
+\begin{figure}
+	
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
+                    semithick,scale=0.6, every node/.style={transform shape}]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    {   \hspace{0.4cm} $1$  \hspace{.4cm}  };
+  \node[state]         (B) [ right of=A] {   \hspace{0.4cm} $1$  \hspace{.4cm}  };
+  \node[state]         (C) [right of=B] {   \hspace{0.4cm} $1$  \hspace{.4cm}  };
+  \node[state]         (D) [right of=C] {   \hspace{0.4cm} $1$  \hspace{.4cm}  };
+  \node[state]         (E) [right of=D] {   \hspace{0.4cm} $1$  \hspace{.4cm}  };
+  
+  \node[state,accepting] 		   (AA)  [below of=A]  {   \hspace{0.4cm} $0$  \hspace{.4cm}  };
+  \node[state,accepting]         (BB) [ right of=AA] {   \hspace{0.4cm} $0$  \hspace{.4cm}  };
+  \node[state,accepting]         (CC) [right of=BB] {   \hspace{0.4cm} $0$  \hspace{.4cm}  };
+  \node[state,accepting]         (DD) [right of=CC] {   \hspace{0.4cm} $0$  \hspace{.4cm}  };
+  \node[state,accepting]         (EE) [right of=DD] {   \hspace{0.4cm} $0$  \hspace{.4cm}  };  
+
+  \path (A) edge     [bend left]          (B)
+        (B) edge     [bend left]          (A)
+        (A) edge     [bend left]         (C)
+        (C) edge     [bend left]          (A)
+        %(C) edge     [bend left]          (D)
+        %(D) edge     [bend left]          (C)
+		%(B) edge     [bend left]          (D)
+        %(D) edge     [bend left]          (B)
+        (B) edge               (EE)
+        (DD) edge       [bend left]        (BB)
+        (BB) edge        [bend left]       (DD)
+        (BB) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (BB)
+        (BB) edge        [bend left]       (EE)
+        (EE) edge        [bend left]       (BB)
+        (DD) edge       [bend left]        (CC)
+        (CC) edge        [bend left]       (DD)
+        (CC) edge        [bend left]       (DD)
+        (DD) edge        [bend left]       (CC)
+        (CC) edge        [bend left]       (AA)
+        (AA) edge        [bend left]       (CC)
+        (A) edge [loop above]  (A)
+        (B) edge [loop above]  (B)
+        (C) edge [loop above]   (C)
+        %(D) edge [loop above]   (D)
+        (AA) edge [loop below]  (AA)
+        (BB) edge [loop below]  (BB)
+        (CC) edge [loop below]  (CC)
+        (DD) edge [loop below]   (DD)
+        (EE) edge [loop below]   (EE);
+\end{tikzpicture}
+
+\end{figure}
+\end{frame}
+
+
+
 
 
 
@@ -475,10 +697,10 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \begin{frame}{Why?}
 \begin{itemize}
 \item {
-	\Large \textbf{We approximate the globally optimal path with a series of locally optimal paths}
+	We approximate the globally optimal path with a series of locally optimal paths.
 }
 \item {
-	\Large \textbf{We sacrifice a degree of optimality for easier computation!}
+	We sacrifice a degree of optimality for easier computation!
 }
 \end{itemize}
 \end{frame}
@@ -504,26 +726,28 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 \end{frame}
 
 \subsection{Reachability While Avoiding Regions}
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Reachability While Avoiding Regions}
+%B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 ) \U \pi_{3}$
 \begin{figure}
 \centering
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.2cm,
-                    semithick]
+                    semithick,scale=0.77, every node/.style={transform shape}]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
   \node[initial,state] (A)                    {$q_1$};
   \node[state,accepting]         (B) [right of=A] {$q_2$};
 
-  \path (A) edge              node {$\pi_{n+1}$} (B)
-  		(A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2 \wedge \dots \wedge \neg \pi_{n+1}$} (A)
+  \path (A) edge              node {$\pi_{3}$} (B)
+  		(A) edge [loop above] node {$\neg \pi_1 \wedge \neg \pi_2 \wedge \neg \pi_{3}$} (A)
   		(B) edge [loop above] node {$1$} (B);
 \end{tikzpicture}
-\caption{B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$}
+\caption{\footnotesize B\"{u}chi automaton corresponding to $\neg (\pi_1 \lor \pi_2 ) \U \pi_{3}$}
 \end{figure}
-\centering $d_p(q_1)=1$ and $d_p(q_2)=0$
+\centering {\footnotesize $d_p(q_1)=1$ and $d_p(q_2)=0$}
 
+%scale=0.5, every node/.style={transform shape}
 \begingroup
-\fontsize{9pt}{12pt}\selectfont
+\fontsize{8pt}{12pt}\selectfont
 \begin{lstlisting}
 Accepted Algorithm
 ==================
@@ -533,7 +757,7 @@ full construction and synthesis done within 0.11s
 \end{lstlisting}
 \endgroup
 \begingroup
-\fontsize{9pt}{12pt}\selectfont
+\fontsize{8pt}{12pt}\selectfont
 \begin{lstlisting}
 Greedy Algorithm
 ==================
@@ -768,17 +992,18 @@ full construction and synthesis done within 0.38s
 \begin{frame}{Cost Bound}
 \begin{itemize}
 \item The travelling salesperson problem: "Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?"
-\item It has been shown \cite{rosenkrantz74} that for an n-node travelling salesperson problem which satisfies the triangle inequality
-\begin{align*}
-\text{NEARNEIBR} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL}
-\end{align*}
-\item \cite{lenstra75} shows how to formulate seemingly unrelated problems as travelling salesperson problems by introducing a dummy node.
-\item We introduce a dummy node * which is $\max_{i,j} c_{i,j}$ where $c_{i,j}$ is the cost from $\pi_i$ to $\pi_j$.
-\item Then our bound is  
-\begin{align*}
-\text{GREEDY} + 2\max_{i,j} c_{i,j} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j}) \\ 
-\end{align*}
+%\item It has been shown \cite{rosenkrantz74} that for an n-node travelling salesperson problem which satisfies the triangle inequality
+%\begin{align*}
+%\text{NEARNEIBR} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2})\text{OPTIMAL}
+%\end{align*}
 \end{itemize}
+\pause 
+
+\begin{alertblock}{Greedy Algorithm Cost Bound}
+%\begin{align*}
+$\text{GREEDY} + 2\max_{i,j} c_{i,j} \leq (\frac{1}{2} \lceil \log(n) \rceil + \frac{1}{2}) (\text{ACCEPT} + 2 \max_{i,j} c_{i,j})$
+%\end{align*}
+\end{alertblock}
 \end{frame}
 
 \subsection{Recurrence (Liveness)}
@@ -855,21 +1080,21 @@ full construction and synthesis done within 0.21s
 \begin{table}[]
 \centering
 \small
-\scalebox{0.65}{
+\scalebox{0.8}{
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Formula & \makecell{Accepted Cost \\ (prefix, suffix)} & \makecell{Accepted \\Time} & \makecell{Greedy Cost \\ (prefix, suffix)} & \makecell{Greedy \\ Time} \\ \hline
-     '(!r223 U r445) $||$ (!r268 U r435)'  &         27, 0     &      0.04         &      27, 0   &     0.01     \\ \hline
-      '!r62 U(!r266 U r422)'  &         38, 0     &       0.05        &     38, 0     &     0.02     \\ \hline
-       '[]$<>$ r0 $->$ []$<>$ r317' &         1, 0      &       5.06        &    1, 0      &    0.00     \\ \hline
-       '[]$<>$ r0 $<->$ []$<>$ r317'  & 1, 0		&		10.70		& 1, 0 	&  0.00 \\ \hline 
-      '!($<><>$ r498 $<->$ r541)' &	42, 0	&	0.03	&	42, 0	&	0.02	\\		\hline
-      '!([]$<>$ r3 $->$ []$<>$r591)' &	 3, 0	&	5.06 	&	3, 0 	&	0.00	\\		\hline
-      '!([]$<>$ r3 $<->$ []$<>$r591)' &	 3, 0	&	10.31	&	39, 0	&	0.01	\\		\hline
-      '!r532 R (!r432 $||$ r321)' &	 0, 0	&	4.97 	&	0, 0	&	0.01 	\\		\hline
-     \makecell{ '$<>$ r114 \&\& [](r114 $-> <>$ r12) \&\& \\((X r114 U X r12) $||$ !X( r114 U r12))' }&	24, 0	&	0.08 	&	24, 0	&	0.01	\\		\hline
-   \makecell{ '$<>$ pickrball \&\& [](pickrball $-> <>$ droprball) \&\& \\ ((X pickrball U X droprball) $||$ !X( pickrball U droprball))' } &	47, 0	&	28.87	&	47, 0	&	0.03	\\		\hline
-      ' $<>$ r124 \&\& $<>$ !r124' &	28, 0	&	0.05 	&	28, 0	&	0.01	\\		\hline
+Formula & \makecell{Accepted \\ Cost } & \makecell{Accepted \\Time} & \makecell{Greedy \\ Cost } & \makecell{Greedy \\ Time} \\ \hline
+     {\footnotesize  '(!r223 U r445) $||$ (!r268 U r435)' } &         27     &      0.04         &      27   &     0.01     \\ \hline
+      {\footnotesize  '!r62 U(!r266 U r422)' } &         38     &       0.05        &     38    &     0.02     \\ \hline
+      {\footnotesize  '[]$<>$ r0 $->$ []$<>$ r317' }&         1      &       5.06        &    1      &    0.00     \\ \hline
+      {\footnotesize  '[]$<>$ r0 $<->$ []$<>$ r317' } & 1		&		10.70		& 1 	&  0.00 \\ \hline 
+      {\footnotesize  '!($<><>$ r498 $<->$ r541)'} &	42	&	0.03	&	42	&	0.02	\\		\hline
+      {\footnotesize  '!([]$<>$ r3 $->$ []$<>$r591)' }&	 3	&	5.06 	&	3 	&	0.00	\\		\hline
+      {\footnotesize  '!([]$<>$ r3 $<->$ []$<>$r591)' }&	 3	&	10.31	&	39	&	0.01	\\		\hline
+      {\footnotesize  '!r532 R (!r432 $||$ r321)' }&	 0	&	4.97 	&	0	&	0.01 	\\		\hline
+     {\footnotesize  \makecell{ '$<>$ r114 \&\& [](r114 $-> <>$ r12) \&\& \\((X r114 U X r12) $||$ !X( r114 U r12))' }}&	24	&	0.08 	&	24	&	0.01	\\		\hline
+  {\footnotesize   \makecell{ '$<>$ pickrball \&\& [](pickrball $-> <>$ droprball) \&\& \\ ((X pickrball U X droprball) $||$ !X( pickrball U droprball))' } }&	47	&	28.87	&	47	&	0.03	\\		\hline
+     {\footnotesize ' $<>$ r124 \&\& $<>$ !r124' }&	28	&	0.05 	&	28	&	0.01	\\		\hline
 %      &		&		&		&		\\		\hline
  %     &		&		&		&		\\		\hline
   %    &		&		&		&		\\		\hline
@@ -888,7 +1113,7 @@ Formula & \makecell{Accepted Cost \\ (prefix, suffix)} & \makecell{Accepted \\Ti
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Drawbacks}
+\begin{frame}{Considerations}
 \begin{itemize}
 \item Hard to analyze the performance on more complex formulas.
 \item When there is a trivial suffix, the majority of the time is spent on constructing the graph and the search is usually quick. Future work could be to use this algorithm for on-the-fly construction. 
@@ -902,8 +1127,14 @@ Formula & \makecell{Accepted Cost \\ (prefix, suffix)} & \makecell{Accepted \\Ti
 	%\begin{thebibliography}{10}
         \frametitle{References}
         \bibliographystyle{amsalpha}
-        \bibliography{../writing/bibliography}
+		{\tiny     
+        \bibliography{../writing/bibliography}}
      %\end{thebibliography}
 \end{frame}
 
+\begin{frame}{THANK YOU!}
+\begin{block}
+\Huge Thanks for listening, any questions? :)
+\end{block}
+\end{frame}
 \end{document}

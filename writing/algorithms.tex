@@ -50,9 +50,9 @@ An NBA with distance, NBAD, is defined by a six-tuple:
 \begin{align*}
 \mathcal{A}_{\varphi,d} = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F},d)
 \end{align*}
-where $\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F}$ are defined as in definition \ref{defNBA} and $d:\Q \rightarrow \mathbb{Z}$ is defined as 
+where $\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F}$ are defined as in definition \ref{defNBA} and $d:\Q \rightarrow \mathbb{Z}$ is defined as 
 \begin{align*}
-d(q_n) = \min_x \{x | q_x \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \text{ for some } S_k \in 2^{AP} \text{ and } k = 0,1,\dots, x-1 \}
+d(q_n) = \min_i \{ | q_i \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \text{ for some } S_k \in 2^{AP} \text{ and } k = 0,1,\dots, i-1 \}
 \end{align*}
 which is the length of the number of transitions in the shortest path from $q_n$ to an accepting state.
 \end{definition}
