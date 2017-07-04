@@ -473,8 +473,8 @@ Here is the algorithm currently used in the literature \cite{guo15},\cite{fainek
 
 \begin{frame}{B\"uchi Distance Measure Cont.} 
 \begin{block}{B\"uchi Automaton with Distance}
-\small A B\"uchi automaton with distance $\mathcal{A}_{\varphi,d} = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F},d)$ where $\mathcal{Q},2^AP,\delta,\mathcal{Q}_0,\mathcal{F}$ are defined as before and $d:\Q \rightarrow \mathbb{Z}$ is defined as 
-$d(q_n) = \min_i \{ | q_i \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \text{ for some } S_k \in 2^{AP} \text{ and } k = 0,1,\dots, i-1 \}$
+\small A B\"uchi automaton with distance $\mathcal{A}_{\varphi,d} = (\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F},d)$ where $\mathcal{Q},2^{AP},\delta,\mathcal{Q}_0,\mathcal{F}$ are defined as before and $d:\Q \rightarrow \mathbb{Z}$ is defined as 
+$d(q_n) = \min_i \{ i | q_i \in \F \text{ and } q_k \in \delta(q_{k-1},S_{k-1}) \text{ for some } S_{k-1} \in 2^{AP} \text{ and } k = 0,1,\dots, i-1 \}$
 %which is the length of the number of transitions in the shortest path from $q_n$ to an accepting state.
 \end{block}
 \begin{columns}

@@ -215,4 +215,20 @@
   publisher = {Springer},
 }
 
+@Book{holzmann03,
+  title     = {Spin model checker, the: primer and reference manual},
+  publisher = {Addison-Wesley Professional},
+  year      = {2003},
+  author    = {Holzmann, Gerard},
+}
+
+@InProceedings{cimatti02,
+  author       = {Cimatti, Alessandro and Clarke, Edmund and Giunchiglia, Enrico and Giunchiglia, Fausto and Pistore, Marco and Roveri, Marco and Sebastiani, Roberto and Tacchella, Armando},
+  title        = {Nusmv 2: An opensource tool for symbolic model checking},
+  booktitle    = {International Conference on Computer Aided Verification},
+  year         = {2002},
+  pages        = {359--364},
+  organization = {Springer},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

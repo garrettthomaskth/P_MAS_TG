@@ -4,7 +4,7 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Simple Finite Transition System}}{17}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces B\"{u}chi automaton corresponding to $\neg (\pi _1 \lor \pi _2 \lor \dots \pi _n) \bm {\mathcal {U}}\pi _{n+1}$}}{17}{figure.4.2}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces B\"{u}chi automaton corresponding to $\neg (\pi _1 \lor \pi _2 \lor \dots \lor \pi _n) \bm {\mathcal {U}}\pi _{n+1}$}}{17}{figure.4.2}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Product Automaton for $\neg \pi _4 \bm {\mathcal {U}}\pi _5$ with Simple FTS}}{18}{figure.4.3}
 \contentsline {figure}{\numberline {4.4}{\ignorespaces B\"uchi Automaton Corresponding to $ \diamond (\pi _3 \land \diamond \pi _5)$}}{20}{figure.4.4}
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Product Automaton for $\diamond (\pi _4 \wedge \diamond \pi _5)$ with Simple FTS}}{21}{figure.4.5}

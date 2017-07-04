@@ -23,10 +23,22 @@ Calin Belta and LCGJM Habets.
 \newblock In {\em Decision and Control, 2004. CDC. 43rd IEEE Conference on},
   volume~1, pages 467--472. IEEE, 2004.
 
+\bibitem{cimatti02}
+Alessandro Cimatti, Edmund Clarke, Enrico Giunchiglia, Fausto Giunchiglia,
+  Marco Pistore, Marco Roveri, Roberto Sebastiani, and Armando Tacchella.
+\newblock Nusmv 2: An opensource tool for symbolic model checking.
+\newblock In {\em International Conference on Computer Aided Verification},
+  pages 359--364. Springer, 2002.
+
 \bibitem{clarke99}
 Edmund~M Clarke, Orna Grumberg, and Doron Peled.
 \newblock {\em Model checking}.
 \newblock MIT press, 1999.
+
+\bibitem{clarke96}
+Edmund~M Clarke and Jeannette~M Wing.
+\newblock Formal methods: State of the art and future directions.
+\newblock {\em ACM Computing Surveys (CSUR)}, 28(4):626--643, 1996.
 
 \bibitem{fainekos09}
 Georgios~E Fainekos, Antoine Girard, Hadas Kress-Gazit, and George~J Pappas.
@@ -45,6 +57,13 @@ Paul Gastin and Denis Oddoux.
 \newblock In {\em International Conference on Computer Aided Verification},
   pages 53--65. Springer, 2001.
 
+\bibitem{giannakopoulou02}
+Dimitra Giannakopoulou and Flavio Lerda.
+\newblock From states to transitions: Improving translation of ltl formulae to
+  b{\"u}chi automata.
+\newblock {\em Formal Techniques for Networked and Distributed Sytems—FORTE
+  2002}, pages 308--326, 2002.
+
 \bibitem{guo15}
 Meng Guo.
 \newblock {\em Hybrid control of multi-robot systems under complex temporal
@@ -55,6 +74,11 @@ Meng Guo.
 Meng Guo.
 \newblock P-mas-tg.
 \newblock \url{https://github.com/MengGuo/P_MAS_TG}, 2015.
+
+\bibitem{holzmann03}
+Gerard Holzmann.
+\newblock {\em Spin model checker, the: primer and reference manual}.
+\newblock Addison-Wesley Professional, 2003.
 
 \bibitem{kress07}
 Hadas Kress-Gazit, Georgios~E Fainekos, and George~J Pappas.

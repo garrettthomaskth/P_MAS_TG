@@ -22,7 +22,7 @@ Algorithm \ref{optrun}, from \cite{guo15}, gives pseudocode of how to compute $R
 \begin{algorithm}
 \caption{OptRun()}\label{optrun}
 \begin{algorithmic}[1]
-\Require Input $\A_p$ by default
+\Require Input $\A_p$
 \Ensure $R_{opt}$
 %\Procedure{MyProcedure}{}
 %\State If $Q_0'$ or $\F'$ is empty, construct $Q_0'$ or $\F'$ first.
@@ -65,26 +65,22 @@ Once we reach an accepting state, we must use a Dijkstra search. This is because
 \begin{algorithm}
 \caption{GreedyRun()}\label{NNrun}
 \begin{algorithmic}[1]
-\Require Input $\A_{p,d}, S' = \Q_0'$ by default
-\Ensure $R_{nn}$
+\Require Input $\A_{p,d}$
+\Ensure $R_{g}$
 %\Procedure{MyProcedure}{}
-\State Level = $d_p(q_0' \in \Q_0')$, Prefix = [$q_0'$]
+\State Level = $d_p(q_0' \in \Q_0')$
 \While {Level > 0}
-\State find the closest node, NextNode, that is on level one less than Level %using \texttt{adapted\_dijkstra\_multisource}
-\State	add path to NextNode onto Path
-\If {$d_p(\text{NextNode})$ == 0 }
-\State break
-\EndIf
-\State Level = Level - 1	
+\State find optimal path down to $q_n'$ s.t. $d_p(q_n')==\text{LEVEL}-1$ %using \texttt{adapted\_dijkstra\_multisource}
+\State	LEVEL = LEVEL - 1
 \EndWhile
-\State Suffix = use Dijkstra search to find the optimal path from NexNode back to itself %\texttt{DijksCycle($A_{p,d}$,NextNode)}
-\State $R_{nn}$, prefix + suffix.
+\State Find optimal path from $q_n'$ back to itself
+\State Accepting run $R_g$: the optimal paths calculated in the while loop concatenated together; suffix: optimal path from $q_n'$ back to itself.
 \end{algorithmic}
 \end{algorithm}
 
 Algorithm \ref{NNrun} is equivalent to the function \texttt{Garrett\_search} which is provided in the appendix. This code was based on \texttt{dijkstra\_plan\_networkX} from \cite{pMasGit} and still shares some of the structure. Finding the closest node on the level below the current level, i.e.\ NextNode is done using the function \texttt{adapted\_dijkstra\_multisource} which is also included in the appendix. This code was based on the function  \texttt{\_dijkstra\_multisource} in \cite{schult08}. When we provide computation runs of our algorithm in the following text, we will be referring to runs done with this algorithm. All computations were done on a 2.5 GHz MacBook Pro and used Python 2.7.5.%Again, the script used to do these runs is also provided. 
 
-As we can see, assuming that we reach an accepting state in a strongly connected component, we will do $n+1$ searches. This still may seem like a lot, however the searches are done on much smaller graphs. The first $n$ searches only look at graphs with $|\Pi|$ nodes. These smaller graphs have a number of edges less than or equal to $|\delta|$ i.e.\ the number of edges $\T$ has. This is because $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_c$ and $q_n \in \delta (q_m, L_c(pi))$, which implies the number of edges on one level is less than or equal to $|\delta|$. Therefore our worst case complexity will be $\mathcal{O}(|\delta|\cdot \log |\T| \cdot n) + \mathcal{O}(|\delta'| \cdot \log|\Q'|) = \mathcal{O}(|\delta|\cdot \log |\T| \cdot n + |\delta'| \cdot \log|\Q'|)$ where $n$ is the level of the initial node. This complexity applies in the situation that we find an accepting node, the accepting node we find has a path back to itself, and that we do not have transfers on the same level of the B\"uchi automaton i.e.\ if there is a transfer from $q_i$ to $q_{i+1}$ $\rightarrow$ $d(q_i) \neq d(q_{i+1})$. %However, when we get to examples in the complex formulas chapter this is not the case. If this distance requirement is not fulfilled, the worst case complexity of our algorithm is the same as the worst case complexity of the accepted algorithm i.e.\ $\mathcal{O}(|\delta'| \cdot \log|\Q'| )$.  
+As we can see, assuming that we reach an accepting state in a strongly connected component, we will do $n+1$ searches. This still may seem like a lot, however the searches are done on much smaller graphs. The first $n$ searches only look at graphs with $|\Pi|$ nodes. These smaller graphs have a number of edges less than or equal to $|\delta|$ i.e.\ the number of edges $\T$ has. This is because $\langle \pi_j, q_n \rangle \in \delta' (\langle \pi_i, q_m \rangle )$ iff $(\pi_i , \pi_j ) \in \rightarrow_d$ and $q_n \in \delta (q_m, L_c(\pi))$, which implies the number of edges on one level is less than or equal to $|\delta|$. Therefore our worst case complexity will be $\mathcal{O}(|\delta|\cdot \log |\T| \cdot n) + \mathcal{O}(|\delta'| \cdot \log|\Q'|) = \mathcal{O}(|\delta|\cdot \log |\T| \cdot n + |\delta'| \cdot \log|\Q'|)$ where $n$ is the level of the initial node. This complexity applies in the situation that we find an accepting node, the accepting node we find has a path back to itself, and that we do not have transfers on the same level of the B\"uchi automaton i.e.\ if there is a transfer from $q_i$ to $q_{i+1}$ $\rightarrow$ $d(q_i) \neq d(q_{i+1})$. %However, when we get to examples in the complex formulas chapter this is not the case. If this distance requirement is not fulfilled, the worst case complexity of our algorithm is the same as the worst case complexity of the accepted algorithm i.e.\ $\mathcal{O}(|\delta'| \cdot \log|\Q'| )$.  
 
 
 We now analyse how this algorithm performs in when the LTL formula expresses certain behaviours. 
