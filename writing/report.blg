@@ -3,47 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for "corman01"
 Warning--to sort, need author or key in ltlbuchiwebsite
-You've used 20 entries,
+You've used 21 entries,
             2118 wiz_defined-function locations,
-            614 strings with 7341 characters,
-and the built_in function-call counts, 7732 in all, are:
-= -- 800
-> -- 315
-< -- 12
-+ -- 124
-- -- 104
-* -- 483
-:= -- 1184
-add.period$ -- 68
-call.type$ -- 20
-change.case$ -- 108
+            618 strings with 7473 characters,
+and the built_in function-call counts, 8056 in all, are:
+= -- 827
+> -- 338
+< -- 13
++ -- 133
+- -- 112
+* -- 507
+:= -- 1241
+add.period$ -- 71
+call.type$ -- 21
+change.case$ -- 114
 chr.to.int$ -- 0
-cite$ -- 21
-duplicate$ -- 328
-empty$ -- 630
-format.name$ -- 104
-if$ -- 1717
+cite$ -- 22
+duplicate$ -- 340
+empty$ -- 652
+format.name$ -- 112
+if$ -- 1782
 int.to.chr$ -- 0
-int.to.str$ -- 20
-missing$ -- 20
-newline$ -- 103
-num.names$ -- 38
-pop$ -- 151
+int.to.str$ -- 21
+missing$ -- 22
+newline$ -- 108
+num.names$ -- 40
+pop$ -- 161
 preamble$ -- 1
-purify$ -- 92
+purify$ -- 98
 quote$ -- 0
-skip$ -- 253
+skip$ -- 260
 stack$ -- 0
-substring$ -- 506
-swap$ -- 119
-text.length$ -- 12
+substring$ -- 511
+swap$ -- 121
+text.length$ -- 13
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 74
+type$ -- 76
 warning$ -- 1
-while$ -- 76
-width$ -- 22
-write$ -- 226
-(There were 2 warnings)
+while$ -- 78
+width$ -- 23
+write$ -- 237
+(There was 1 warning)

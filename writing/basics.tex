@@ -71,7 +71,7 @@ An FTS, $\mathcal{T}$, is defined by a tuple
 \begin{align*}
 \mathcal{T} = (\Pi, \rightarrow_d, \Pi_0, AP,L_d)
 \end{align*}
-where $\Pi$ is the set of states, $\rightarrow_d \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_d$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_d \pi_j$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_d: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
+where $\Pi$ is the set of states, $\rightarrow_d$ $ \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_d$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_d \pi_j$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_d: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
 \end{definition}
 
 
@@ -86,7 +86,49 @@ where $\Pi$, $\rightarrow_d$, $\Pi_0$, $AP$, and $L_d$ are defined as in definit
 \end{definition}
 Note: There are two common ways to assign the weights. The first being setting every weight to one (simply count the number of transitions taken) and the second assigning the distance from the centres of two adjacent cells to be the weight of the transition between them. 
 
-We use the FTS which represents our workspace to search for paths that are doable for our robot. When we search for a path, from one state we will only consider states which have a transition from our current state, because these are the only states the robot can move to.  In this thesis, we will deal with infinite paths. An infinite path is an infinite sequence of states $\tau = \pi_0 \pi_1 \dots$ such that $\pi_0 \in \Pi_0$ and $\pi_i \in \Pi$ with $\pi_{i} \rightarrow_d \pi_{i+1} \hspace{0.2cm} \forall i > 0$. The trace of a path is the sequence of sets of atomic propositions that are true in the states along a path i.e.\ \trace($\tau$) = $L_d(\pi_0) L_d(\pi_1) \dots$.   %When talking about FTS, it can be helpful to use the notation %$\Pre(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_d \pi_i\}$ to define the the predecessors of the state $\pi_i$ and $\Post(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_d \pi_i\}$ to define the the successors of the state $\pi_i$. In this thesis, we will deal with infinite paths.   
+\begin{figure}
+\centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.2cm,
+                    semithick]
+  \tikzstyle{every state}=[fill=red,draw=black,text=black]
+
+  \node[initial,state] (A)                    { $\pi_1$};
+  \node[state]         (B) [ right of=A] { $\pi_2$};
+  \node[state]         (C) [below of=A] { $\pi_3$};
+  \node[state]         (D) [right of=C] { $\pi_4$};
+  \node[state]         (E) [right of=B] { $\pi_5$};
+
+  \path (A) edge     [bend left]     node {Cost 1}   (B)
+  		(B) edge     [bend left]           (A)
+		(A) edge     [bend left]         (C)
+  		(C) edge     [bend left]           (A)
+  		(C) edge     [bend left]         (D)
+  		(D) edge     [bend left]           (C)
+  		(B) edge     [bend left]           (D)
+  		(D) edge     [bend left]           (B)
+  		(B) edge     [bend left]           (E)
+  		(E) edge     [bend left]           (B)
+        (A) edge [loop above]   (A)
+        (B) edge [loop above]   (B)
+        (C) edge [loop left]   (C)
+        (D) edge [loop right]  node {Cost 0} (D)
+        (E) edge [loop above]  (E);
+\end{tikzpicture}
+\caption{Simple Finite Transition System}
+\label{fig:ftsEx}
+\end{figure}
+For the simple FTS, the set of states $\Pi $ is $ \{\pi_1, \pi_2, \pi_3, \pi_4, \pi_5 \}$, we have the following transitions 
+\begin{align*}
+\pi_1 \rightarrow_d \pi_1, \hspace{.5cm} & \pi_1 \rightarrow_d \pi_2, \hspace{.5cm}  \pi_1 \rightarrow_d \pi_3 &\\
+\pi_3 \rightarrow_d \pi_1, \hspace{.5cm} & \pi_3 \rightarrow_d \pi_3, \hspace{.5cm}  \pi_3 \rightarrow_d \pi_4 &\\
+\pi_4 \rightarrow_d \pi_2, \hspace{.5cm} & \pi_4 \rightarrow_d \pi_3, \hspace{.5cm}  \pi_4 \rightarrow_d \pi_4 &\\
+\pi_2 \rightarrow_d \pi_1, \hspace{.5cm} & \pi_2 \rightarrow_d \pi_2, \hspace{.5cm}  \pi_2 \rightarrow_d \pi_4 &\\
+\pi_2 \rightarrow_d \pi_5, \hspace{.5cm} & \pi_5 \rightarrow_d \pi_2, \hspace{.5cm}  \pi_5 \rightarrow_d \pi_5 &
+\end{align*}
+the initial state $\Pi_0$ is $\pi_1$, the set of atomic propositions is AP$=\{\pi_1,\pi_2,\pi_3,\pi_4,\pi_5\}$, and the labelling function is defined as $L_d(\pi_i) = \pi_i$ for $i=1,2,\dots,5$. We will treat this as a WFTS. The weights are approximated as the distance between the centers of two states in which a transition exists between. All the states are squares, thus this distance is the same for all transitions. We therefore let the weights be 1 for every transition and 0 to stay in the same state i.e.\ $W_D(\pi_i, \pi_j) = 1$ and $W_d(\pi_i,\pi_i)=0$ for $i=1,2,\dots,5$ and for $i \neq j$.
+
+
+We use the FTS which represents our workspace to search for paths that are doable for our robot. When we search for a path, from one state we will only consider states which have a transition from our current state, because these are the only states the robot can move to.  In this thesis, we will deal with infinite paths. An infinite path is an infinite sequence of states $\tau = \pi_0 \pi_1 \dots$ such that $\pi_0 \in \Pi_0$ and $\pi_i \in \Pi$ with $\pi_{i} \rightarrow_d \pi_{i+1} \hspace{0.2cm}, \forall i > 0$. The trace of a path is the sequence of sets of atomic propositions that are true in the states along a path i.e.\ \trace($\tau$) = $L_d(\pi_0) L_d(\pi_1) \dots$.   %When talking about FTS, it can be helpful to use the notation %$\Pre(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_d \pi_i\}$ to define the the predecessors of the state $\pi_i$ and $\Post(\pi_i) = \{\pi_j \in \Pi | \pi_j \rightarrow_d \pi_i\}$ to define the the successors of the state $\pi_i$. In this thesis, we will deal with infinite paths.   
 
 
 \section{Linear Temporal Logic (LTL)}

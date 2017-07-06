@@ -40,6 +40,11 @@ Edmund~M Clarke and Jeannette~M Wing.
 \newblock Formal methods: State of the art and future directions.
 \newblock {\em ACM Computing Surveys (CSUR)}, 28(4):626--643, 1996.
 
+\bibitem{cormen01}
+Thomas~H.. Cormen, Charles~Eric Leiserson, Ronald~L Rivest, and Clifford Stein.
+\newblock {\em Introduction to algorithms}, volume~6.
+\newblock MIT press Cambridge, 2001.
+
 \bibitem{fainekos09}
 Georgios~E Fainekos, Antoine Girard, Hadas Kress-Gazit, and George~J Pappas.
 \newblock Temporal logic motion planning for dynamic robots.

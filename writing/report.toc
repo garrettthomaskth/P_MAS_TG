@@ -6,12 +6,12 @@
 \contentsline {section}{\numberline {2.1}Abstraction of the Workspace}{4}{section.2.1}
 \contentsline {section}{\numberline {2.2}Linear Temporal Logic (LTL)}{7}{section.2.2}
 \contentsline {section}{\numberline {2.3}B\"{u}chi Automata}{9}{section.2.3}
-\contentsline {section}{\numberline {2.4}Product Automata}{9}{section.2.4}
-\contentsline {section}{\numberline {2.5}Cost of a Run}{10}{section.2.5}
-\contentsline {chapter}{\numberline {3}Search Algorithms}{12}{chapter.3}
-\contentsline {section}{\numberline {3.1}Accepted Algorithm}{12}{section.3.1}
-\contentsline {section}{\numberline {3.2}Our Algorithm}{13}{section.3.2}
-\contentsline {chapter}{\numberline {4}Algorithm Performance with Common Formulas}{16}{chapter.4}
+\contentsline {section}{\numberline {2.4}Product Automata}{10}{section.2.4}
+\contentsline {section}{\numberline {2.5}Cost of a Run}{11}{section.2.5}
+\contentsline {chapter}{\numberline {3}Search Algorithms}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}Accepted Algorithm}{13}{section.3.1}
+\contentsline {section}{\numberline {3.2}Our Algorithm}{14}{section.3.2}
+\contentsline {chapter}{\numberline {4}Algorithm Performance with Common Formulas}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Reachability while avoiding regions}{17}{section.4.1}
 \contentsline {section}{\numberline {4.2}Sequencing}{19}{section.4.2}
 \contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}

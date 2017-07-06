@@ -1,59 +1,17 @@
 \chapter{Algorithm Performance with Common Formulas}
 To show how our algorithm differs with the current accepted algorithm, we illustrate examples using the FTS in figure \ref{fig:ftsEx}
 
-\begin{figure}
-\centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
-                    semithick]
-  \tikzstyle{every state}=[fill=red,draw=black,text=black]
-
-  \node[initial,state] (A)                    {$\pi_1$};
-  \node[state]         (B) [ right of=A] {$\pi_2$};
-  \node[state]         (C) [below of=A] {$\pi_3$};
-  \node[state]         (D) [right of=C] {$\pi_4$};
-  \node[state]         (E) [right of=B] {$\pi_5$};
-
-  \path (A) edge     [bend left]         node {right} (B)
-  		(B) edge     [bend left]         node {left} (A)
-		(A) edge     [bend left]         node {down} (C)
-  		(C) edge     [bend left]         node {up} (A)
-  		(C) edge     [bend left]         node {right} (D)
-  		(D) edge     [bend left]         node {left} (C)
-  		(B) edge     [bend left]         node {down} (D)
-  		(D) edge     [bend left]         node {up} (B)
-  		(B) edge     [bend left]         node {right} (E)
-  		(E) edge     [bend left]         node {left} (B)
-        (A) edge [loop above] node {stay} (A)
-        (B) edge [loop above] node {stay} (B)
-        (C) edge [loop left] node {stay} (C)
-        (D) edge [loop right] node {stay} (D)
-        (E) edge [loop above] node {stay} (E);
-\end{tikzpicture}
-\caption{Simple Finite Transition System}
-\label{fig:ftsEx}
-\end{figure}
-For the simple finite transition system, the set of states $\Pi $ is $ \{\pi_1, \pi_2, \pi_3, \pi_4, \pi_5 \}$, we have the following transitions 
-\begin{align*}
-\pi_1 \rightarrow_D \pi_1, \hspace{.5cm} & \pi_1 \rightarrow_D \pi_2, \hspace{.5cm}  \pi_1 \rightarrow_D \pi_3 &\\
-\pi_3 \rightarrow_D \pi_1, \hspace{.5cm} & \pi_3 \rightarrow_D \pi_3, \hspace{.5cm}  \pi_3 \rightarrow_D \pi_4 &\\
-\pi_4 \rightarrow_D \pi_2, \hspace{.5cm} & \pi_4 \rightarrow_D \pi_3, \hspace{.5cm}  \pi_4 \rightarrow_D \pi_4 &\\
-\pi_2 \rightarrow_D \pi_1, \hspace{.5cm} & \pi_2 \rightarrow_D \pi_2, \hspace{.5cm}  \pi_2 \rightarrow_D \pi_4 &\\
-\pi_2 \rightarrow_D \pi_5, \hspace{.5cm} & \pi_5 \rightarrow_D \pi_2, \hspace{.5cm}  \pi_5 \rightarrow_D \pi_5 &
-\end{align*}
-the initial state $\Pi_0$ is $\pi_1$, the set of atomic propositions is AP$=\{\pi_1,\pi_2,\pi_3,\pi_4,\pi_5\}$, and the labelling function is defined as $L_D(\pi_i) = \pi_i$ for $i=1,2,\dots,5$. We will treat this as a WFTS. The weights are approximated as the distance between the centers of two states in which a transition exists between. All the states are squares, thus this distance is the same for all transitions. We therefore let the weights be 1 for every transition and 0 to stay in the same state i.e.\ $W_D(\pi_i, \pi_j) = 1$ for $i \neq j$ and $W_D(\pi_i,\pi_i)=0$ for $i=1,2,\dots,5$.
 
 %(\Pi, \rightarrow_D, \Pi_0, AP,L_D)
-This FTS will be used in figures unless otherwise stated. We chose it to be very simple because the state explosion problem applies even to the small examples in this report. If we chose a more complex FTS we would not be able to include illustrations of the product automaton because it gets very big very quickly. We will henceforth refer to this FTS as simple FTS. When providing computational results, we will use an FTS that is much larger, to bring out the difference between our algorithm and the accepted algorithm.
+%This FTS will be used in figures unless otherwise stated. We chose it to be very simple because the state explosion problem applies even to the small examples in this report. If we chose a more complex FTS we would not be able to include illustrations of the product automaton because it gets very big very quickly. We will henceforth refer to this FTS as simple FTS. When providing computational results, we will use an FTS that is much larger, to bring out the difference between our algorithm and the accepted algorithm.
 
 
 \section{Reachability while avoiding regions} 
-Reachability while avoiding regions is a property in which we wish to not cross over certain areas, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
-
-The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}.
+Reachability while avoiding regions is a property in which we wish to not cross over certain regions, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.2cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.7cm,
                     semithick]
   \tikzstyle{every state}=[fill=red,draw=black,text=black]
 
@@ -68,7 +26,7 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
 \label{fig:ReachAvoid}
 \end{figure}
 
-As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. For our example, we will look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton is shown in figure \ref{fig:reachAvoidProduct}
+The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}. As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. For a specific example, we look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton of this B\"{u}chi automaton combined with the FTS from figure \ref{fig:ftsEx} is shown in figure \ref{fig:reachAvoidProduct}
 
 \begin{figure*}
 \centering
