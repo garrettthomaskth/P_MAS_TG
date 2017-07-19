@@ -13,24 +13,24 @@
 \contentsline {section}{\numberline {3.2}Our Algorithm}{14}{section.3.2}
 \contentsline {chapter}{\numberline {4}Algorithm Performance with Common Formulas}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Reachability while avoiding regions}{17}{section.4.1}
-\contentsline {section}{\numberline {4.2}Sequencing}{19}{section.4.2}
+\contentsline {section}{\numberline {4.2}Sequencing}{20}{section.4.2}
 \contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{25}{subsection.4.3.1}
 \contentsline {subsection}{\numberline {4.3.2}Cost Bound}{29}{subsection.4.3.2}
 \contentsline {subsection}{\numberline {4.3.3}Simulation}{35}{subsection.4.3.3}
-\contentsline {section}{\numberline {4.4}Recurrence (Liveness)}{35}{section.4.4}
+\contentsline {section}{\numberline {4.4}Recurrence (Liveness)}{36}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Tightness}{36}{subsection.4.4.1}
 \contentsline {subsection}{\numberline {4.4.2}Suffix}{37}{subsection.4.4.2}
 \contentsline {subsection}{\numberline {4.4.3}Simulation}{38}{subsection.4.4.3}
-\contentsline {chapter}{\numberline {5}More Complex Formulas}{39}{chapter.5}
-\contentsline {section}{\numberline {5.1}Example 1}{39}{section.5.1}
-\contentsline {section}{\numberline {5.2}Example 1 Overlapping Regions}{42}{section.5.2}
-\contentsline {section}{\numberline {5.3}Example 2}{43}{section.5.3}
-\contentsline {section}{\numberline {5.4}Example 2 Modified}{44}{section.5.4}
-\contentsline {section}{\numberline {5.5}Other Examples}{46}{section.5.5}
-\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{49}{chapter.6}
-\contentsline {chapter}{\numberline {7}Appendix}{51}{chapter.7}
-\contentsline {subsubsection}{Example 2 Accepted Algorithm Path}{61}{section*.12}
-\contentsline {subsubsection}{Example 2 Our Algorithm Path}{62}{section*.13}
-\contentsline {subsubsection}{Example 2 Modified Accepted Algorithm Path}{64}{section*.14}
-\contentsline {subsubsection}{Example 2 Modified Our Algorithm Path}{64}{section*.15}
+\contentsline {chapter}{\numberline {5}More Complex Formulas}{40}{chapter.5}
+\contentsline {section}{\numberline {5.1}Example 1}{40}{section.5.1}
+\contentsline {section}{\numberline {5.2}Example 1 Overlapping Regions}{43}{section.5.2}
+\contentsline {section}{\numberline {5.3}Example 2}{44}{section.5.3}
+\contentsline {section}{\numberline {5.4}Example 2 Modified}{45}{section.5.4}
+\contentsline {section}{\numberline {5.5}Other Examples}{47}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{50}{chapter.6}
+\contentsline {chapter}{\numberline {7}Appendix}{52}{chapter.7}
+\contentsline {subsubsection}{Example 2 Accepted Algorithm Path}{62}{section*.12}
+\contentsline {subsubsection}{Example 2 Our Algorithm Path}{63}{section*.13}
+\contentsline {subsubsection}{Example 2 Modified Accepted Algorithm Path}{65}{section*.14}
+\contentsline {subsubsection}{Example 2 Modified Our Algorithm Path}{65}{section*.15}

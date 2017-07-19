@@ -1,5 +1,5 @@
 \chapter{Algorithm Performance with Common Formulas}
-To show how our algorithm differs with the current accepted algorithm, we illustrate examples using the FTS in figure \ref{fig:ftsEx}
+In this chapter we show the respective performances of the current accepted algorithm and the greedy algorithm. We do so by theoretically analyzing the general forms of four types of formulas, then computing an accepting path using both formulas and considering and cost of the path and the time taken to calculate it.%consider the results of a practical run. %The four types of formulas we will examine are 1. Reachability while% We are able to theoretically analyze the general forms of these formulas %After we  using the FTS in figure \ref{fig:ftsEx}
 
 
 %(\Pi, \rightarrow_D, \Pi_0, AP,L_D)
@@ -7,7 +7,7 @@ To show how our algorithm differs with the current accepted algorithm, we illust
 
 
 \section{Reachability while avoiding regions} 
-Reachability while avoiding regions is a property in which we wish to not cross over certain regions, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
+Reachability while avoiding regions is a property in which we wish to not cross over certain regions, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behaviour is expressed by the general formula $\neg (\pi_1 \lor \pi_2 \lor \dots \pi_n) \U \pi_{n+1}$. 
 
 \begin{figure}
 \centering
@@ -26,7 +26,7 @@ Reachability while avoiding regions is a property in which we wish to not cross 
 \label{fig:ReachAvoid}
 \end{figure}
 
-The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}. As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. For a specific example, we look at the specific formula $\neg \pi_4 \U \pi_5$ The product automaton of this B\"{u}chi automaton combined with the FTS from figure \ref{fig:ftsEx} is shown in figure \ref{fig:reachAvoidProduct}
+The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}. As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. We look at the specific formula $\neg \pi_4 \U \pi_5$. The product automaton of this B\"{u}chi automaton combined with the FTS from figure \ref{fig:ftsEx} is shown in figure \ref{fig:reachAvoidProduct}
 
 \begin{figure*}
 \centering
@@ -81,14 +81,26 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
 \label{fig:reachAvoidProduct}
 \end{figure*}
 Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
-Our algorithm does $n+1$ Dijkstra searches where $n$ is the maximum level of a state in the B\"{u}chi automaton. As we can see in figure \ref{fig:ReachAvoid}, which is the B\"{u}chi automaton corresponding to the general form of reachability while avoiding regions, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. This is exactly what the accepted algorithm does, so we do not gain anything when using our algorithm to find an accepting node. However, we do gain a slightly faster run time because we do not have to do a Dijkstra search for every accepting node. We simply do one, and because there $q_2$ in automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple FTS has a self loop, every accepting state in the product automaton will have a self loop.
 
-The search of a loop from every accepting node back to itself requires time. We can illustrate this in an example. We have a workspace partitioned into $25 \times 25 = 625$ equally sized squares
+To find an accepting path, the accepted algorithm starts at the initial node, $(\pi_1,q_1)$, and does a first Dijkstra search to find the optimal path to all the accepting states, $(\pi_i,q_2),$ $\forall i = 1,2,\dots,5$. Then the optimal path back from each of these accepting nodes is computed.   
+The greedy algorithm does $n+1$ Dijkstra searches, where $n$ is the maximum level of the initial state in the B\"{u}chi automaton. As we can see in figure \ref{fig:ReachAvoid}, $n$ is 1 for all formulas of this form. Therefore our algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. The greedy algorithm has a slightly faster runtime because it does not have to do a Dijkstra search for every accepting node; the greedy algorithm does only one. 
 
+Because node $q_2$ in automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple FTS has a self loop, every accepting state in the product automaton will have a self loop. This implies that the accepting node that creates the optimal prefix-suffix plan, i.e.\ $q_{f*}'$ in Procedure \ref{optrun}, is the accepting node closest to the initial node. This is the accepting node that the greedy algorithm finds, which in turn implies that both algorithms calculate the same plan. 
+%%% CHECK SEMI COLON GRANT
+
+To show differences in runtime will make themselves apparent, we calculate paths on a larger workspace. Our workspace is a grid, 25 units across and 25 units up, a total of 625 equally sized squares. We say our robot can can move horizontally and vertically, however it cannot move diagonally. Additionally we say that the unit cost of going from any adjacent to another region is 1. The initial position is located at $(0,0)$, region $\pi_1$ is located at (2,24), region $\pi_2$ is located at (12,12), and region $\pi_3$ is located at (20,15). This workspace is seen in figure \ref{fig:workspace}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=1]{workspace.eps}
+\label{fig:workspace}
+\caption{Workspace 1}
+\end{figure}
 
 
 The output from the accepted algorithm is
 
+%% path is wrongggg !!!!!!!!!
 \begingroup
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
@@ -109,7 +121,7 @@ full construction and synthesis done within 0.11s
 \end{lstlisting}
 \endgroup
 
-At the top of the output the time taken to calculate the path, the cost of the prefix and the cost of the suffix is given. The states can be thought of as the result of the labelling function, and actions can be thought of the labels of the transition of the B\"uchi automaton. The time for \texttt{full construction and synthesis} is larger than the first time given because it includes the time taken to initialize and construct the graph. This almost always takes the majority of time. For the rest of this report, the calculated paths will appear in the appendix for the ease of the reader.
+At the top of the output the time taken to calculate the path, the cost of the prefix and the cost of the suffix is given. The states can be thought of as the result of the labelling function, and actions can be thought of the labels of the transition of the B\"uchi automaton. The \texttt{full construction and synthesis} time is larger than the first time given because it includes the time taken to initialize and construct the graph. This almost always takes the majority of time. For the rest of this report, the calculated paths will appear in the appendix.% for the ease of the reader.
 
 The output of our algorithm is as follows
 \begingroup
@@ -233,16 +245,7 @@ In both algorithms the search starts at $(\pi_1,q_1)$. In the first step our alg
 
 The accepted algorithm will also start at $(\pi_1,q_1)$ and search $(\pi_2,q_1)$ and $(\pi_3,q_2)$ on the first step. In the next step it will search $(\pi_4,q_1)$, $(\pi_5,q_1)$, $(\pi_1,q_2)$,$(\pi_4,q_2)$. Then it searches $(\pi_2,q_2)$ and then in the next step $(\pi_5,q_3)$. It continues because it has to find the shortest path to \textit{all} accepting nodes. So the next step it searches $(\pi_2,q_3)$, then $(\pi_1,q_3)$ and $(\pi_4,q_3)$ and finally $(\pi_3,q_3)$.
 
-The advantage that our algorithm has over the accepted algorithm is that the accepted algorithm will search through more extraneous nodes, for example $(\pi_5,q_1)$, and that it does not have to find the shortest path to all the accepting nodes. This may not seem like a lot in this example, but when we expand to larger problems the difference becomes significant. 
-
-We now define a workspace to use with our problem. Our workspace is a grid, 25 units across and 25 units up, a total of 625 regions. We say our robot can can move horizontally and vertically, however it cannot move diagonally. Additionally we say that the unit cost of going from any adjacent to another region is 1. The initial position is located at $(0,0)$, region $\pi_1$ is located at (2,24), region $\pi_2$ is located at (12,12), and region $\pi_3$ is located at (20,15) . See figure \ref{fig:workspace}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=1]{workspace.eps}
-\label{fig:workspace}
-\caption{Workspace 1}
-\end{figure}
+The advantage that our algorithm has over the accepted algorithm is that the accepted algorithm will search through more extraneous nodes, for example $(\pi_5,q_1)$, and that it does not have to find the shortest path to all the accepting nodes. %This may not seem like a lot in t example, but when we expand to larger problems the difference becomes significant. 
 
 We run both algorithms with the formula of $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$. The output from the accepted algorithm is
 \begingroup
