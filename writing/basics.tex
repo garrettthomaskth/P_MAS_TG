@@ -1,7 +1,7 @@
 \chapter{Theoretical Background}
 In this chapter we provide the theoretical background that is needed to understand control planning synthesis and linear temporal logic. 
 \section{Abstraction of the Workspace}
-In \cite{belta07}, Belta et al describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph that takes into account the robot motion, workspace, and desired behavior. Next is the execution level, which involves finding a discrete path through the graph that satisfies the desired behavior. Lastly, in the implementation level, controllers are constructed such that the continuous trajectory satisfies the discrete path found in the previous step. 
+In \cite{belta07}, Belta et al. describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph that takes into account the robot motion, workspace, and desired behavior. Next is the execution level, which involves finding a discrete path through the graph that satisfies the desired behavior. Lastly, in the implementation level, controllers are constructed such that the continuous trajectory satisfies the discrete path found in the previous step. 
 
 We assume that we have one robot which is located in a given bounded workspace denote $W_0 \subset \mathbb{R}^n$. To represent our workspace (which is a subspace of $\mathbb{R}^n$) in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in definition \ref{def:PM}. Any partition can be used as long as it satisfies the bisimulation property \cite{belta04}, which will be defined later once more notation has been introduced. We denote $\Pi = \{\pi_1, \pi_2, \dots, \pi_w\}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
 
@@ -24,7 +24,7 @@ We now formally define a \textit{Labelling Function} and a \textit{Transition}, 
 \label{defCLF}
 The continuous labelling function $L_c:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $x$ \cite{guo15}.
 \end{definition} 
-Note: $2^{AP}$ is the powerset of $AP$, i.e.\ the set of all subsets of $AP$ include the null set and $AP$. For example, by definition, $\alpha_{r,i} \in L_c(\pi_i)$. 
+Note: $2^{AP}$ is the powerset of $AP$, i.e.\ the set of all subsets of $AP$ include the null set and $AP$. For example, $\alpha_{r,i} \in L_c(\pi_i)$ by definition. 
 We also include a definition of the discrete counterpart. 
 
 \theoremstyle{definition}

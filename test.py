@@ -116,7 +116,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 #pi1 = r602
 #Reach While Avoiding
 
-#hard_task = '!(r312 || r602) U r395)) '
+hard_task = '!(r312 || r602) U r395)) '
 
 
 #hard_task = '[](<> r312 &&  <> r395 && <>r602)'
@@ -138,7 +138,7 @@ robot_model = MotActModel(robot_motion, robot_action)
 #hard_task = '!([]<> r3 -> []<>r591)'
 #hard_task = '!([]<> r3 <-> []<>r591)'
 #hard_task = '!r532 R (!r432 || r321)'
-hard_task = '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' 
+#hard_task = '<> r114 && [](r114 -> <> r12) && ((X r114 U X r12) || !X( r114 U r12))' 
 #hard_task = '<> pickrball && [](pickrball -> <> droprball) && ((X pickrball U X droprball) || !X( pickrball U droprball))'  #no
 #hard_task = ' <> r124 && <> !r124'
 #hard_task = '[](r23 || X [] r436) && [] (r80 || X [] ! r227)'

@@ -14,7 +14,7 @@
 \contentsline {chapter}{\numberline {4}Algorithm Performance with Common Formulas}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Reachability while avoiding regions}{17}{section.4.1}
 \contentsline {section}{\numberline {4.2}Sequencing}{20}{section.4.2}
-\contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}
+\contentsline {section}{\numberline {4.3}Coverage}{23}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{25}{subsection.4.3.1}
 \contentsline {subsection}{\numberline {4.3.2}Cost Bound}{29}{subsection.4.3.2}
 \contentsline {subsection}{\numberline {4.3.3}Simulation}{35}{subsection.4.3.3}
@@ -27,7 +27,7 @@
 \contentsline {section}{\numberline {5.2}Example 1 Overlapping Regions}{43}{section.5.2}
 \contentsline {section}{\numberline {5.3}Example 2}{44}{section.5.3}
 \contentsline {section}{\numberline {5.4}Example 2 Modified}{45}{section.5.4}
-\contentsline {section}{\numberline {5.5}Other Examples}{47}{section.5.5}
+\contentsline {section}{\numberline {5.5}Other Examples}{46}{section.5.5}
 \contentsline {chapter}{\numberline {6}Conclusion and Future Work}{50}{chapter.6}
 \contentsline {chapter}{\numberline {7}Appendix}{52}{chapter.7}
 \contentsline {subsubsection}{Example 2 Accepted Algorithm Path}{62}{section*.12}
