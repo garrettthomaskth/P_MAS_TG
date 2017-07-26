@@ -13,14 +13,14 @@
 \contentsline {section}{\numberline {3.2}Our Algorithm}{14}{section.3.2}
 \contentsline {chapter}{\numberline {4}Algorithm Performance with Common Formulas}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Reachability while avoiding regions}{17}{section.4.1}
-\contentsline {section}{\numberline {4.2}Sequencing}{20}{section.4.2}
-\contentsline {section}{\numberline {4.3}Coverage}{23}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{25}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Cost Bound}{29}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.2}Sequencing}{21}{section.4.2}
+\contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{27}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Cost Bound}{31}{subsection.4.3.2}
 \contentsline {subsection}{\numberline {4.3.3}Simulation}{35}{subsection.4.3.3}
 \contentsline {section}{\numberline {4.4}Recurrence (Liveness)}{36}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Tightness}{36}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Suffix}{37}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.2}Suffix}{38}{subsection.4.4.2}
 \contentsline {subsection}{\numberline {4.4.3}Simulation}{38}{subsection.4.4.3}
 \contentsline {chapter}{\numberline {5}More Complex Formulas}{40}{chapter.5}
 \contentsline {section}{\numberline {5.1}Example 1}{40}{section.5.1}
