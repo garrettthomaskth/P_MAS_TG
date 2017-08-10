@@ -190,7 +190,7 @@ def greedy_plan(product, beta=10):
 		prefix, precost, suffix, sufcost = min(runs.values(), key = lambda p: p[1] + beta*p[3])
 		run = ProdAut_Run(product, prefix, precost, suffix, sufcost, precost+beta*sufcost)
 		print '=================='
-		print 'new_algorithm_plan done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
+		print 'greedy_plan done within %.2fs: precost %.2f, sufcost %.2f' %(time.time()-start, round(precost), round(sufcost))
 		return run, time.time()-start
 
 	print '=================='        
@@ -251,11 +251,11 @@ the suffix of plan **actions**:
 full construction and synthesis done within 0.43s 
 \end{lstlisting}
 
-\subsubsection*{Coverage Path Our Algorithm}
+\subsubsection*{Coverage Path Greedy Algorithm}
 \begin{lstlisting}
 Our Algorithm
 ==================
-new_algorithm_plan done within 0.02s: precost 62.00, sufcost 0.00
+greedy_plan done within 0.02s: precost 62.00, sufcost 0.00
 ------------------------------
 the prefix of plan **states**:
 [((0, 0, 1), 'None'), ((1, 0, 1), 'None'), ((2, 0, 1), 'None'), ((3, 0, 1), 'None'), ((3, 1, 1), 'None'), ((4, 1, 1), 'None'), ((5, 1, 1), 'None'), ((6, 1, 1), 'None'), ((6, 2, 1), 'None'), ((6, 3, 1), 'None'), ((6, 4, 1), 'None'), ((6, 5, 1), 'None'), ((7, 5, 1), 'None'), ((8, 5, 1), 'None'), ((8, 6, 1), 'None'), ((9, 6, 1), 'None'), ((10, 6, 1), 'None'), ((10, 7, 1), 'None'), ((10, 8, 1), 'None'), ((10, 9, 1), 'None'), ((11, 9, 1), 'None'), ((12, 9, 1), 'None'), ((12, 10, 1), 'None'), ((12, 11, 1), 'None'), ((12, 12, 1), 'None'), ((12, 13, 1), 'None'), ((13, 13, 1), 'None'), ((13, 14, 1), 'None'), ((14, 14, 1), 'None'), ((15, 14, 1), 'None'), ((16, 14, 1), 'None'), ((17, 14, 1), 'None'), ((17, 15, 1), 'None'), ((18, 15, 1), 'None'), ((19, 15, 1), 'None'), ((20, 15, 1), 'None'), ((20, 16, 1), 'None'), ((19, 16, 1), 'None'), ((19, 17, 1), 'None'), ((18, 17, 1), 'None'), ((18, 18, 1), 'None'), ((17, 18, 1), 'None'), ((17, 19, 1), 'None'), ((17, 20, 1), 'None'), ((16, 20, 1), 'None'), ((15, 20, 1), 'None'), ((15, 21, 1), 'None'), ((14, 21, 1), 'None'), ((14, 22, 1), 'None'), ((13, 22, 1), 'None'), ((13, 23, 1), 'None'), ((13, 24, 1), 'None'), ((12, 24, 1), 'None'), ((11, 24, 1), 'None'), ((10, 24, 1), 'None'), ((9, 24, 1), 'None'), ((8, 24, 1), 'None'), ((7, 24, 1), 'None'), ((6, 24, 1), 'None'), ((5, 24, 1), 'None'), ((4, 24, 1), 'None'), ((3, 24, 1), 'None')]
@@ -298,19 +298,6 @@ the suffix of plan **actions**:
 ['None', 'None']
 \end{lstlisting}
 
-\subsubsection*{Example 1 Overlapping}
-\begin{lstlisting}
-------------------------------
-the prefix of plan **states**:
-[((0, 0, 1), 'None'), ((0, 1, 1), 'None'), ((0, 2, 1), 'None'), ((1, 2, 1), 'None'), ((1, 3, 1), 'None'), ((2, 3, 1), 'None'), ((2, 4, 1), 'None'), ((3, 4, 1), 'None'), ((4, 4, 1), 'None'), ((4, 5, 1), 'None'), ((5, 5, 1), 'None'), ((5, 6, 1), 'None'), ((5, 7, 1), 'None'), ((6, 7, 1), 'None'), ((6, 8, 1), 'None'), ((7, 8, 1), 'None'), ((8, 8, 1), 'None'), ((8, 9, 1), 'None'), ((9, 9, 1), 'None'), ((9, 10, 1), 'None'), ((9, 11, 1), 'None'), ((9, 12, 1), 'None'), ((9, 13, 1), 'None'), ((9, 14, 1), 'None'), ((9, 15, 1), 'None'), ((9, 15, 1), 'pickrball'), ((9, 15, 1), 'droprball'), ((10, 15, 1), 'None'), ((10, 16, 1), 'None'), ((11, 16, 1), 'None'), ((12, 16, 1), 'None'), ((12, 17, 1), 'None'), ((13, 17, 1), 'None'), ((14, 17, 1), 'None'), ((15, 17, 1), 'None'), ((16, 17, 1), 'None'), ((17, 17, 1), 'None'), ((18, 17, 1), 'None'), ((19, 17, 1), 'None'), ((20, 17, 1), 'None'), ((21, 17, 1), 'None'), ((22, 17, 1), 'None'), ((23, 17, 1), 'None'), ((23, 17, 1), 'None')]
-the suffix of plan **states**:
-[((23, 17, 1), 'None'), ((23, 17, 1), 'None')]
-------------------------------
-the prefix of plan **actions**:
-[(0, 0, 1), (0, 1, 1), (0, 2, 1), (1, 2, 1), (1, 3, 1), (2, 3, 1), (2, 4, 1), (3, 4, 1), (4, 4, 1), (4, 5, 1), (5, 5, 1), (5, 6, 1), (5, 7, 1), (6, 7, 1), (6, 8, 1), (7, 8, 1), (8, 8, 1), (8, 9, 1), (9, 9, 1), (9, 10, 1), (9, 11, 1), (9, 12, 1), (9, 13, 1), (9, 14, 1), (9, 15, 1), 'pickrball', 'droprball', (10, 15, 1), (10, 16, 1), (11, 16, 1), (12, 16, 1), (12, 17, 1), (13, 17, 1), (14, 17, 1), (15, 17, 1), (16, 17, 1), (17, 17, 1), (18, 17, 1), (19, 17, 1), (20, 17, 1), (21, 17, 1), (22, 17, 1), (23, 17, 1), 'None', 'None']
-the suffix of plan **actions**:
-['None', 'None']
-\end{lstlisting}
 
 
 \subsubsection{Example 2 Accepted Algorithm Path}
@@ -327,7 +314,7 @@ the suffix of plan **actions**:
 ['None', 'None']
 \end{lstlisting}
 
-\subsubsection{Example 2 Our Algorithm Path}
+\subsubsection{Example 2 Greedy Algorithm Path}
 %\subsection{Our Algorithm}
 \begin{lstlisting}
 ------------------------------
@@ -358,7 +345,7 @@ the suffix of plan **actions**:
 ['None', 'None']
 \end{lstlisting}
 
-\subsubsection{Example 2 Modified Our Algorithm Path}
+\subsubsection{Example 2 Modified Greedy Algorithm Path}
 \begin{lstlisting}
 ------------------------------
 the prefix of plan **states**:

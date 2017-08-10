@@ -85,6 +85,12 @@ Gerard Holzmann.
 \newblock {\em Spin model checker, the: primer and reference manual}.
 \newblock Addison-Wesley Professional, 2003.
 
+\bibitem{kloetzer08}
+Marius Kloetzer and Calin Belta.
+\newblock A fully automated framework for control of linear systems from
+  temporal logic specifications.
+\newblock {\em IEEE Transactions on Automatic Control}, 53(1):287--297, 2008.
+
 \bibitem{kress07}
 Hadas Kress-Gazit, Georgios~E Fainekos, and George~J Pappas.
 \newblock From structured english to robot motion.
@@ -115,6 +121,12 @@ Viktor Schuppan and Armin Biere.
   past.
 \newblock In {\em International Conference on Tools and Algorithms for the
   Construction and Analysis of Systems}, pages 493--509. Springer, 2005.
+
+\bibitem{smith2010}
+Stephen~L Smith, Jana Tumova, Calin Belta, and Daniela Rus.
+\newblock Optimal path planning under temporal logic constraints.
+\newblock In {\em Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ
+  International Conference on}, pages 3288--3293. IEEE, 2010.
 
 \bibitem{somenzi00}
 Fabio Somenzi and Roderick Bloem.

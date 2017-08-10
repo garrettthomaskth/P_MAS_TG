@@ -46,10 +46,11 @@ for i in range(0,N):
   for j in range(0,N):
     if j == 9 and i == 15:
       #regions[(j,i,1)] = set(['r'+str(k),'rball']) #, 'pick'])
-      regions[(j,i,1)] = set(['r'+str(k),'rball','basket1'])
-    #elif j ==7 and i == 14:
+      regions[(j,i,1)] = set(['r'+str(k),'rball'])
+    elif j ==7 and i == 14:
+      
     #elif j == 9 and i == 15:
-      #regions[(j,i,1)] = set(['r'+str(k),'basket1'])#, 'drop'])
+      regions[(j,i,1)] = set(['r'+str(k),'basket1'])#, 'drop'])
     elif j == 19 and i == 8:
       regions[(j,i,1)] = set(['r'+str(k),'gball'])#, 'pick'])
     elif j == 2 and i == 10:
@@ -83,11 +84,11 @@ robot_motion.add_un_edges(edges, unit_cost = 1)
 ############# no action model
 action = dict()
 ############# with action
-#action = { 'pickrball': (10, 'rball', set(['pickrball'])),
-#           'droprball': (10, 'basket1', set(['droprball'])),           
-#           'pickgball': (10, 'gball', set(['pickgball'])),
-#           'dropgball': (10, 'basket2', set(['dropgball']))
-#}
+action = { 'pickrball': (10, 'rball', set(['pickrball'])),
+           'droprball': (10, 'basket1', set(['droprball'])),           
+           'pickgball': (10, 'gball', set(['pickgball'])),
+           'dropgball': (10, 'basket2', set(['dropgball']))
+}
 
 
 robot_action = ActionModel(action)
@@ -124,7 +125,7 @@ hard_task = '!(r312 || r602) U r395)) '
 #hard_task = '<> (r312 &&  <>( r395 && <>r602)) '
 #hard_task = '<> r1 && <> r600 || <>r7'
 #hard_task = '!(r300 || r400 || r5) U r445'
-#hard_task = '<>(pickrball && <> droprball) && <>[] r448'
+hard_task = '<>(pickrball && <> droprball) && <>[] r448'
 #####hard_task = '<>((pickrball && rball) && <> (droprball && basket1)) && <>((pickgball && gball) && <> (dropgball && basket2)) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'#' && <>[] r422 '
 #hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball))'
 #hard_task = '<>(pickrball  && <> droprball) && <>(pickgball  && <> dropgball ) && [](pickrball -> X(!pickgball U droprball)) && [](pickgball -> X(!pickrball U dropgball)) && <>[] r422 '

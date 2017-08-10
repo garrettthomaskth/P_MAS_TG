@@ -9,7 +9,7 @@
 \BOOKMARK [1][-]{section.2.5}{Cost of a Run}{chapter.2}% 9
 \BOOKMARK [0][-]{chapter.3}{Search Algorithms}{}% 10
 \BOOKMARK [1][-]{section.3.1}{Accepted Algorithm}{chapter.3}% 11
-\BOOKMARK [1][-]{section.3.2}{Our Algorithm}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.2}{Greedy Algorithm}{chapter.3}% 12
 \BOOKMARK [0][-]{chapter.4}{Algorithm Performance with Common Formulas}{}% 13
 \BOOKMARK [1][-]{section.4.1}{Reachability while avoiding regions}{chapter.4}% 14
 \BOOKMARK [1][-]{section.4.2}{Sequencing}{chapter.4}% 15
@@ -23,9 +23,10 @@
 \BOOKMARK [2][-]{subsection.4.4.3}{Simulation}{section.4.4}% 23
 \BOOKMARK [0][-]{chapter.5}{More Complex Formulas}{}% 24
 \BOOKMARK [1][-]{section.5.1}{Example 1}{chapter.5}% 25
-\BOOKMARK [1][-]{section.5.2}{Example 1 Overlapping Regions}{chapter.5}% 26
+\BOOKMARK [1][-]{section.5.2}{Overlapping Regions}{chapter.5}% 26
 \BOOKMARK [1][-]{section.5.3}{Example 2}{chapter.5}% 27
 \BOOKMARK [1][-]{section.5.4}{Example 2 Modified}{chapter.5}% 28
-\BOOKMARK [1][-]{section.5.5}{Other Examples}{chapter.5}% 29
-\BOOKMARK [0][-]{chapter.6}{Conclusion and Future Work}{}% 30
-\BOOKMARK [0][-]{chapter.7}{Appendix}{}% 31
+\BOOKMARK [2][-]{subsection.5.4.1}{No Suffix Accepting Node}{section.5.4}% 29
+\BOOKMARK [1][-]{section.5.5}{Other Examples}{chapter.5}% 30
+\BOOKMARK [0][-]{chapter.6}{Conclusion and Future Work}{}% 31
+\BOOKMARK [0][-]{chapter.7}{Appendix}{}% 32
