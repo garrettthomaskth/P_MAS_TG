@@ -1,13 +1,9 @@
 \chapter{Algorithm Performance with Common Formulas}
-In this chapter we show the respective performances of the current accepted algorithm and the greedy algorithm. We do so by theoretically analyzing the general forms of four types of formulas, then computing an accepting path using both algorithms and considering and cost of the path and the time taken to calculate it.%consider the results of a practical run. %The four types of formulas we will examine are 1. Reachability while% We are able to theoretically analyze the general forms of these formulas %After we  using the FTS in figure \ref{fig:ftsEx}
-
-
-%(\Pi, \rightarrow_D, \Pi_0, AP,L_D)
-%This FTS will be used in figures unless otherwise stated. We chose it to be very simple because the state explosion problem applies even to the small examples in this report. If we chose a more complex FTS we would not be able to include illustrations of the product automaton because it gets very big very quickly. We will henceforth refer to this FTS as simple FTS. When providing computational results, we will use an FTS that is much larger, to bring out the difference between our algorithm and the accepted algorithm.
+In this chapter we show the respective performances of the current accepted algorithm and the greedy algorithm. We do so by theoretically analyzing the general forms of four types of formulas, then computing an accepting path using both algorithms and considering and cost of the path and the time taken to calculate it.
 
 
 \section{Reachability while avoiding regions} 
-Reachability while avoiding regions is a property in which we wish to not cross over certain regions, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do what we want. This behavior is expressed by the general formula $\neg (\pi_1 \lor \pi_2 \lor \dots \lor \pi_n) \U \pi_{n+1}$. 
+Reachability while avoiding regions is a property in which we wish to not cross over certain regions, say $\pi_1, \pi_2, \dots, \pi_n$, until we get to a specified region, say $\pi_{n+1}$. After reaching $\pi_{n+1}$ we are free to do as we please. This behavior is expressed in general formula as $\neg (\pi_1 \lor \pi_2 \lor \dots \lor \pi_n) \U \pi_{n+1}$. 
 
 \begin{figure}
 \centering
@@ -26,9 +22,9 @@ Reachability while avoiding regions is a property in which we wish to not cross 
 \label{fig:ReachAvoid}
 \end{figure}
 
-The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fig:ReachAvoid}. As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. In this section we will look at the specific formula $\neg \pi_4 \U \pi_5$. The product automaton of this B\"{u}chi automaton combined with the FTS from figure \ref{fig:ftsEx} is shown in figure \ref{fig:reachAvoidProduct}.
+The B\"{u}chi automaton corresponding to this formula is given in Figure \ref{fig:ReachAvoid}. As we can see $d_p(q_1)=1$ and $d_p(q_2)=0$. In this section we will look at the specific formula $\neg \pi_4 \U \pi_5$. The product automaton of this B\"{u}chi automaton combined with the WFTS from Figure \ref{fig:ftsEx} is shown in Figure \ref{fig:reachAvoidProduct}.
 
-\begin{figure*}
+\begin{figure}
 \centering
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.3cm,
                     semithick]
@@ -79,17 +75,16 @@ The B\"{u}chi automaton corresponding to this formula is given in figure \ref{fi
 \end{tikzpicture}
 \caption{Product Automaton for $\neg \pi_4 \U \pi_5$ with Simple FTS}
 \label{fig:reachAvoidProduct}
-\end{figure*}
-Note: in figure \ref{fig:reachAvoidProduct} all nodes have a self loop, which are not included for the sake of the reader.
+\end{figure}
 
 To find an accepting path, the accepted algorithm starts at the initial node, $(\pi_1,q_1)$, and does a first Dijkstra search to find the optimal path to all the accepting states, $(\pi_i,q_2),$ $\forall i = 1,2,\dots,5$. Then the optimal path back from each of these accepting nodes is computed.  
  
-The greedy algorithm does $n+1$ Dijkstra searches, where $n$ is the maximum level of the initial state in the B\"{u}chi automaton. As we can see in figure \ref{fig:ReachAvoid}, $n$ is 1 for all formulas of this form. Therefore, the greedy algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. The greedy algorithm will have a slightly faster runtime because it does not find the optimal path back for every accepting node; the greedy algorithm only finds one. 
+The greedy algorithm does $n+1$ Dijkstra searches, where $n$ is the level of the initial state in the B\"{u}chi automaton. As we can see in Figure \ref{fig:ReachAvoid}, $n$ is 1 for all formulas of this form. Therefore, the greedy algorithm does one Dijkstra search starting from $(\pi_1,q_1)$ which ends at $(\pi_5,q_2)$. The greedy algorithm will have a slightly faster runtime because it does not find the optimal path back for every accepting node; the greedy algorithm only finds one. 
 
-Because node $q_2$ in automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple FTS has a self loop, every accepting state in the product automaton has a self loop. Therefore, the cost of the optimal path from any accepting node back to itself is the same, i.e.,\ 0. This implies that the accepting node that creates the optimal prefix-suffix plan, i.e.,\ $q_{f*}'$ in Procedure \ref{optrun}, is the accepting node closest to the initial node. This is the accepting node that the greedy algorithm finds, which in turn implies that both algorithms calculate the same plan. 
-%%% CHECK SEMI COLON GRANT
+Because node $q_2$ in Automaton \ref{fig:reachAvoidProduct} has a self loop and every region in the simple WFTS has a self loop, every accepting state in the product automaton has a self loop. Therefore, the cost of the optimal path from any accepting node back to itself is the same, i.e.,\ 0. This implies that the accepting node that creates the optimal prefix-suffix plan, i.e.,\ $q_{f*}'$ in Procedure \ref{optrun}, is the accepting node closest to the initial node. This is the accepting node that the greedy algorithm finds, which in turn implies that both algorithms calculate the same plan. 
 
-We now investigate the computation time of both algorithms with a case study. So differences in runtime will make themselves apparent, we calculate accepting paths on a larger workspace. The workspace we will use is a grid, 25 units across and 25 units up, a total of 625 equally sized squares. Our robot can move horizontally and vertically; however, it cannot move diagonally. Additionally, the unit cost of going from any adjacent to another region is 1. The initial position is located at $(0,0)$, region $\pi_1$ is located at (2,24), region $\pi_2$ is located at (12,12), and region $\pi_3$ is located at (20,15). This workspace is seen in figure \ref{fig:workspace}.
+
+We now investigate the computation time of both algorithms with a case study. So differences in runtime will make themselves apparent, we calculate accepting paths on a larger workspace. The workspace we will use is a grid, 25 units across and 25 units up, a total of 625 equally sized squares. Our robot can move horizontally and vertically; however, it cannot move diagonally. Additionally, the unit cost of going from any adjacent to another region is 1. The initial position is located at $(0,0)$, region $\pi_1$ is located at (2,24), region $\pi_2$ is located at (12,12), and region $\pi_3$ is located at (20,15). This workspace is seen in Figure \ref{fig:workspace}.
 
 \begin{figure}[!htb]
 \centering
@@ -125,7 +120,7 @@ full construction and synthesis done within 0.11s
 \end{minipage} \\ \\
 
 
-The output of the algorithm is structured as follows: the time taken to calculate the path, the cost of the prefix, and the cost of the suffix are given at the top of the output. The following sequence of \texttt{states} can be thought of as the result of the labelling function in Definition \ref{defDLF}, and \texttt{actions} can be thought of as the labels of the transition of the B\"uchi automaton. The \texttt{full construction and synthesis} includes the time taken to construct the graph, thus it is larger than the first time given. The construction of the graph almost always takes the majority of time. For the rest of this report, the calculated paths will appear in the appendix.% for the ease of the reader.
+The output of the algorithm is structured as follows: the time taken to calculate the path, the cost of the prefix, and the cost of the suffix are given at the top of the output. The following sequence of \texttt{states} can be thought of as the result of the labelling function in Definition \ref{defDLF}, and \texttt{actions} can be thought of as the labels of the transition of the B\"uchi automaton. The \texttt{full construction and synthesis} includes the time taken to construct the graph, thus it is larger than the first time given. The construction of the graph almost always takes the majority of time. For the rest of this report, the calculated paths will appear in the appendix.
 
 The greedy algorithm outputs the same plan marginally faster. \\
 
@@ -144,9 +139,8 @@ full construction and synthesis done within 0.10s
 \end{minipage} \\ \\
 
 
-%As we can see, our algorithm computed the same path in about the same time.%seconds. This may seem weird because we have shown that our algorithm does the same calculation when finding a path from the initial node to an accepting node. The difference is that for each accepting node, a Dijkstra search is performed. In this example, there are 625 accepting states (the number of states in the FTS times the number of states in the B\"uchi automaton). The function \texttt{dijkstra\_predecessor\_and\_distance} from \cite{schult08} is used to calculate the shortest path back to an accepting node. 
 \section{Sequencing}
-Sequencing is the behavior of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. One example of a formula of this type is $\diamond (\pi_3 \land  \diamond \pi_5)$, and the corresponding B\"uchi automaton is shown in figure \ref{fig:seq}. We note that this automaton is only applicable because of the partition we defined earlier in Definition \ref{def:PM}, which makes it impossible for $\pi_i$ and $\pi_j$ to be true at the same time if $i\neq j$. The LTL2BA tool \cite{ltlbuchiwebsite} that is used generates an automaton with an edge from $q_1$ to $q_3$ labelled $\pi_3 \&\& \pi_5 $. This transition is impossible so we take it out before calculating the distances. The greedy algorithm would not work if every state in the B\"uchi automaton had a distance of 1 and the accepting states had a distance of 0. The product automaton of formula $\diamond (\pi_3 \wedge \diamond \pi_5)$, the simple FTS, is shown in figure \ref{fig:Sequencing}.
+Sequencing is the behavior of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that order. One example of a formula of this type is $\diamond (\pi_3 \land  \diamond \pi_5)$, and the corresponding B\"uchi automaton is shown in Figure \ref{fig:seq}. We note that this automaton is only applicable because of the partition we defined earlier in Definition \ref{def:PM}, which makes it impossible for $\pi_i$ and $\pi_j$ to be true at the same time if $i\neq j$. The LTL2BA tool \cite{ltlbuchiwebsite} that is used generates an automaton with an edge from $q_1$ to $q_3$ labelled $\pi_3 \&\& \pi_5 $. This transition is impossible so we take it out before calculating the distances. The greedy algorithm would not work if every state in the B\"uchi automaton had a distance of 1 and the accepting states had a distance of 0. The product automaton of formula $\diamond (\pi_3 \wedge \diamond \pi_5)$ and the simple WFTS, is shown in Figure \ref{fig:Sequencing}.
 
 
 \begin{figure}
@@ -172,7 +166,7 @@ Sequencing is the behavior of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that
 \label{fig:seq}
 \end{figure}
 
-\begin{figure*}
+\begin{figure}
 \centering
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
                     semithick]
@@ -246,9 +240,9 @@ Sequencing is the behavior of visiting regions $\pi_1,\pi_2,\dots,\pi_n$ in that
         (CCC) edge        [bend left]       (AAA)
         (AAA) edge        [bend left]       (CCC);
 \end{tikzpicture}
-\caption{Product Automaton for $\diamond (\pi_4 \wedge \diamond \pi_5)$ with Simple FTS}
+\caption{Product Automaton for $\diamond (\pi_4 \wedge \diamond \pi_5)$ with Simple WFTS}
 \label{fig:Sequencing}
-\end{figure*}
+\end{figure}
 
 We look at how the two algorithms will search this product automaton to find an accepting path. The accepted algorithm starts at the initial node $(\pi_1,q_1)$ and in the first step searches the nodes connected to $(\pi_1,q_1)$, i.e.,\ $(\pi_2,q_1)$ and $(\pi_3,q_2)$. In the next step it searches $(\pi_4,q_1)$, $(\pi_5,q_1)$, $(\pi_1,q_2)$, $(\pi_4,q_2)$. Next it searches $(\pi_2,q_2)$ and then $(\pi_5,q_3)$. Even though $(\pi_5,q_3)$ is an accepting state, the accepted algorithm continues the search because it has to find the shortest path to \textit{all} accepting nodes. In the next step it searches $(\pi_2,q_3)$, then $(\pi_1,q_3)$ and $(\pi_4,q_3)$ and finally $(\pi_3,q_3)$. After this, it finds the shortest path from all accepting nodes back to themselves. Again, every accepting node has a self loop so all the accepting nodes have a suffix cost of 0. 
 
@@ -256,7 +250,7 @@ We look at how the two algorithms will search this product automaton to find an 
 
 The greedy algorithm also starts at $(\pi_1,q_1)$ and in the first step searches $(\pi_2,q_1)$ and $(\pi_3,q_2)$. The greedy algorithm notices that the current level is 2, and $(\pi_3,q_2)$ is on level 1. Because the level of $(\pi_3,q_2)$ is 1 below the current level, the greedy algorithm finishes the Dijkstra search and starts another Dijkstra search beginning at $(\pi_3,q_2)$. In the first step, $(\pi_1,q_2)$ and $(\pi_4,q_2)$ are searched. It will then do another step and search $(\pi_2,q_2)$. Finally in the third step, it searches $(\pi_5,q_3)$. It notices $(\pi_5,q_3)$ is an accepting state and finishes the search. It then finds the optimal path from $(\pi_5,q_3)$ back to itself.
 
-We run both algorithms with the formula $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ and Workspace 1 in figure \ref{fig:workspace}. The output of the accepted algorithm is \\
+We run both algorithms with the formula $\diamond (\pi_1 \land \diamond(\pi_2 \land \diamond \pi_3))$ and Workspace 1 in Figure \ref{fig:workspace}. The output of the accepted algorithm is \\
 
 
 \begin{minipage}{\textwidth}
@@ -306,18 +300,18 @@ As we can see, the plan synthesis took the greedy algorithm half as long; 0.02 s
 \label{fig:animOur}
 \end{figure}
 
-Figure \ref{fig:animAccept} shows the states searched with the accepted algorithm and figure \ref{fig:animOur} shows the states searched with the greedy algorithm. Each figure shows a representation of the product automaton. The graph can be thought of as the discretization of the workspace, and there are four corresponding to the four states in the B\"uchi automaton. Any square filled in with blue, red, green, or yellow has been visited, all others have not. As we can see, the greedy algorithm searches a significantly smaller number of nodes, while the accepted algorithm searches every node.
+Figure \ref{fig:animAccept} shows the states searched with the accepted algorithm and Figure \ref{fig:animOur} shows the states searched with the greedy algorithm. Each figure shows a representation of the product automaton. The graphs can be thought of as the discretization of the workspace, and there are four corresponding to the four states in the B\"uchi automaton. Any square filled in with blue, red, green, or yellow has been visited, all others have not. As we can see, the greedy algorithm searches a significantly smaller number of nodes, while the accepted algorithm searches every node.
 
 The FTS has 625 states and the B\"uchi automaton has four states, which implies the product automaton has 2500 states. The accepted algorithm does one Dijkstra search from the initial node to each of the 2499 other nodes, and then computes the suffix cost for each of the 625 accepting nodes. The algorithm then chooses which combination out of the 625 choices makes the shortest overall run. 
 
 The level of the initial node is three, so the greedy algorithm does three Dijkstra searches: one for each level and one for the accepted node back to itself. To find an accepting node, the first search searches through 326 nodes, the second 266 nodes, and the third 587 nodes. The last search simply finds the path from the accepting node back to itself, which is a self loop. Thus the greedy algorithm searches 1179 nodes compared to 2500 nodes.  
-%Check how many nodes are searched with both algorithms, and show time difference.
+
 
 Because there is only one way down at each level, the concatenation of the locally optimal paths will be the globally optimal path. Then the advantage that the greedy algorithm has over the accepted algorithm is that the accepted algorithm will search through more extraneous nodes. Because all accepting nodes have the same suffix cost, the optimal accepting node will be the one closest to the initial node. This is the one the greedy algorithm finds. Thus the greedy algorithm is guaranteed to find the optimal path in a shorter amount of time than the accepted algorithm.
 
 
 \section{Coverage}
-A coverage formula represents the statement, visit $\pi_1, \pi_2, \dots, \pi_n$ in any order, and is of the form $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$. We show the B\"uchi automaton corresponding to the formula $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$ in figure \ref{fig:buchCov}.
+A coverage formula represents the statement, visit $\pi_1, \pi_2, \dots, \pi_n$ in any order, and is of the form $\varphi = \diamond \pi_1 \wedge \diamond \pi_2 \wedge \dots \wedge \diamond \pi_n$. We show the B\"uchi automaton corresponding to the formula $\diamond \pi_1 \wedge \diamond \pi_2 \wedge \diamond \pi_3$ in Figure \ref{fig:buchCov}.
 
 \begin{figure}
 \centering
@@ -364,17 +358,17 @@ We can see that to get to the accepting node, we have to choose which node to go
 
 The accepted algorithm will search through the whole product automaton and will then choose the order that produces the global minimum. The greedy algorithm, on the other hand, will first choose $\pi_i$, which is the closest to the initial node. From there, it will choose $\pi_j$, which is closest to $\pi_i$ out of the two that have not been visited yet. Thus the greedy algorithm may not compute the globally optimal path on a coverage formula. It will, however, compute an accepting path with a bound on the cost of the greedy path in terms of the cost of the optimal path. 
 
-To prove this cost bound, we first show that this path corresponds to the one generated by the nearest neighbor approach to the travelling salesperson problem. Next we provide the bound on the cost of our path based on the worst case ratio of the nearest neighbor path to the optimal path given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. 
+To prove this cost bound, we first formulate our problem as a travelling salesperson problem and show that this path corresponds to the one generated by the nearest neighbor approach to the problem. Next we provide the bound on the cost of our path based on the worst case ratio of the nearest neighbor path to the optimal path given by Rosendrantz, Stearns, and Lewis \cite{rosenkrantz74}. 
 
-%This problem is NP-hard, 
+
 \subsection{Travelling Salesperson Problem}
-The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he passes through a given set of cities and then returns back home at the end. This problem has been studied extensively, and many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbor algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. If there is a tie in the next closest neighbor, the next node can be decided arbitrarily. This is exactly what the greedy algorithm does when given a coverage formula; the first Dijkstra search finds the closest node, we start another search from that node, and so on. 
+The travelling salesperson problem is stated in layman's terms as finding the shortest path for a salesperson to take such that he starts from home, passes through a given set of cities and then returns back home at the end. This problem has been studied extensively, and many algorithms and heuristics exist for finding an approximate solution. One very simple algorithm to do this is called the nearest neighbor algorithm. It says from the starting city, pick the closest city to be the next stop. From there, pick the next closest city not including the starting city, and so on. If there is a tie in the next closest city, the next city can be decided arbitrarily. This is exactly what the greedy algorithm does when given a coverage formula; the first Dijkstra search finds the closest node, we start another search from that node, and so on. 
 
 To formulate our problem as a travelling salesperson problem we use the idea of a dummy node from the computer wiring example in \cite{lenstra75}. In the example, a computer interface is being designed at the Institute for Nuclear Physical Research in Amsterdam. An interface is made up of several modules, with multiple pins on each module. A given subset of pins has to be interconnnected by wires, and at most two wires can be connected to any pin. For obvious reasons, it is desirable to minimize the amount of wire used. They show that this problem can be formulated as a travelling salesperson problem. The only difference between this problem and a travelling salesperson problem is that in the travelling salesperson problem, the salesperson must return home at the end. This is not true in this problem. It is also not true in our problem, we only need to pass through $\pi_1$, $\pi_2$ and $\pi_3$ and there is no need to return to the starting state after we do this. To formulate this problem as a travelling salesperson problem, they set $P$ to be the set of pins to be interconnected, and $c_{ij}$ to be the distance between pin $i$ and pin $j$. They then introduce a dummy node $*$ that is a distance 0 from all the other nodes, i.e.,\ $c_{i*} = c_{*i} = 0$ for all i. Then the corresponding problem is solving the travelling salesperson problem on the set of nodes $N=P \cup \{*\}$. 
 
 For our problem, we set $c_{ij}=d(\pi_i , \pi_j)$ for $i,j=0,1,2,3$, where the initial state is from now on known as $\pi_0$, to be the shortest path our robot can take from $\pi_i$ to $\pi_j$. When introducing the dummy node, we must preserve the the triangle inequality for a proof of a worst case scenario bound we will provide later on. To do this, we cannot have the dummy node be distance 0 from the other nodes. Indeed, if $c_{i*} = c_{*i} = 0 $ the triangle inequality would be violated because $c_{i*} + c_{*j} = 0 \leq c_{ij}$.
 
-We can represent the relationship between the regions in our graph with the following \textit{complete} subgraph, shown in figure \ref{fig:completeGraph}. A complete graph is an undirected graph in which every pair of vertices is connected by an edge. 
+We can represent the relationship between the regions in our graph with the following \textit{complete} subgraph, shown in Figure \ref{fig:completeGraph}. A complete graph is an undirected graph in which every pair of vertices is connected by an edge. 
 \begin{figure}
 \centering
 \begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=5cm,
@@ -397,7 +391,7 @@ We can represent the relationship between the regions in our graph with the foll
 \label{fig:completeGraph}
 \end{figure}
 
-For the distances, we use the so called \textit{Manhattan distance}, i.e.,\ \\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that the greedy algorithm will take is shown in figure \ref{fig:pathOnComplete}. The cost of this path is 62. However, this is not the optimal path, which is shown in figure \ref{fig:optcompleteGraph} and has a cost of 59.
+For the distances, we use the so called \textit{Manhattan distance}, i.e.,\ \\ $d((x_1,y_1),(x_2,y_2)) = |x_1 - x_2| +| y_1 - y_2|$ because our robot can only move horizontally and vertically, not diagonally. Given the weights between the vertices, we easily see that the path that the greedy algorithm will take is shown in Figure \ref{fig:pathOnComplete}. The cost of this path is 62. However, this is not the optimal path, which is shown in Figure \ref{fig:optcompleteGraph} and has a cost of 59.
 
 \begin{figure}
 \centering
@@ -442,7 +436,7 @@ For the distances, we use the so called \textit{Manhattan distance}, i.e.,\ \\ $
 \end{figure}
 
 
-Because we have to make sure that the dummy node does not change the order that the greedy algorithm and the nearest neighbor algorithm take we have to set the distance of the dummy node from every other node to be $\max_{i,j} c_{ij} $ where $c_{ij}$ is the distance between the nodes in the complete subgraph in figure \ref{fig:completeGraph}. In our case, this is 35, the path between $\pi_0$ and $\pi_3$. This insures that the path taken by the greedy algorithm is the same as the nearest neighbor algorithm because the dummy node will be the last node to be visited. Thus, the only time when it is a possibility that the nearest neighbor algorithm goes to the dummy node, i.e.,\ when the next node is $\max_{i,j} c_{ij}$ from the current node, is when and if we are faced with the only choice being to take the maximum path $ \max_{i,j} \hspace{0.1cm} c_{i,j}$ to $\pi_j$ or to go to the dummy node. We say we go to $\pi_j$ because the ties can be broken arbitrarily. In any other case, the nearest neighbor path will choose to go to a node where the cost is $c_{i',j'} < c_{i,j}$. We show the new subgraph in figure \ref{fig:completeDummy}
+Because we have to make sure that the dummy node does not change the order that the greedy algorithm and the nearest neighbor algorithm take we have to set the distance of the dummy node from every other node to be $\max_{i,j} c_{ij} $ where $c_{ij}$ is the distance between the nodes in the complete subgraph in Figure \ref{fig:completeGraph}. In our case, this is 35, the path between $\pi_0$ and $\pi_3$. This insures that the path taken by the greedy algorithm is the same as the nearest neighbor algorithm because the dummy node will be the last node to be visited. Thus, the only time when it is a possibility that the nearest neighbor algorithm goes to the dummy node, i.e.,\ when the next node is $\max_{i,j} c_{ij}$ from the current node, is when and if we are faced with the only choice being to take the maximum path $ \max_{i,j} \hspace{0.1cm} c_{i,j}$ to $\pi_j$ or to go to the dummy node. We say we go to $\pi_j$ because the ties can be broken arbitrarily. In any other case, the nearest neighbor path will choose to go to a node where the cost is $c_{i',j'} < c_{i,j}$. We show the new subgraph in Figure \ref{fig:completeDummy}
 
 \begin{figure}
 \centering
@@ -471,7 +465,7 @@ Because we have to make sure that the dummy node does not change the order that 
 \label{fig:completeDummy}
 \end{figure}
 
-The path that the nearest neighbor algorithm takes in this situation is given in figure \ref{fig:NearNeigDummy}, which gives a total cost of 132. Again, this is not the optimal solution. The optimal solution is shown in figure \ref{fig:optDummy} and has a cost of 129.
+The path that the nearest neighbor algorithm takes in this situation is given in Figure \ref{fig:NearNeigDummy}, which gives a total cost of 132. Again, this is not the optimal solution. The optimal solution is shown in Figure \ref{fig:optDummy} and has a cost of 129.
 
 \begin{figure}
 \centering
@@ -709,7 +703,7 @@ The accepted algorithm does one Dijkstra search of all 5000 states in the produc
 Recurrence is coverage over and over again, and can be expressed as $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \dots \land \diamond \pi_n)$. This example is interesting for two reasons: it is prone to B\"{u}chi automata that are not tight \cite{schuppan05}, and an accepting path for it cannot have a trivial suffix (in contrast to the other formulas, in which all accepting states have self loops). We first look at the tightness.
 
 \subsection{Tightness}
-A tight B\"uchi automaton is a B\"uchi automaton that accepts the minimum prefix and suffix \cite{schuppan05}. We begin showing that the automata produced for these formulas by \cite{ltlbuchiwebsite} are not tight. We consider the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in figure \ref{fig:gasBuchiRec}.
+A tight B\"uchi automaton is a B\"uchi automaton that accepts the minimum prefix and suffix \cite{schuppan05}. We begin showing that the automata produced for these formulas by \cite{ltlbuchiwebsite} are not tight. We consider the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2 \land \diamond \pi_3)$. The B\"{u}chi automaton corresponding to this formula, as calculated by \cite{gastin01} is given in Figure \ref{fig:gasBuchiRec}.
 
 \begin{figure}
 \centering
@@ -734,10 +728,10 @@ A tight B\"uchi automaton is a B\"uchi automaton that accepts the minimum prefix
 \label{fig:gasBuchiRec}
 \end{figure}
 Note: Again, the actual automaton generated has many more edges. %For example, there is an edge from $q_4$ to $q_2$ which is labelled $\pi_1 \&\& \pi_2$. It is impossible for us to make this transition because $\pi_i$ for all $i$ is a region in our partition. This is because the requirements of our partition are chosen specially to guarantee that we are never in two regions at once. Thus they are excluded in the interest of the reader. 
-In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{1}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton in figure \ref{fig:gasBuchiRec}, the only way to do this is to go to region $\pi_1$.  In this case the same statement holds for $\pi_2$. It follows that the prefix with the least cost is a concatenation of the shortest paths down from each level (first to $\pi_1$, etc).
+In this automation, $d(q_1)=2$, $d(q_2)=1$, and $d(q_3)=0$. So, to get from $q_{1}' = \langle \pi_2, q_1 \rangle \in Q_0'$, we have to first get down to level 2. Given the B\"{u}chi automaton in Figure \ref{fig:gasBuchiRec}, the only way to do this is to go to region $\pi_1$.  In this case the same statement holds for $\pi_2$. It follows that the prefix with the least cost is a concatenation of the shortest paths down from each level (first to $\pi_1$, etc).
 
 
-This path, however, is in general not truly optimal. It is because the B\"{u}chi automaton given in figure \ref{fig:gasBuchiRec} is not a tight B\"{u}chi automaton. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of optimality is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton. This is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$, shown in figure \ref{fig:otherBuchiRec}. 
+This path, however, is in general not truly optimal. It is because the B\"{u}chi automaton given in Figure \ref{fig:gasBuchiRec} is not a tight B\"{u}chi automaton. A B\"{u}chi automaton is tight if it accepts the shortest lasso (prefix and suffix). The loss of optimality is due to the fact that the algorithm in \cite{gastin01} simplifies the B\"{u}chi automaton. This is usually a good thing because it leads to a lower computational complexity in most applications. We take a look at a different automaton corresponding to the formula $\smallsquare(\diamond \pi_1 \land \diamond \pi_2)$, shown in Figure \ref{fig:otherBuchiRec}. 
 
 \begin{figure}
 \centering
@@ -781,11 +775,6 @@ R &= \langle R_{pre}, R_{suf} \rangle = q_0' q_1' \dots {\color{red} q_f'} [q_{f
 %\end{align*}     
 where ${\color{red} q_f'} \in \F'$. Thus, when calculating the suffix we must find the path from an accepting state back to the \textit{same} accepting state. We cannot just look for any accepting state as we do in the prefix calculation. The idea of decreasing levels only looks for an accepting state, not a specific accepting state. Thus, we have to do a Dijkstra search, and if there is a path back to the accepting state, it will find it. The greedy algorithm does have the benefit that it only has to find the shortest path back to one accepting state, not all of them.
 
-
-
-%We notice how in figure \ref{fig:gasBuchiRec} there is only one arrow to the accepting state, labelled $\pi_5$. This implies that the only way to get down to level 0 is to go to $\pi_5$, and thus go to the accepting state $\langle \pi_5, q_3 \rangle$. There is no self loop on $q_3$, so we leave $q_3$ immediately. This implies that the only reachable accepting state is $\langle \pi_5, q_3 \rangle$. So because there is only one accepting state, our algorithm will find this state again, and thus is appropriate for finding the suffix. 
-
-%In \ref{fig:otherBuchiRec} on the other hand, there are two arrows going to the accepting state and there is no self loop. This implies that there are two reachable accepting states i.e.\ $\langle \pi_3, q_4 \rangle$ and $\langle \pi_5, q_4 \rangle$. This poses a problem to our algorithm that is only guaranteed to reach an accepting state. We thus propose using Dijkstra's search algorithm to find the path from the accepting node back to itself.   
 
 \subsection{Case Study}
 
