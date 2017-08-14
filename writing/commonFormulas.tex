@@ -94,8 +94,8 @@ We now investigate the computation time of both algorithms with a case study. So
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.8]{workspace.eps}
-\label{fig:workspace}
 \caption{Workspace 1}
+\label{fig:workspace}
 \end{figure}
 
 
@@ -135,7 +135,7 @@ The greedy algorithm outputs the same plan marginally faster. \\
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
 Greedy Algorithm
-===============
+================
 greedy_plan done within 0.01s: precost 35.00, sufcost 0.00
 ...
 full construction and synthesis done within 0.10s 
@@ -295,15 +295,15 @@ As we can see, the plan synthesis took the greedy algorithm half as long; 0.02 s
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.7]{acceptedPlot}
-\label{fig:animAccept}
 \caption{Nodes searched with the accepted algorithm}
+\label{fig:animAccept}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.7]{ourPlot}
-\label{fig:animOur}
 \caption{Nodes searched with the greedy algorithm}
+\label{fig:animOur}
 \end{figure}
 
 Figure \ref{fig:animAccept} shows the states searched with the accepted algorithm and figure \ref{fig:animOur} shows the states searched with the greedy algorithm. Each figure shows a representation of the product automaton. The graph can be thought of as the discretization of the workspace, and there are four corresponding to the four states in the B\"uchi automaton. Any square filled in with blue, red, green, or yellow has been visited, all others have not. As we can see, the greedy algorithm searches a significantly smaller number of nodes, while the accepted algorithm searches every node.
@@ -666,7 +666,7 @@ We can check with our previously calculated values for GREEDY and ACCEPT
 \end{align*}
 We can see that this is still a conservative bound, and emphasize that it is the worst case. Usually the algorithm will preform much better.
 
-\subsection{Simulation}
+\subsection{Case Study}
 The actual output from the accepted algorithm is \\
 
 
@@ -787,7 +787,7 @@ where ${\color{red} q_f'} \in \F'$. Thus, when calculating the suffix we must fi
 
 %In \ref{fig:otherBuchiRec} on the other hand, there are two arrows going to the accepting state and there is no self loop. This implies that there are two reachable accepting states i.e.\ $\langle \pi_3, q_4 \rangle$ and $\langle \pi_5, q_4 \rangle$. This poses a problem to our algorithm that is only guaranteed to reach an accepting state. We thus propose using Dijkstra's search algorithm to find the path from the accepting node back to itself.   
 
-\subsection{Simulation}
+\subsection{Case Study}
 
 
 

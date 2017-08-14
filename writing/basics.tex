@@ -1,13 +1,13 @@
 \chapter{Theoretical Background}
 In this chapter we provide the theoretical background that is needed to understand control planning synthesis and linear temporal logic. 
 \section{Abstraction of the Workspace}
-In \cite{belta07}, Belta et al. describe robot path planning as consisting of three parts: the specification level, execution level, and the implementation level. The first level, the specification level, involves creating a graph that takes into account the robot motion, workspace, and desired behavior. Next is the execution level, which involves finding a discrete path through the graph that satisfies the desired behavior. Lastly, in the implementation level, controllers are constructed such that the continuous trajectory satisfies the discrete path found in the previous step. 
+In \cite{belta07}, Belta et al. describe robot path planning as consisting of three parts: the specification level, execution level, and implementation level. The first level, the specification level, involves creating a graph that takes into account how the robot moves, the workspace, and the desired behavior. Next is the execution level, which involves finding a discrete path through the graph that satisfies the desired behavior. Lastly, in the implementation level, controllers are constructed such that the continuous trajectory satisfies the discrete path found in the previous step. 
 
-We assume that we have one robot which is located in a given bounded workspace, denoted as $W_0 \subset \mathbb{R}^n$. To represent our workspace (which is a subspace of $\mathbb{R}^n$) in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in definition \ref{def:PM}. Any partition can be used as long as it satisfies the bisimulation property \cite{belta04}, which will be defined later once more notation has been introduced. We denote $\Pi = \{\pi_1, \pi_2, \dots, \pi_w\}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
+We assume that we have one robot which is located in a given bounded workspace, denoted as $W_0 \subset \mathbb{R}^n$. To represent our workspace (which is a subspace of $\mathbb{R}^n$) in a finite graph we must partition it into a finite number of equivalence classes. A partition map is formally defined in Definition \ref{def:PM}. Any partition can be used as long as it satisfies the bisimulation property \cite{belta04}, which will be defined later once more notation has been introduced. We denote $\Pi = \{\pi_1, \pi_2, \dots, \pi_w\}$ to be the set of equivalence classes the workspace has been partitioned into, and thus $\cup_{i=1}^w \pi_i = W_0$ and $\pi_i \cap \pi_j = \emptyset$, $\forall i,j=1,2,\dots,w$ and $i\neq j$. We will henceforth refer to equivalence class $\pi_i$ as region $\pi_i$ for $i = 0,1,\dots, w$. 
 
 \begin{definition}
 \label{def:PM}
-A partition map, $T: W_0 \rightarrow \Pi$ sends each state $x \in W_0$ to the finite set of equivalence classes $\Pi = {\pi_i}$,  $i = 1,2,\dots ,w$. $T^{-1}(\pi_i)$ is then all the states $x \in W_0$ that are in the equivalence class $\pi_i$ \cite{fainekos05}. 
+A partition map, $T: W_0 \rightarrow \Pi$ sends each state $x \in W_0$ to the finite set of equivalence classes $\Pi = \{\pi_1, \pi_2, \dots, \pi_w\}$. $T^{-1}(\pi_i)$ is then all the states $x \in W_0$ that are in the equivalence class $\pi_i$ \cite{fainekos05}. 
 \end{definition} 
 
 We now introduce atomic propositions, which will be the building blocks of our task specification. Atomic propositions are Boolean variables and are used to express properties the robot and the workspace. We define the following set of atomic propositions $AP_r = \{\alpha_{r,i}\}$, $i=1,2,\dots,w$ where 
@@ -16,21 +16,21 @@ We now introduce atomic propositions, which will be the building blocks of our t
 \bot & \text{else}
 \end{cases}
 \]
-which represent the robot's location \cite{guo15}. Note: $\top$ is the true logical predicate and $\bot$ is the false logical predicate. Other things we can express are potential tasks, denote $AP_p = \{\alpha_{p,i}\}$, $i=1,2,\dots,m$. These can be statements such as "pick up the ball in region $\pi_1$" or "the robot beeps." The set of all propositions is defined as $AP = AP_r \cup AP_p$.
+which represent the robot's location \cite{guo15}. Note: $\top$ is the true logical predicate and $\bot$ is the false logical predicate. Other things we can express are potential tasks, denoted by $AP_p = \{\alpha_{p,i}\}$, $i=1,2,\dots,m$. These can be statements such as "pick up the ball in region $\pi_1$" or "the robot beeps." The set of all propositions is defined as $AP = AP_r \cup AP_p$.
 
 We now formally define a \textit{Labelling Function} and a \textit{Transition}, which will immediately be used in the definition of \textit{Bisimulations} and of a \textit{Finite-State Transition System (FTS)}. 
 \theoremstyle{definition}
 \begin{definition}
 \label{defCLF}
-The continuous labelling function $L_c:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $x$ \cite{guo15}.
+A continuous labelling function $L_c:W_0 \rightarrow 2^{AP}$ maps a point $x \in W_0$ to the set of atomic propositions satisfied by $x$ \cite{guo15}.
 \end{definition} 
-Note: $2^{AP}$ is the powerset of $AP$, i.e.,\ the set of all subsets of $AP$ include the null set and $AP$. For example, $\alpha_{r,i} \in L_c(\pi_i)$ by definition. 
+Note: $2^{AP}$ is the powerset of $AP$, i.e.,\ the set of all subsets of $AP$ including the null set and $AP$. For example, $\alpha_{r,i} \in L_c(\pi_i)$ by definition. 
 We also include a definition of the discrete counterpart. 
 
 \theoremstyle{definition}
 \begin{definition}
 \label{defDLF}
-The labelling function $L_d:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$ to the set of atomic propositions satisfied by $\pi_i$.
+A discrete labelling function $L_d:\Pi\rightarrow 2^{AP}$ maps a region $\pi_i \in \Pi$ to the set of atomic propositions satisfied by $\pi_i$.
 \end{definition} 
 
 
@@ -71,7 +71,7 @@ An FTS, $\mathcal{T}$, is defined by a tuple
 \begin{align*}
 \mathcal{T} = (\Pi, \rightarrow_d, \Pi_0, AP,L_d)
 \end{align*}
-where $\Pi$ is the set of states, $\rightarrow_d$ $ \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_d$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_d \pi_j$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_d: \Pi \rightarrow 2^{AP}$ is the labelling function defined in definition \ref{defDLF}.
+where $\Pi$ is the set of states, $\rightarrow_d$ $ \subseteq \Pi \times \Pi$ is the transitions relation where $(\pi_i,\pi_j) \in \rightarrow_d$ iff there is a transition from $\pi_i$ to $\pi_j$ as defined in Definition \ref{defDTransition}. In adherence to common notation, we will write $\pi_i \rightarrow_d \pi_j$. $\Pi_0 \subseteq \Pi$ is the initial state(s), $AP=AP_r \cup AP_p$ is the set of atomic propositions, and $L_d: \Pi \rightarrow 2^{AP}$ is the labelling function defined in Definition \ref{defDLF}.
 \end{definition}
 
 
@@ -82,7 +82,7 @@ A WTFS, $\mathcal{T}_w$ is a tuple
 \begin{align}
 \mathcal{T}_w = (\Pi, \rightarrow_d, \Pi_0, AP,L_d,W_d)
 \end{align}
-where $\Pi$, $\rightarrow_d$, $\Pi_0$, $AP$, and $L_d$ are defined as in definition \ref{defFTS} and $W_d: \Pi \times \Pi \rightarrow \R^+$ is the weight function, i.e.,\ the cost of a transition in $\rightarrow_d$. 
+where $\Pi$, $\rightarrow_d$, $\Pi_0$, $AP$, and $L_d$ are defined as in Definition \ref{defFTS} and $W_d: \Pi \times \Pi \rightarrow \R^+$ is the weight function, i.e.,\ the cost of a transition in $\rightarrow_d$. 
 \end{definition}
 Note: There are two common ways to assign the weights. The first is setting every weight to one (simply count the number of transitions taken) and the second is assigning the distance from the centers of two adjacent cells to be the weight of the transition between them. 
 
@@ -117,7 +117,8 @@ Note: There are two common ways to assign the weights. The first is setting ever
 \caption{Simple Finite Transition System}
 \label{fig:ftsEx}
 \end{figure}
-For the simple FTS, the set of states $\Pi $ is $ \{\pi_1, \pi_2, \pi_3, \pi_4, \pi_5 \}$, we have the following transitions: 
+
+For the simple FTS shown in Figure \ref{fig:ftsEx}, the set of states $\Pi $ is $ \{\pi_1, \pi_2, \pi_3, \pi_4, \pi_5 \}$, we have the following transitions: 
 \begin{align*}
 \pi_1 \rightarrow_d \pi_1, \hspace{.5cm} & \pi_1 \rightarrow_d \pi_2, \hspace{.5cm}  \pi_1 \rightarrow_d \pi_3, &\\
 \pi_3 \rightarrow_d \pi_1, \hspace{.5cm} & \pi_3 \rightarrow_d \pi_3, \hspace{.5cm}  \pi_3 \rightarrow_d \pi_4, &\\
@@ -208,19 +209,6 @@ The weighted product B\"{u}chi automaton is defined by $\mathcal{A}_p = \mathcal
 Given a state q' = $\langle \pi, q \rangle \in Q'$, its projection on $\Pi$ is denoted by $q'|_\Pi = \pi$ and its projection on $Q$ is denoted by $q'|_Q = q$. Given an infinite run $R = q_0' q_1' q_2' \dots$ of $\mathcal{A}_p$, its projection on $\Pi$ is denoted by $R|_\Pi = q_0'|_\Pi q_1'|_\Pi q_2'|_\Pi \dots$ and its projection on $Q$ is denoted by $R|_Q  = q_0'|_Q q_1'|_Q q_2'|_Q \dots$ \cite{guo15}. 
 
 Note: Given that $\A_p$ is a B\"{u}chi automaton, the requirements of an accepting run are the same as before, i.e.,\ $\Inf(R) \cap \F' \neq \emptyset$.
-
-%\begin{lemma}
-%If there exists an infinite path $\tau$ of $\T_c$ such that $\tau \models \varphi$, then at least one accepting run of $\A_p$ exists.
-%\end{lemma}
-%Proof. see the proof of Theorem from [11] meng
-%
-%
-%\begin{lemma}
-%\label{lemma1}
-%If $R$ is an accepting run of $\A_p$, then $R|_\Pi \models \varphi$ 
-%\end{lemma}
-%Proof. %meng % By the definition of 
-%Assume R is an accepting run of $\A_p$. Given the definition of an accepting run of $\A_p$, there exists an accepting state $q_f' \in \F'$ that appears in R infinitely many times. 
 
 
 Our problem is now to find an accepting run of $\A_p$. This can be a difficult task, given that an accepting run is a infinite sequence of states, and there are infinitely many possibilities. We also want to have some sort of measure of optimality, making the problem even harder. To accomplish this, we are going to restrict our search to plans with a finite representation. This limits the plans that we can calculate. However, it is much easier to deal with paths that admit a finite representation. Specifically, we are going to be looking for paths in the prefix-suffix structure, i.e.,\

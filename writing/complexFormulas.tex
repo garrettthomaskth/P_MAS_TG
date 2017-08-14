@@ -2,18 +2,10 @@
 The formulas in the previous section are common formulas. However, they are fairly simple and only cover a small subset of the infinite amount of possible formulas that can be formed by temporal logics. The benefit of using temporal logics is that a wide variety of behaviors can be expressed, including propositions about the robot \textit{and} about the workspace. Up to now, we have not looked at any formulas that include atomic propositions about potential tasks. We will show through examples that the same ideas presented in the previous chapter still hold true for these complex tasks, and show the speed-up we get by using the greedy algorithm compared to the accepted algorithm. 
 
 \section{Example 1}
-We look at the example from \cite{guo15} which says, "eventually pick up the red ball. Once it is done, move to one basket and drop it. At last come back to room one and stay there." This task can be written as the LTL formula $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \smallsquare r1$. The B\"uchi automaton corresponding to this formula as translated by \cite{ltlbuchiwebsite}, with all edges that have \&\& in the label removed, is shown in figure \ref{fig:ex1SimplifiedBuchi}. For this example we will be using Workspace 2 shown in figure \ref{fig:workspace2}.
+We look at the example from \cite{guo15} which says, "eventually pick up the red ball. Once it is done, move to one basket and drop it. At last come back to room one and stay there." This task can be written as the LTL formula $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond \smallsquare r1$. The B\"uchi automaton corresponding to this formula as translated by \cite{ltlbuchiwebsite}, with all edges that have \&\& in the label removed, is shown in figure \ref{fig:ex1SimplifiedBuchi}. For this example we will be using Workspace 2 shown in figure \ref{workspace2}.
 
-We note here pickrball and droprball are potential tasks, i.e.,\ they belong in $AP_p$. They are incoded in the action model in the P\_MAS\_TG framework. pickrball can only be done if rball is true, and this is only true in the region corresponding to (9,15).  droprball can only be done if basket1 is true, and this is only true in the region corresponding to (7,14) (see figure \ref{fig:workspace2}). We give both of these actions an arbitrary cost of 10. The way P\_MAS\_TG treats actions increases the size of the product automaton by three fold. This is because when a predicate is incoded as an action, each state has corresponding states for doing that action in this state. So instead of having a product automaton of size $|\text{FTS}| \times |\text{B\"uchi}| $ we have a size $|\text{FTS}| \times |\text{B\"uchi}| \times |\text{possible actions}|$. The possible actions in this case are \{ "none", "pickrball", "droprball" \}. We said that pickrball was only possible when rball is true, and droprball is only possible when basket1 is true. This statement is still valid. The resulting contradictory nodes simply have no edges leading to them so they cannot be reached. 
+We note here pickrball and droprball are potential tasks, i.e.,\ they belong in $AP_p$. They are incoded in the action model in the P\_MAS\_TG framework. pickrball can only be done if rball is true, and this is only true in the region corresponding to (9,15).  droprball can only be done if basket1 is true, and this is only true in the region corresponding to (7,14) (see figure \ref{workspace2}). We give both of these actions an arbitrary cost of 10. The way P\_MAS\_TG treats actions increases the size of the product automaton by three fold. This is because when a predicate is incoded as an action, each state has corresponding states for doing that action in this state. So instead of having a product automaton of size $|\text{FTS}| \times |\text{B\"uchi}| $ we have a size $|\text{FTS}| \times |\text{B\"uchi}| \times |\text{possible actions}|$. The possible actions in this case are \{ "none", "pickrball", "droprball" \}. We said that pickrball was only possible when rball is true, and droprball is only possible when basket1 is true. This statement is still valid. The resulting contradictory nodes simply have no edges leading to them so they cannot be reached. 
 
-%\begin{figure*}[!htb]
-%\centering
-%\includegraphics[scale=0.3]{buchiEx1_1}
-%\caption{B\"uchi Automaton Corresponding to $\varphi = \diamond (\text{pickrball} \wedge \diamond \text{droprball}) \wedge \diamond %\smallsquare r1$}
-%\label{fig:buchiEx1}
-%\end{figure*} 
-
-%In the B\"uchi automaton corresponding to this formula as translated by \cite{gastin01}, there are many edges that have \&\& in the label. These paths can only be taken if we satisfy both of the propositions at the same time. However, because in our example the propositions do not overlap (the ball is not in the same room as the basket, and the neither the ball or basket is located in room 1) these edge are impossible to take. Therefore we remove these edges from the automaton. We then have a much simpler automaton that is shown in figure \ref{fig:ex1SimplifiedBuchi}
 
 \begin{figure}
 \centering
@@ -49,11 +41,11 @@ In this automaton, we can see that $d(q_1)=3$, $d(q_2)=2$, $d(q_3)=3$, $d(q_4)=1
 
 We can also see that from the illustration of the workspace, the ball (rball) is not located next to the initial node, so the first proposition must be $\neg$pickrball. Examining the automaton in figure \ref{fig:ex1SimplifiedBuchi} we see we are guaranteed to take a path through nodes with projection $q_3$ and that we can never go to a node with the projection $q_2$. Therefore, we are in the same situation as sequencing, i.e.,\ there is only one sequence of actions that will satisfy the formula, implying that the greedy algorithm will find the same path as the accepted algorithm, just faster. 
 
-\begin{figure}[!htb]
+\begin{figure}
 \centering
-\includegraphics[scale=1]{workspace2.eps}
-\label{fig:workspace2}
+\includegraphics{workspace2.eps}
 \caption{Workspace 2}
+\label{workspace2}
 \end{figure}
 
 We see that this is true in the output of the algorithms. Both give the same sequence of states and actions.
@@ -84,7 +76,7 @@ while the greedy algorithm gives \\
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
 Greedy Algorithm
-==================
+================
 greedy_plan done within 0.03s: precost 66.00, sufcost 0.00
 ...
 full construction and synthesis done within 1.69s
@@ -174,7 +166,7 @@ and from the greedy algorithm: \\
 \fontsize{9pt}{12pt}\selectfont
 \begin{lstlisting}
 Greedy Algorithm
-==================
+================
 greedy_plan done within 0.30s: precost 104.00, sufcost 0.00
 ...
 full construction and synthesis done within 21.60s
@@ -193,7 +185,7 @@ Each accepting node in the B\"uchi automaton has a self loop. However, many of t
 In Example 2, for the first time, the first accepting node the greedy algorithm found did not have a path back to itself. This is caused by the complex B\"uchi automaton corresponding to the formulas. We addressed this problem by adding a new feature so that in the case that the greedy algorithm finds an accepting node which does not have a path back to itself, it continues its search until it finds one. 
 
 \section{Other Examples}
-As we have seen, due to the complexity of the B\"uchi automata it can be very hard to analyze the performance of the greedy algorithm compared to the accepted algorithm with respect to cost for more complex formulas. We therefore provide the results of runs for various formulas in table \ref{table}. We use formulas from the table in \cite{somenzi00} to show a comprehensive experimentation. The formulas are run on Workspace 2 in figure \ref{fig:workspace2}. 
+As we have seen, due to the complexity of the B\"uchi automata it can be very hard to analyze the performance of the greedy algorithm compared to the accepted algorithm with respect to cost for more complex formulas. We therefore provide the results of runs for various formulas in table \ref{table}. We use formulas from the table in \cite{somenzi00} to show a comprehensive experimentation. The formulas are run on Workspace 2 in figure \ref{workspace2}. 
 
 \begin{landscape}
 \begin{table}[]

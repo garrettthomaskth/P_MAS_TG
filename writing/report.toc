@@ -17,21 +17,21 @@
 \contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{27}{subsection.4.3.1}
 \contentsline {subsection}{\numberline {4.3.2}Cost Bound}{31}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}Simulation}{35}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.3}Case Study}{35}{subsection.4.3.3}
 \contentsline {section}{\numberline {4.4}Recurrence (Liveness)}{36}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Tightness}{36}{subsection.4.4.1}
 \contentsline {subsection}{\numberline {4.4.2}Suffix}{38}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Simulation}{38}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.3}Case Study}{38}{subsection.4.4.3}
 \contentsline {chapter}{\numberline {5}More Complex Formulas}{40}{chapter.5}
 \contentsline {section}{\numberline {5.1}Example 1}{40}{section.5.1}
 \contentsline {section}{\numberline {5.2}Overlapping Regions}{43}{section.5.2}
 \contentsline {section}{\numberline {5.3}Example 2}{43}{section.5.3}
-\contentsline {section}{\numberline {5.4}Example 2 Modified}{44}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}No Suffix Accepting Node}{45}{subsection.5.4.1}
+\contentsline {section}{\numberline {5.4}Example 2 Modified}{45}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}No Suffix Accepting Node}{46}{subsection.5.4.1}
 \contentsline {section}{\numberline {5.5}Other Examples}{46}{section.5.5}
 \contentsline {chapter}{\numberline {6}Conclusion and Future Work}{49}{chapter.6}
 \contentsline {chapter}{\numberline {7}Appendix}{51}{chapter.7}
-\contentsline {subsubsection}{Example 2 Accepted Algorithm Path}{60}{section*.11}
-\contentsline {subsubsection}{Example 2 Greedy Algorithm Path}{62}{section*.12}
-\contentsline {subsubsection}{Example 2 Modified Accepted Algorithm Path}{63}{section*.13}
-\contentsline {subsubsection}{Example 2 Modified Greedy Algorithm Path}{64}{section*.14}
+\contentsline {subsubsection}{Example 2 Accepted Algorithm Path}{60}{section*.13}
+\contentsline {subsubsection}{Example 2 Greedy Algorithm Path}{61}{section*.14}
+\contentsline {subsubsection}{Example 2 Modified Accepted Algorithm Path}{63}{section*.15}
+\contentsline {subsubsection}{Example 2 Modified Greedy Algorithm Path}{64}{section*.16}
