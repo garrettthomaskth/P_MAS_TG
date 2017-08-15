@@ -29,11 +29,12 @@ class ltl_planner(object):
 			#print time.time() - graph_construction_time
 
 			print 'Accepted'
-			self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
+			#self.run, plantime = dijkstra_plan_networkX(self.product, self.beta)
 			#print 'HELALKDSOS DOHISD HU S'
 			# Garrett
-			#print 'Garrett'
-			#self.run, plantime = new_algorithm_plan(self.product, self.beta)
+			print self.beta
+			print 'Garrett'
+			self.run, plantime = new_algorithm_plan(self.product, self.beta)
 			#print '###'
 			#print '###'
 		elif style == 'ready':

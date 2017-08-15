@@ -16,12 +16,12 @@
 \contentsline {section}{\numberline {4.2}Sequencing}{21}{section.4.2}
 \contentsline {section}{\numberline {4.3}Coverage}{25}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Travelling Salesperson Problem}{27}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Cost Bound}{30}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}Case Study}{36}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.2}Cost Bound}{31}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Case Study}{35}{subsection.4.3.3}
 \contentsline {section}{\numberline {4.4}Recurrence (Liveness)}{36}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Tightness}{37}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Suffix}{38}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Case Study}{39}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.1}Tightness}{36}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Suffix}{37}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Case Study}{38}{subsection.4.4.3}
 \contentsline {chapter}{\numberline {5}More Complex Formulas}{40}{chapter.5}
 \contentsline {section}{\numberline {5.1}Example 1}{40}{section.5.1}
 \contentsline {section}{\numberline {5.2}Overlapping Regions}{43}{section.5.2}
